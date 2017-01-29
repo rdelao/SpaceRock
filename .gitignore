@@ -161,3 +161,8 @@ ENV/
 
 # Rope project settings
 .ropeproject
+
+
+
+# generated images
+*.png
