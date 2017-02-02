@@ -3,16 +3,26 @@ from PIL import Image
 from numpy import random
 from math import sqrt
 import copy
+from asteroid import Asteroid
 
 def write_asteroid_to_image(img, asteroid):
-  xmin = max(asteroid[0][0] - asteroid[1], 0)
-  xmax = min(asteroid[0][0] + asteroid[1], img.size[0])
-  ymin = max(asteroid[0][1] - asteroid[1], 0)
-  ymax = min(asteroid[0][1] + asteroid[1], img.size[1])
+  #xmin = max(asteroid[0][0] - asteroid[1], 0)
+  #xmax = min(asteroid[0][0] + asteroid[1], img.size[0])
+  #ymin = max(asteroid[0][1] - asteroid[1], 0)
+  #ymax = min(asteroid[0][1] + asteroid[1], img.size[1])
+
+  #for x in range(xmin, xmax):
+  #  for y in range(ymin, ymax):
+  #    if sqrt((asteroid[0][0] - x)**2 + (asteroid[0][1] - y)**2) <= asteroid[1]:
+  #      img.putpixel((x,y), random.rand() * 155 + 100)
+  xmin = max(asteroid.current_location[0] - asteroid.current_radius, 0)
+  xmax = min(asteroid.current_location[0] + asteroid.current_radius, img.size[0])
+  ymin = max(asteroid.current_location[1] - asteroid.current_radius, 0)
+  ymax = min(asteroid.current_location[1] + asteroid.current_radius, img.size[1])
 
   for x in range(xmin, xmax):
     for y in range(ymin, ymax):
-      if sqrt((asteroid[0][0] - x)**2 + (asteroid[0][1] - y)**2) <= asteroid[1]:
+      if sqrt((asteroid.current_location[0] - x)**2 + (asteroid.current_location[1] - y)**2) <= asteroid.current_radius:
         img.putpixel((x,y), random.rand() * 155 + 100)
 
 def move_asteroid(asteroid, elapsed_seconds):
@@ -29,11 +39,11 @@ def generate_asteroid():
 
 image_size = (4000,4000)
 # An asteroid is stored in the form [(x,y), radius, (x speed, y speed)]
-asteroids = [[(200, 200), 100, (1, 1)]]
+asteroids = [] # [[(200, 200), 100, (1, 1)]]
 
 # Randomly create a bunch of asteroids
 for i in range(4):
-  asteroids.append(generate_asteroid())
+  asteroids.append(Asteroid(image_size))
 
 print asteroids
 
@@ -57,8 +67,9 @@ for i in range(10):
   #img.putdata(image_data)
 
   for asteroid in asteroids:
-    new_asteroid = move_asteroid(asteroid, time)
-    write_asteroid_to_image(img, new_asteroid)
+    #new_asteroid = move_asteroid(asteroid, time)
+    asteroid.move(time)
+    write_asteroid_to_image(img, asteroid)
 
 
   img = img.convert('RGB')
