@@ -25,21 +25,21 @@ def write_asteroid_to_image(img, asteroid):
       if sqrt((asteroid.current_location[0] - x)**2 + (asteroid.current_location[1] - y)**2) <= asteroid.current_radius:
         img.putpixel((x,y), random.rand() * 155 + 100)
 
-def move_asteroid(asteroid, elapsed_seconds):
-  new_asteroid = copy.copy(asteroid)
-  new_asteroid[0] = (asteroid[0][0] + asteroid[2][0] * elapsed_seconds,
-                     asteroid[0][1] + asteroid[2][1] * elapsed_seconds)
-  return new_asteroid
-
-def generate_asteroid():
-  location = (random.randint(image_size[0]), random.randint(image_size[1]))
-  size = random.randint(50, min([a / 4 for a in image_size] + [500]))
-  trajectory = (random.randint(-10, 10), random.randint(-10, 10))
-  return [location, size, trajectory]
+#def move_asteroid(asteroid, elapsed_seconds):
+#  new_asteroid = copy.copy(asteroid)
+#  new_asteroid[0] = (asteroid[0][0] + asteroid[2][0] * elapsed_seconds,
+#                     asteroid[0][1] + asteroid[2][1] * elapsed_seconds)
+#  return new_asteroid
+#
+#def generate_asteroid():
+#  location = (random.randint(image_size[0]), random.randint(image_size[1]))
+#  size = random.randint(50, min([a / 4 for a in image_size] + [500]))
+#  trajectory = (random.randint(-10, 10), random.randint(-10, 10))
+#  return [location, size, trajectory]
 
 image_size = (4000,4000)
 # An asteroid is stored in the form [(x,y), radius, (x speed, y speed)]
-asteroids = [] # [[(200, 200), 100, (1, 1)]]
+asteroids = [Asteroid(image_size, (200,200), 200, (1,1))] # [[(200, 200), 100, (1, 1)]]
 
 # Randomly create a bunch of asteroids
 for i in range(4):
