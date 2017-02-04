@@ -3,8 +3,8 @@ from numpy import random
 class Asteroid:
   next_id = 0
   size_range = (500, 4000)
-  distance_range = (10, 500)
-  speed_range = (-10,10)
+  distance_range = (100, 2000)
+  speed_range = (-5,5)
 
   def __init__(self, loc_constraint, initial_location = None, size = None, trajectory = None):
     self.id = self.__class__.next_id + 1
@@ -13,7 +13,8 @@ class Asteroid:
     self.size = size or random.randint(*self.size_range) #50, min([a / 4 for a in loc_constraint] + [500]))
     self.trajectory = trajectory or tuple(random.randint(*self.speed_range, size=3))
     self.hist_location = {0: self.initial_location}
-    self.hist_radius = {0: self.size / 2}
+    self.hist_radius = {}
+    self.hist_radius = {0: self.radius(0)}
     self.current_location = self.initial_location
     self.current_radius = self.size / 2
 
@@ -23,7 +24,7 @@ class Asteroid:
 
   def radius(self, elapsed_seconds):
     if not elapsed_seconds in self.hist_radius:
-      self.hist_radius[elapsed_seconds] = self.size / self.location(elapsed_seconds)[2] / 2
+      self.hist_radius[elapsed_seconds] =  (self.size / 2) / (self.location(elapsed_seconds)[2] / 10)
     return self.hist_radius[elapsed_seconds]
 
   def location(self, elapsed_seconds):
