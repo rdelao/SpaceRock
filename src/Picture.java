@@ -1,7 +1,7 @@
 import java.awt.*;
 
 /**
- * Created by lisa on 2/4/17.
+ * Created by Sean on 2/4/17.
  */
 public class Picture {
     private Image image;

@@ -1,7 +1,7 @@
 import java.util.HashMap;
 
 /**
- * Created by lisa on 2/4/17.
+ * Created by Sean on 2/4/17.
  */
 public class Camera {
     private static int nextid = 0;
