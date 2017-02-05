@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.HashMap;
 
 /**
@@ -69,5 +70,9 @@ public class Camera implements Sensorable {
    */
   private Picture generate_image(int time, int zoom) {
 
+  }
+
+  private void write_asteroid_to_image(Image image, Asteroid asteroid) {
+    int xmin = Array
   }
 }
