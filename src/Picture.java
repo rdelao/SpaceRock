@@ -7,6 +7,14 @@ public class Picture {
   private Image image;
 
   /**
+   * Creates a new picture object with a given image
+   * @param image
+   */
+  public Picture(Image image) {
+    this.image = image;
+  }
+
+  /**
    * returns an chunk of the image where x and y are the center and size is the radius
    * So it should be a square
    *
