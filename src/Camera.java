@@ -1,3 +1,5 @@
+import com.google.common.primitives.Ints;
+
 import java.awt.*;
 import java.lang.reflect.Array;
 import java.util.HashMap;
@@ -73,6 +75,13 @@ public class Camera implements Sensorable {
   }
 
   private void write_asteroid_to_image(Image image, Asteroid asteroid) {
-    int xmin = Array
+    if (asteroid.current_location[2] <= 0) {
+      System.out.println("Asteroid is now behind us.");
+      return;
+    }
+    int xmin = Math.max(asteroid.current_location[0] - asteroid.current_radius, 0);
+    int xmax = Math.min(asteroid.current_location[0] + asteroid.current_radius, image.getWidth());
+    int ymin = Math.max(asteroid.current_location[1] + asteroid.current_radius, 0);
+    int ymax = Math.min(asteroid.current_location[1] + asteroid.current_radius, image.getHeight());
   }
 }
