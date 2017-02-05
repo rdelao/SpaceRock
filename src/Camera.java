@@ -1,11 +1,12 @@
+import java.awt.*;
 import java.util.HashMap;
 
 /**
  * Created by Sean on 2/4/17.
  */
-public class Camera {
+public class Camera implements Sensorable{
     private static int nextid = 0;
-    private images = new HashMap<Integer, Picture>();
+    private HashMap<Integer, Picture> images = new HashMap<>();
     private int elapsed_seconds = 0;
     private Asteroid[] = [];
 
@@ -13,7 +14,7 @@ public class Camera {
      * Initialize a camera object
      */
     public Camera() {
-       images = newHashMap<Integer, Picture>();
+       this.images = new HashMap<Integer, Picture>();
     }
 
     /**
@@ -38,12 +39,10 @@ public class Camera {
         return id;
     }
 
-    /*
-        Notifies us to take a picture with no zoom level
-     */
     public int take_picture() {
         return take_picture(0);
     }
+
 
     /**
      * Returns a chunk of an image with the given id
