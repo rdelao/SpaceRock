@@ -6,62 +6,54 @@
 <?import java.lang.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+<GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <GridPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="800.0" prefWidth="1280.0" AnchorPane.topAnchor="0.0">
-         <columnConstraints>
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="1092.0" minWidth="10.0" prefWidth="1013.0" />
-            <ColumnConstraints hgrow="SOMETIMES" maxWidth="281.0" minWidth="10.0" prefWidth="267.0" />
-         </columnConstraints>
-         <rowConstraints>
-            <RowConstraints maxHeight="779.0" minHeight="10.0" prefHeight="626.0" vgrow="SOMETIMES" />
-            <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="174.0" vgrow="SOMETIMES" />
-         </rowConstraints>
+      <AnchorPane minWidth="300.0" prefHeight="113.0" prefWidth="1015.0" GridPane.rowIndex="1">
          <children>
-            <AnchorPane prefHeight="113.0" prefWidth="1015.0" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-               <children>
-                  <Slider fx:id="zoom_silde" layoutX="234.0" layoutY="40.0" prefHeight="16.0" prefWidth="623.0" />
-                  <Slider fx:id="section_size_slide" layoutX="234.0" layoutY="82.0" prefHeight="16.0" prefWidth="623.0" />
-                  <Slider fx:id="overlap_amount_slide" layoutX="234.0" layoutY="123.0" prefHeight="16.0" prefWidth="623.0" />
-                  <Label layoutX="51.0" layoutY="40.0" prefHeight="16.0" prefWidth="54.0" text="Zoom" />
-                  <Label layoutX="51.0" layoutY="82.0" prefHeight="16.0" prefWidth="95.0" text="Section Size" />
-                  <Label layoutX="51.0" layoutY="123.0" prefHeight="16.0" prefWidth="116.0" text="Overlap Amount" />
-                  <TextField fx:id="zoom_txt" layoutX="893.0" layoutY="35.0" prefHeight="7.0" prefWidth="63.0" />
-                  <TextField fx:id="section_size_txt" layoutX="893.0" layoutY="77.0" prefHeight="16.0" prefWidth="63.0" />
-                  <TextField fx:id="overlap_amount_txt" layoutX="893.0" layoutY="118.0" prefHeight="25.0" prefWidth="63.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="200.0" prefWidth="200.0" GridPane.hgrow="ALWAYS" GridPane.vgrow="ALWAYS">
-               <children>
-                  <Canvas fx:id="canvas" height="583.0" layoutY="2.0" width="1012.0" />
-               </children>
-            </AnchorPane>
-            <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="160.0" GridPane.columnIndex="1" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.vgrow="NEVER">
-               <children>
-                  <RadioButton fx:id="raw_radio" layoutX="23.0" layoutY="76.0" mnemonicParsing="false" text="Raw Mode">
-                     <toggleGroup>
-                        <ToggleGroup fx:id="ModeToggleGroup" />
-                     </toggleGroup>
-                  </RadioButton>
-                  <RadioButton fx:id="processed_radio" layoutX="23.0" layoutY="120.0" mnemonicParsing="false" text="Processed Mode" toggleGroup="$ModeToggleGroup" />
-                  <ToggleButton fx:id="camera_button" layoutX="23.0" layoutY="26.0" mnemonicParsing="false" text="ON/OFF" />
-               </children>
-            </AnchorPane>
-            <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="634.0" prefWidth="267.0" text="                Object Properties" GridPane.columnIndex="1" GridPane.hgrow="NEVER">
-               <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.columnIndex="1">
-                     <children>
-                        <TextField fx:id="object_txt" layoutX="47.0" layoutY="49.0" />
-                        <TextField fx:id="size_txt" layoutX="47.0" layoutY="117.0" />
-                        <TextField fx:id="heading_txt" layoutX="47.0" layoutY="187.0" />
-                        <Label layoutX="102.0" layoutY="23.0" text="Object ID" />
-                        <Label layoutX="119.0" layoutY="92.0" text="Size" />
-                        <Label layoutX="105.0" layoutY="161.0" text="Heading" />
-                     </children>
-                  </AnchorPane>
-               </content>
-            </TitledPane>
+            <Slider fx:id="zoom_silde" layoutX="234.0" layoutY="40.0" prefHeight="16.0" prefWidth="623.0" />
+            <Slider fx:id="section_size_slide" layoutX="234.0" layoutY="82.0" prefHeight="16.0" prefWidth="623.0" />
+            <Slider fx:id="overlap_amount_slide" layoutX="234.0" layoutY="123.0" prefHeight="16.0" prefWidth="623.0" />
+            <Label layoutX="51.0" layoutY="40.0" prefHeight="16.0" prefWidth="54.0" text="Zoom" />
+            <Label layoutX="51.0" layoutY="82.0" prefHeight="16.0" prefWidth="95.0" text="Section Size" />
+            <Label layoutX="51.0" layoutY="123.0" prefHeight="16.0" prefWidth="116.0" text="Overlap Amount" />
+            <TextField fx:id="zoom_txt" layoutX="893.0" layoutY="35.0" prefHeight="7.0" prefWidth="63.0" />
+            <TextField fx:id="section_size_txt" layoutX="893.0" layoutY="77.0" prefHeight="16.0" prefWidth="63.0" />
+            <TextField fx:id="overlap_amount_txt" layoutX="893.0" layoutY="118.0" prefHeight="25.0" prefWidth="63.0" />
          </children>
-      </GridPane>
+      </AnchorPane>
+      <Pane prefHeight="629.0" prefWidth="1013.0" />
+      <AnchorPane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="100.0" prefWidth="160.0" GridPane.columnIndex="1" GridPane.rowIndex="1">
+         <children>
+            <RadioButton fx:id="raw_radio" layoutX="23.0" layoutY="76.0" mnemonicParsing="false" text="Raw Mode">
+               <toggleGroup>
+                  <ToggleGroup fx:id="ModeToggleGroup" />
+               </toggleGroup>
+            </RadioButton>
+            <RadioButton fx:id="processed_radio" layoutX="23.0" layoutY="120.0" mnemonicParsing="false" text="Processed Mode" toggleGroup="$ModeToggleGroup" />
+            <ToggleButton fx:id="camera_button" layoutX="23.0" layoutY="26.0" mnemonicParsing="false" text="ON/OFF" />
+         </children>
+      </AnchorPane>
+      <TitledPane collapsible="false" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="634.0" prefWidth="267.0" text="                Object Properties" GridPane.columnIndex="1">
+         <content>
+            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" GridPane.columnIndex="1">
+               <children>
+                  <TextField fx:id="object_txt" layoutX="47.0" layoutY="49.0" />
+                  <TextField fx:id="size_txt" layoutX="47.0" layoutY="117.0" />
+                  <TextField fx:id="heading_txt" layoutX="47.0" layoutY="187.0" />
+                  <Label layoutX="102.0" layoutY="23.0" text="Object ID" />
+                  <Label layoutX="119.0" layoutY="92.0" text="Size" />
+                  <Label layoutX="105.0" layoutY="161.0" text="Heading" />
+               </children>
+            </AnchorPane>
+         </content>
+      </TitledPane>
    </children>
-</AnchorPane>
+   <columnConstraints>
+      <ColumnConstraints hgrow="ALWAYS" maxWidth="1092.0" minWidth="10.0" prefWidth="1013.0" />
+      <ColumnConstraints hgrow="NEVER" maxWidth="281.0" minWidth="10.0" prefWidth="267.0" />
+   </columnConstraints>
+   <rowConstraints>
+      <RowConstraints fillHeight="false" maxHeight="1.7976931348623157E308" minHeight="300.0" prefHeight="626.0" vgrow="ALWAYS" />
+      <RowConstraints maxHeight="174.0" minHeight="10.0" prefHeight="174.0" vgrow="NEVER" />
+   </rowConstraints>
+</GridPane>
