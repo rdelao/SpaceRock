@@ -1,4 +1,5 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by sean on 2/4/17.
@@ -32,4 +33,11 @@ public interface Sensorable {
    * @return Image which is just a subsection of the larger picture
    */
   public Image image_chunk(int id, int x, int y, int size);
+
+  /**
+   * Occasionally it is necessary to get the entire Picture object with a given id.
+   * @param id
+   * @return Picture object for the given id
+   */
+  public Picture getPicture(int id);
 }
