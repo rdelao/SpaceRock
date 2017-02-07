@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -6,13 +7,16 @@ import java.util.Random;
  */
 public class Asteroid {
   private static final int[] size_range = {500, 4000};
-  private static final int[] distance_range = {100, 2000};
+  private static final int[] distance_range = {100, 1000};
   private static final int[] speed_range = {-5, 5};
+
+  private static int nextid = 0;
 
   private int[] initial_location;
   private int size;
   private int[] trajectory;
-  private HashMap<Integer, Integer[]> hist_location;
+  private int id;
+  //private HashMap<Integer, Integer[]> hist_location;
 
   public int[] current_location;
   public int current_radius;
@@ -21,6 +25,8 @@ public class Asteroid {
     this.initial_location = initial_location;
     this.size = size;
     this.trajectory = trajectory;
+    this.id = nextid;
+    nextid += 1;
   }
 
   public Asteroid(int[] loc_constraint) {
@@ -30,6 +36,12 @@ public class Asteroid {
     this.trajectory = new int[]{rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0]};
     this.current_location = initial_location;
     this.current_radius = size / 2;
+    this.id = nextid;
+    nextid += 1;
+  }
+
+  public int getId() {
+    return this.id;
   }
 
   public void move(int elapsed_seconds) {
@@ -47,6 +59,18 @@ public class Asteroid {
     if (location(elapsed_seconds)[2] == 0) {
       return 4000;
     }
-    return (size / 2) / (location(elapsed_seconds)[2] / 10);
+    return (int)((size / 2.0) / (location(elapsed_seconds)[2] / 10.0));
+  }
+
+  @Override
+  public String toString() {
+    return "Asteroid{" +
+        "id=" + id +
+        ", initial_location=" + Arrays.toString(initial_location) +
+        ", size=" + size +
+        ", trajectory=" + Arrays.toString(trajectory) +
+        ", current_location=" + Arrays.toString(current_location) +
+        ", current_radius=" + current_radius +
+        '}';
   }
 }
