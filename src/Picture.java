@@ -1,17 +1,22 @@
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  * Created by Sean on 2/4/17.
  */
 public class Picture {
-  private Image image;
+  private static int nextid = 0;
+  private BufferedImage image;
+  public int id;
 
   /**
    * Creates a new picture object with a given image
    * @param image
    */
-  public Picture(Image image) {
+  public Picture(BufferedImage image) {
     this.image = image;
+    this.id = nextid;
+    nextid += 1;
   }
 
   /**
@@ -24,6 +29,10 @@ public class Picture {
    * @return
    */
   public Image chunk(int x, int y, int size) {
+    return image.getSubimage(x, y, size, size);
+  }
 
+  public BufferedImage get_image() {
+    return image;
   }
 }

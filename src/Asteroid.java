@@ -44,6 +44,9 @@ public class Asteroid {
   }
 
   public int radius(int elapsed_seconds) {
+    if (location(elapsed_seconds)[2] == 0) {
+      return 4000;
+    }
     return (size / 2) / (location(elapsed_seconds)[2] / 10);
   }
 }
