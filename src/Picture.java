@@ -7,7 +7,8 @@ import java.awt.image.BufferedImage;
 public class Picture {
   private static int nextid = 0;
   private BufferedImage image;
-  public int id;
+
+  private int id;
 
   /**
    * Creates a new picture object with a given image
@@ -17,6 +18,10 @@ public class Picture {
     this.image = image;
     this.id = nextid;
     nextid += 1;
+  }
+
+  public int getId() {
+    return id;
   }
 
   /**
