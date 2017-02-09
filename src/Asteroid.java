@@ -89,7 +89,7 @@ public class Asteroid {
 
   private void setRandomImage() {
     try {
-      this.image = ImageIO.read(new File(asteroid_images[0]));
+      this.image = ImageIO.read(new File("asteroids/" + asteroid_images[0]));
     } catch (IOException e) {
     }
   }
