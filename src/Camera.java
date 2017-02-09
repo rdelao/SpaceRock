@@ -161,14 +161,15 @@ public class Camera implements Sensorable {
       System.out.format("Asteroid %d is now behind us.\n", asteroid.getId());
       return;
     }
-    //int xmin = Math.max(asteroid.current_location[0] - asteroid.current_radius, 0);
-    //int xmax = Math.min(asteroid.current_location[0] + asteroid.current_radius, image.getWidth());
-    //int ymin = Math.max(asteroid.current_location[1] - asteroid.current_radius, 0);
-    //int ymax = Math.min(asteroid.current_location[1] + asteroid.current_radius, image.getHeight());
 
     Graphics2D g = image.createGraphics();
-    g.setColor(Color.gray);
-    g.fillOval(asteroid.current_location[0] - asteroid.current_radius, asteroid.current_location[1] - asteroid.current_radius, asteroid.current_radius, asteroid.current_radius);
+    // Uncomment these 2 lines to draw circles:
+    //g.setColor(Color.gray);
+    //g.fillOval(asteroid.current_location[0] - asteroid.current_radius, asteroid.current_location[1] - asteroid.current_radius, asteroid.current_radius, asteroid.current_radius);
+
+    // Uncomment this line to use the images:
+    g.drawImage(asteroid.getImage(), asteroid.current_location[0] - asteroid.current_radius, asteroid.current_location[1] - asteroid.current_radius, asteroid.current_radius, asteroid.current_radius, null);
+
     g.setColor(Color.green);
     g.drawString(Integer.toString(asteroid.getId()), asteroid.current_location[0], asteroid.current_location[1]);
   }

@@ -1,3 +1,8 @@
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Random;
@@ -9,6 +14,7 @@ public class Asteroid {
   private static final int[] size_range = {500, 4000};
   private static final int[] distance_range = {100, 1000};
   private static final int[] speed_range = {-5, 5};
+  private static final String[] asteroid_images = {"asteroid_1.png"};
 
   private static int nextid = 0;
 
@@ -16,6 +22,7 @@ public class Asteroid {
   private int size;
   private int[] trajectory;
   private int id;
+  private BufferedImage image;
   //private HashMap<Integer, Integer[]> hist_location;
 
   public int[] current_location;
@@ -27,6 +34,7 @@ public class Asteroid {
     this.trajectory = trajectory;
     this.id = nextid;
     nextid += 1;
+    setRandomImage();
   }
 
   public Asteroid(int[] loc_constraint) {
@@ -38,6 +46,7 @@ public class Asteroid {
     this.current_radius = size / 2;
     this.id = nextid;
     nextid += 1;
+    setRandomImage();
   }
 
   public int getId() {
@@ -62,6 +71,10 @@ public class Asteroid {
     return (int)((size / 2.0) / (location(elapsed_seconds)[2] / 10.0));
   }
 
+  public BufferedImage getImage() {
+    return image;
+  }
+
   @Override
   public String toString() {
     return "Asteroid{" +
@@ -72,5 +85,12 @@ public class Asteroid {
         ", current_location=" + Arrays.toString(current_location) +
         ", current_radius=" + current_radius +
         '}';
+  }
+
+  private void setRandomImage() {
+    try {
+      this.image = ImageIO.read(new File(asteroid_images[0]));
+    } catch (IOException e) {
+    }
   }
 }
