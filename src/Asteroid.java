@@ -85,6 +85,7 @@ public class Asteroid {
         ", initial_location=" + Arrays.toString(initial_location) +
         ", size=" + size +
         ", trajectory=" + Arrays.toString(trajectory) +
+        ", created_at=" + created_at +
         ", current_location=" + Arrays.toString(current_location) +
         ", current_radius=" + current_radius +
         '}';
