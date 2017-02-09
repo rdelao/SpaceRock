@@ -100,7 +100,7 @@ public class Camera implements Sensorable {
 
     // Generate a starting set of asteroids at time = 0
     if (elapsed_seconds == 0) {
-      asteroids.add(new Asteroid(new int[]{200, 200, 500}, 500, new int[]{1, 1, -1}));
+      asteroids.add(new Asteroid(new int[]{200, 200, 1000}, 2500, new int[]{5, 5, -5}, 0));
       generate_random_asteroids();
     }
 
@@ -152,7 +152,7 @@ public class Camera implements Sensorable {
 
   private void generate_random_asteroids() {
     while(asteroids.size() <= MAX_ASTEROIDS) {
-      asteroids.add(new Asteroid(image_size));
+      asteroids.add(new Asteroid(image_size, elapsed_seconds));
     }
   }
 

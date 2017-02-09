@@ -23,27 +23,30 @@ public class Asteroid {
   private int[] trajectory;
   private int id;
   private BufferedImage image;
+  private int created_at;
   //private HashMap<Integer, Integer[]> hist_location;
 
   public int[] current_location;
   public int current_radius;
 
-  public Asteroid(int[] initial_location, int size, int[] trajectory) {
+  public Asteroid(int[] initial_location, int size, int[] trajectory, int elapsed_time) {
     this.initial_location = initial_location;
     this.size = size;
     this.trajectory = trajectory;
+    this.created_at = elapsed_time;
     this.id = nextid;
     nextid += 1;
     setRandomImage();
   }
 
-  public Asteroid(int[] loc_constraint) {
+  public Asteroid(int[] loc_constraint, int elapsed_time) {
     Random rand = new Random();
     this.initial_location = new int[]{rand.nextInt(loc_constraint[0]), rand.nextInt(loc_constraint[1]), rand.nextInt(distance_range[1]) + distance_range[0]};
     this.size = rand.nextInt(size_range[1]) + size_range[0];
     this.trajectory = new int[]{rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0]};
     this.current_location = initial_location;
     this.current_radius = size / 2;
+    this.created_at = elapsed_time;
     this.id = nextid;
     nextid += 1;
     setRandomImage();
@@ -59,16 +62,16 @@ public class Asteroid {
   }
 
   public int[] location(int elapsed_seconds) {
-    return new int[]{initial_location[0] + trajectory[0] * elapsed_seconds,
-                     initial_location[1] + trajectory[1] * elapsed_seconds,
-                     initial_location[2] + trajectory[2] * elapsed_seconds};
+    return new int[]{initial_location[0] + trajectory[0] * (elapsed_seconds - created_at),
+                     initial_location[1] + trajectory[1] * (elapsed_seconds - created_at),
+                     initial_location[2] + trajectory[2] * (elapsed_seconds - created_at)};
   }
 
   public int radius(int elapsed_seconds) {
     if (location(elapsed_seconds)[2] == 0) {
       return 4000;
     }
-    return (int)((size / 2.0) / (location(elapsed_seconds)[2] / 10.0));
+    return (int)((size / 2.0) / (location(elapsed_seconds)[2] / 100.0));
   }
 
   public BufferedImage getImage() {
