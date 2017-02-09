@@ -163,6 +163,6 @@ ENV/
 .ropeproject
 
 
-
-# generated images
-*.png
+# generated_images
+generated_image*.png
+test_*.png
