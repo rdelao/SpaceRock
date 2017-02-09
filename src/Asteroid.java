@@ -14,7 +14,7 @@ public class Asteroid {
   private static final int[] size_range = {500, 4000};
   private static final int[] distance_range = {100, 1000};
   private static final int[] speed_range = {-5, 5};
-  private static final String[] asteroid_images = {"asteroid_1.png"};
+  private static final String[] asteroid_images = {"asteroid_1.png", "asteroid_2.png"};
 
   private static int nextid = 0;
 
@@ -88,8 +88,11 @@ public class Asteroid {
   }
 
   private void setRandomImage() {
+    Random rand = new Random();
+    String asteroid_image = asteroid_images[rand.nextInt(asteroid_images.length)];
+    System.out.format("setting image to: %s\n", asteroid_image);
     try {
-      this.image = ImageIO.read(new File("asteroids/" + asteroid_images[0]));
+      this.image = ImageIO.read(new File("asteroids/" + asteroid_image));
     } catch (IOException e) {
     }
   }
