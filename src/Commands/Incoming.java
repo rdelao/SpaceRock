@@ -2,17 +2,16 @@ package Commands;
 
 import java.awt.*;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Created by magik on 2/5/2017.
  */
 public class Incoming implements Serializable{
     Asteroid[] asteroids;
-    Image[] images;
-    public Incoming(Asteroid asteroid){
+    long timestamp;
+    public Incoming(Asteroid asteroid, long timestamp){
         this.asteroids=asteroids;
-    }
-    public Incoming(Image image){
-        this.images=images;
+        this.timestamp = timestamp;
     }
 }
