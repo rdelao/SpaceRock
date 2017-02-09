@@ -14,8 +14,10 @@ public class Camera implements Sensorable {
   private static final int[] image_size = {4000,4000};
   private static final int MAX_ASTEROIDS = 5;
   private static final int MAX_STORED_PICTURES = 5;
+  private static final int TIME_STEP = 30;
 
   private HashMap<Integer, Picture> images = new HashMap<>();
+  private int image_count = 0;
   private int elapsed_seconds = 0;
   private ArrayList<Asteroid> asteroids = new ArrayList<>();
 
@@ -40,7 +42,7 @@ public class Camera implements Sensorable {
    * @param zoom
    * @return
    */
-  public int take_picture(int zoom) {
+  public int takePicture(int zoom) {
     // Check to make sure we have enough storage space to save another picture. If not, then remove the oldest picture.
     if (images.size() >= MAX_STORED_PICTURES) {
       System.out.println("OUT OF MEMORY ERROR: removing oldest picture before taking another...");
@@ -50,16 +52,16 @@ public class Camera implements Sensorable {
     }
 
     // Take a new picture
-    Picture picture = generate_image(elapsed_seconds, zoom);
+    Picture picture = generateImage(elapsed_seconds, zoom);
     images.put(picture.getId(), picture);
     return picture.getId();
   }
 
-  public int take_picture() {
-    return take_picture(0);
+  public int takePicture() {
+    return takePicture(0);
   }
 
-  public void set_elapsed_seconds(int elapsed_seconds) {
+  public void setElapsedSeconds(int elapsed_seconds) {
     this.elapsed_seconds = elapsed_seconds;
   }
 
@@ -71,7 +73,7 @@ public class Camera implements Sensorable {
    * @param size
    * @return
    */
-  public Image image_chunk(int id, int x, int y, int size) {
+  public Image imageChunk(int id, int x, int y, int size) {
     Picture picture = images.get(id);
     return picture.chunk(x, y, size);
   }
@@ -91,7 +93,7 @@ public class Camera implements Sensorable {
    * @param zoom
    * @return
    */
-  private Picture generate_image(int time, int zoom) {
+  private Picture generateImage(int time, int zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     g.setColor(Color.black);
@@ -101,28 +103,34 @@ public class Camera implements Sensorable {
     // Generate a starting set of asteroids at time = 0
     if (elapsed_seconds == 0) {
       asteroids.add(new Asteroid(new int[]{200, 200, 1000}, 2500, new int[]{5, 5, -5}, 0));
-      generate_random_asteroids();
+      generateRandomAsteroids();
     }
 
     // If we no longer have our max number of asteroids then generate some more
     if (asteroids.size() < MAX_ASTEROIDS) {
-      generate_random_asteroids();
+      generateRandomAsteroids();
     }
+
+    generateNoise(image);
 
     // Move all asteroids and draw them on the image
     for (Asteroid asteroid : asteroids) {
       asteroid.move(time);
       System.out.println(asteroid.toString());
-      draw_asteroid_to_image(image, asteroid);
+      drawAsteroidToImage(image, asteroid);
     }
 
     // Remove all asteroids that will never show up again
-    remove_off_window_asteroids();
+    removeOffWindowAsteroids();
 
     return new Picture(image);
   }
 
-  private void remove_off_window_asteroids() {
+  private void generateNoise(BufferedImage image) {
+    return;
+  }
+
+  private void removeOffWindowAsteroids() {
     ArrayList<Asteroid> asteroids_to_be_removed = new ArrayList<>();
     for (Asteroid asteroid : asteroids) {
       // If the asteroid is behind us then no additional calculation is required
@@ -150,13 +158,13 @@ public class Camera implements Sensorable {
     }
   }
 
-  private void generate_random_asteroids() {
+  private void generateRandomAsteroids() {
     while(asteroids.size() <= MAX_ASTEROIDS) {
       asteroids.add(new Asteroid(image_size, elapsed_seconds));
     }
   }
 
-  private void draw_asteroid_to_image(BufferedImage image, Asteroid asteroid) {
+  private void drawAsteroidToImage(BufferedImage image, Asteroid asteroid) {
     if (asteroid.current_location[2] <= 0) {
       System.out.format("Asteroid %d is now behind us.\n", asteroid.getId());
       return;
@@ -178,8 +186,8 @@ public class Camera implements Sensorable {
     Camera camera = new Camera();
 
     for (int i = 0; i < 10; i++) {
-      camera.set_elapsed_seconds(i * 30);
-      int picture_id = camera.take_picture();
+      camera.setElapsedSeconds(i * 30);
+      int picture_id = camera.takePicture();
       System.out.format("picture %d was taken\n", picture_id);
       Picture picture = camera.getPicture(picture_id);
       File output_file = new File("generated_image_" + picture.getId() + ".png");

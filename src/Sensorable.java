@@ -16,13 +16,13 @@ public interface Sensorable {
    * @param zoom Level of zoom (1-3)
    * @return Generated id of the picture
    */
-  public int take_picture(int zoom);
+  public int takePicture(int zoom);
 
   /**
    * Notified camera to take a picture with no zooming.
    * @return Generated id of the picture
    */
-  public int take_picture();
+  public int takePicture();
 
   /**
    * Generates an image at the given time with the given zoom level
@@ -32,7 +32,7 @@ public interface Sensorable {
    * @param size
    * @return Image which is just a subsection of the larger picture
    */
-  public Image image_chunk(int id, int x, int y, int size);
+  public Image imageChunk(int id, int x, int y, int size);
 
   /**
    * Occasionally it is necessary to get the entire Picture object with a given id.
