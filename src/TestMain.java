@@ -8,7 +8,7 @@ import java.io.IOException;
 public class TestMain {
 
     public static void main(String[] args) {
-        Camera camera = new Camera();
+        SensorSimulation camera = new SensorSimulation();
         for (int i = 0; i < 10; i++) {
             camera.setElapsedSeconds(i * 30);
             camera.takePicture();

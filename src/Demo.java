@@ -28,7 +28,7 @@ public class Demo extends Application {
 
         Scene scene = new Scene(root, 600, 400);
 
-        primaryStage.setTitle("FXML Welcome");
+        primaryStage.setTitle("SpaceRock SensorInterface Simulation");
         primaryStage.setScene(scene);
         primaryStage.show();
         primaryStage.sizeToScene();

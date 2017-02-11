@@ -5,9 +5,9 @@ import java.awt.image.BufferedImage;
  *
  * Created by sean on 2/4/17.
  */
-public interface Sensorable {
+public interface SensorInterface {
   /**
-   * Assesses and returns the status of the Camera
+   * Assesses and returns the status of the SensorSimulation
    * @return true if camera is operational
    */
   public boolean status();

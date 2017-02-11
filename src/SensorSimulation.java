@@ -5,7 +5,7 @@ import java.util.ArrayList;
 /**
  * Created by Sean on 2/4/17.
  */
-public class Camera implements Sensorable {
+public class SensorSimulation implements SensorInterface {
   private static final int[] image_size = {4000,4000};
   private static final int MAX_ASTEROIDS = 5;
   private static final int MAX_STORED_PICTURES = 5;
@@ -22,12 +22,12 @@ public class Camera implements Sensorable {
   /**
    * Initialize a camera object
    */
-  public Camera() {
+  public SensorSimulation() {
 
   }
 
   /**
-   * Returns the status of the Camera.
+   * Returns the status of the SensorSimulation.
    * @return true if camera is operational
    */
   public synchronized boolean status() {

@@ -29,7 +29,7 @@
                 </AnchorPane>
                 <ToggleButton fx:id="turnOnCam" layoutX="32.0" layoutY="21.0" mnemonicParsing="false" text="On/Off"/>
                 <Button layoutX="14.0" layoutY="83.0" mnemonicParsing="false" text="Take Picture"/>
-                <Button layoutX="8.0" layoutY="336.0" mnemonicParsing="false" text="Reset Camera"/>
+                <Button layoutX="8.0" layoutY="336.0" mnemonicParsing="false" text="Reset SensorSimulation"/>
                 <AnchorPane layoutX="8.0" layoutY="260.0">
                     <children>
                         <GridPane layoutY="-1.0" prefHeight="35.0" prefWidth="115.0">
