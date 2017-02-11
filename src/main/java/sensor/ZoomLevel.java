@@ -4,10 +4,10 @@ package sensor;
  * Created by sean on 2/11/17.
  */
 public enum ZoomLevel {
-  LEVEL_1(1, 4000, 4000),
-  LEVEL_2(2, 3000, 4000),
-  LEVEL_3(3, 2000, 4000),
-  LEVEL_4(4, 1000, 4000);
+  NONE(0, 4000, 4000),
+  LEVEL_1(1, 3000, 4000),
+  LEVEL_2(2, 2000, 4000),
+  LEVEL_3(3, 1000, 4000);
 
   private final int[] IMAGE_SIZE = {4000,4000};
   int value;
