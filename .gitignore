@@ -162,6 +162,10 @@ ENV/
 # Rope project settings
 .ropeproject
 
+#idea files
+.idea/
+*.iml
+out/
 
 # generated_images
 generated_image*.png
