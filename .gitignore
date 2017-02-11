@@ -165,6 +165,8 @@ ENV/
 #idea files
 .idea/
 *.iml
+*.iws
+*.ipr
 out/
 
 #gradle files
