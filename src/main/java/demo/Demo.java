@@ -26,11 +26,12 @@ public class Demo extends Application {
         }
 
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 900, 700);
 
         primaryStage.setTitle("SpaceRock SensorInterface Simulation");
         primaryStage.setScene(scene);
         primaryStage.show();
-        primaryStage.sizeToScene();
+        //primaryStage.sizeToScene();
+        primaryStage.setResizable(false);
     }
 }
