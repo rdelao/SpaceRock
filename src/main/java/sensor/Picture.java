@@ -13,7 +13,7 @@ public class Picture {
   private int id;
 
   /**
-   * Creates a new picture object with a given image
+   * Creates a new picture object with a given imageView
    * @param image
    */
   public Picture(BufferedImage image) {
@@ -27,16 +27,16 @@ public class Picture {
   }
 
   /**
-   * returns an chunk of the image where x and y are the center and size is the radius
-   * So it should be a square
+   * Returns an chunk of the imageView where x and y are the center and size is the width of a square
    *
-   * @param x
-   * @param y
-   * @param size
-   * @return
+   * @param x center horizontal
+   * @param y center vertical
+   * @param size width/height
+   * @return bufferedImage of area
    */
-  public Image chunk(int x, int y, int size) {
-    return image.getSubimage(x, y, size, size);
+  public BufferedImage chunk(int x, int y, int size) {
+    int radius = size /2;
+    return image.getSubimage(x-radius, y-radius, size, size);
   }
 
   public BufferedImage get_image() {

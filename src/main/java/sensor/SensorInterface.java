@@ -1,6 +1,7 @@
 package sensor;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 /**
  *
@@ -14,8 +15,8 @@ public interface SensorInterface {
   public boolean status();
 
   /**
-   * Check image capture status
-   * @return true if capture of image is complete.
+   * Check imageView capture status
+   * @return true if capture of imageView is complete.
    */
   public boolean captureStatus();
 
@@ -31,13 +32,13 @@ public interface SensorInterface {
   public void takePicture();
 
   /**
-   * Return square window from the image.
+   * Return square window from the imageView.
    * @param x horizontal center of window
    * @param y vertical center of window
    * @param size width/height of window
-   * @return windowed image from full image.
+   * @return windowed imageView from full imageView.
    */
-  public Image getImageChunk(int x, int y, int size);
+  public BufferedImage getImageChunk(int x, int y, int size);
 
   /**
    * Attempt to turn camera on.

@@ -55,8 +55,8 @@ public class SensorSimulation implements SensorInterface {
   }
 
   @Override
-  public Image getImageChunk(int x, int y, int size) {
-    return null;
+  public BufferedImage getImageChunk(int x, int y, int size) {
+    return image.chunk(x, y, size);
   }
 
   @Override
@@ -79,7 +79,7 @@ public class SensorSimulation implements SensorInterface {
   }
 
   /**
-   * Returns a chunk of an image with the given id
+   * Returns a chunk of an imageView with the given id
    * @param x
    * @param y
    * @param size
@@ -91,14 +91,14 @@ public class SensorSimulation implements SensorInterface {
 
   /**
    * Used for simulation testing only
-   * @return entire image
+   * @return entire imageView
    */
   public Picture getPicture() {
     return image;
   }
 
   /**
-   * Generate a image at the given time with the given zoom
+   * Generate a imageView at the given time with the given zoom
    * @param time seconds since last picture
    * @param zoom scale 0-3
    * @return generated Picture object
@@ -123,7 +123,7 @@ public class SensorSimulation implements SensorInterface {
 
     generateNoise(image);
 
-    // Move all asteroids and draw them on the image
+    // Move all asteroids and draw them on the imageView
     for (Asteroid asteroid : asteroids) {
       asteroid.move(time);
       System.out.println(asteroid.toString());
