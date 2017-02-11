@@ -50,8 +50,9 @@ public class SensorSimulation implements SensorInterface {
    * @param zoom the zoom setting 0-3
    */
   public void takePicture(int zoom) {
+    ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
     // Take a new picture
-    image = generateImage(elapsed_seconds, zoom);
+    image = generateImage(elapsed_seconds, zoom_level);
   }
 
   public void takePicture() {
@@ -120,7 +121,7 @@ public class SensorSimulation implements SensorInterface {
    * @param zoom scale 0-3
    * @return generated Picture object
    */
-  private Picture generateImage(int time, int zoom) {
+  private Picture generateImage(int time, ZoomLevel zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     g.setColor(java.awt.Color.black);
