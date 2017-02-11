@@ -25,3 +25,18 @@ jar {
                    'Main-Class': mainClassName
     }
 }
+
+idea {
+    module {
+        sourceDirs += file('src/main/java')
+        ext.set('resourceDirs', [])
+        resourceDirs += file('src/main/resources')
+    }
+
+    project {
+        jdkName = '1.8'
+        languageLevel = '1.8'
+
+        vcs = 'Git'
+    }
+}
