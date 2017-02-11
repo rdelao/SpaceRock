@@ -157,7 +157,7 @@ public class SensorSimulation implements SensorInterface {
   private void generateNoise(BufferedImage image) {
     for(int i = 0; i < image_size[0]; i++){
       for(int j = 0; j < image_size[1]; j++){
-        if(random.nextInt(100) <= 10){
+        if(random.nextInt(100) <= 1){
           int colorValue = random.nextInt(255);
           int color = new Color(colorValue, colorValue, colorValue).getRGB();
           image.setRGB(i,j,color);
