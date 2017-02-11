@@ -1,11 +1,6 @@
-import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
 
 /**
  * Created by Sean on 2/4/17.
@@ -16,49 +11,65 @@ public class Camera implements Sensorable {
   private static final int MAX_STORED_PICTURES = 5;
   private static final int TIME_STEP = 30;
 
-  private HashMap<Integer, Picture> images = new HashMap<>();
-  private int image_count = 0;
+  private Picture image;
   private int elapsed_seconds = 0;
   private ArrayList<Asteroid> asteroids = new ArrayList<>();
+
+  private boolean status;
+
+  private boolean captureStatus;
 
   /**
    * Initialize a camera object
    */
   public Camera() {
-    this.images = new HashMap<>();
+
   }
 
   /**
    * Returns the status of the Camera.
-   * @return
+   * @return true if camera is operational
    */
-  public int status() {
-    return 0;
+  public synchronized boolean status() {
+    return status;
+  }
+
+  @Override
+  public synchronized boolean captureStatus() {
+    return captureStatus;
   }
 
   /**
-   * Notifies us to take a picture with a zoom level (1-3) ??
-   * Returns a generated id
-   * @param zoom
-   * @return
+   * Notifies us to take a picture with a zoom level (0-3) ??
+   * @param zoom the zoom setting 0-3
    */
-  public int takePicture(int zoom) {
-    // Check to make sure we have enough storage space to save another picture. If not, then remove the oldest picture.
-    if (images.size() >= MAX_STORED_PICTURES) {
-      System.out.println("OUT OF MEMORY ERROR: removing oldest picture before taking another...");
-      int oldest_id = Collections.min(images.keySet());
-      images.remove(oldest_id);
-      System.out.format("Removed picture %d\n", oldest_id);
-    }
-
+  public void takePicture(int zoom) {
     // Take a new picture
-    Picture picture = generateImage(elapsed_seconds, zoom);
-    images.put(picture.getId(), picture);
-    return picture.getId();
+    image = generateImage(elapsed_seconds, zoom);
   }
 
-  public int takePicture() {
-    return takePicture(0);
+  public void takePicture() {
+    takePicture(0);
+  }
+
+  @Override
+  public Image getImageChunk(int x, int y, int size) {
+    return null;
+  }
+
+  @Override
+  public void on() {
+
+  }
+
+  @Override
+  public void off() {
+
+  }
+
+  @Override
+  public void reset() {
+
   }
 
   public void setElapsedSeconds(int elapsed_seconds) {
@@ -67,31 +78,28 @@ public class Camera implements Sensorable {
 
   /**
    * Returns a chunk of an image with the given id
-   * @param id
    * @param x
    * @param y
    * @param size
    * @return
    */
-  public Image imageChunk(int id, int x, int y, int size) {
-    Picture picture = images.get(id);
-    return picture.chunk(x, y, size);
+  public Image imageChunk(int x, int y, int size) {
+    return image.chunk(x, y, size);
   }
 
   /**
-   * Occasionally it may be necessary to get the whole picture object.
-   * @param id
-   * @return
+   * Used for simulation testing only
+   * @return entire image
    */
-  public Picture getPicture(int id) {
-    return images.get(id);
+  public Picture getPicture() {
+    return image;
   }
 
   /**
    * Generate a image at the given time with the given zoom
-   * @param time
-   * @param zoom
-   * @return
+   * @param time seconds since last picture
+   * @param zoom scale 0-3
+   * @return generated Picture object
    */
   private Picture generateImage(int time, int zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
@@ -182,21 +190,5 @@ public class Camera implements Sensorable {
     g.drawString(Integer.toString(asteroid.getId()), asteroid.current_location[0], asteroid.current_location[1]);
   }
 
-  public static void main(String[] args) {
-    Camera camera = new Camera();
 
-    for (int i = 0; i < 10; i++) {
-      camera.setElapsedSeconds(i * 30);
-      int picture_id = camera.takePicture();
-      System.out.format("picture %d was taken\n", picture_id);
-      Picture picture = camera.getPicture(picture_id);
-      File output_file = new File("generated_image_" + picture.getId() + ".png");
-      try {
-        ImageIO.write(picture.get_image(), "png", output_file);
-      } catch (IOException e) {
-        e.printStackTrace();
-      }
-      System.out.format("Output picture %d to generated_image_%d.png\n", picture_id, picture_id);
-    }
-  }
 }
