@@ -167,6 +167,9 @@ ENV/
 *.iml
 out/
 
+#gradle files
+.gradle
+
 # generated_images
 generated_image*.png
 test_*.png
