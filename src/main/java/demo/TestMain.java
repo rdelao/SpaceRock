@@ -1,4 +1,7 @@
-package sensor;
+package demo;
+
+import sensor.Picture;
+import sensor.SensorSimulation;
 
 import javax.imageio.ImageIO;
 import java.io.File;
