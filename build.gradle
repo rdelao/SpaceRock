@@ -40,3 +40,7 @@ idea {
         vcs = 'Git'
     }
 }
+
+task getHomeDir << {
+  println gradle.gradleHomeDir
+}
