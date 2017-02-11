@@ -3,6 +3,7 @@ package sensor;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by Sean on 2/4/17.
@@ -20,6 +21,8 @@ public class SensorSimulation implements SensorInterface {
   private boolean status;
 
   private boolean captureStatus;
+
+  private Random random = new Random();
 
   /**
    * Initialize a camera object
@@ -106,7 +109,7 @@ public class SensorSimulation implements SensorInterface {
   private Picture generateImage(int time, int zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
-    g.setColor(Color.black);
+    g.setColor(java.awt.Color.black);
     g.fillRect(0, 0, image.getWidth(), image.getHeight());
     System.out.format("Generating picture at time: %d seconds:\n", time);
 
@@ -121,8 +124,6 @@ public class SensorSimulation implements SensorInterface {
       generateRandomAsteroids();
     }
 
-    generateNoise(image);
-
     // Move all asteroids and draw them on the imageView
     for (Asteroid asteroid : asteroids) {
       asteroid.move(time);
@@ -132,12 +133,21 @@ public class SensorSimulation implements SensorInterface {
 
     // Remove all asteroids that will never show up again
     removeOffWindowAsteroids();
+    generateNoise(image);
 
     return new Picture(image);
   }
 
   private void generateNoise(BufferedImage image) {
-    return;
+    for(int i = 0; i < image_size[0]; i++){
+      for(int j = 0; j < image_size[1]; j++){
+        if(random.nextInt(100) <= 10){
+          int colorValue = random.nextInt(255);
+          int color = new Color(colorValue, colorValue, colorValue).getRGB();
+          image.setRGB(i,j,color);
+        }
+      }
+    }
   }
 
   private void removeOffWindowAsteroids() {
