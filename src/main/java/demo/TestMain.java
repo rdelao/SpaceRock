@@ -21,7 +21,7 @@ public class TestMain {
             Picture picture = camera.getPicture();
             File output_file = new File("generated_image_" + i + ".png");
             try {
-                ImageIO.write(picture.get_image(), "png", output_file);
+                ImageIO.write(picture.getImage(), "png", output_file);
             } catch (IOException e) {
                 e.printStackTrace();
             }

@@ -39,7 +39,7 @@ public class Picture {
     return image.getSubimage(x-radius, y-radius, size, size);
   }
 
-  public BufferedImage get_image() {
+  public BufferedImage getImage() {
     return image;
   }
 }
