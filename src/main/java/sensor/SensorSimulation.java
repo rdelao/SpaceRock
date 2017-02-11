@@ -124,6 +124,8 @@ public class SensorSimulation implements SensorInterface {
       generateRandomAsteroids();
     }
 
+    generateNoise(image);
+
     // Move all asteroids and draw them on the imageView
     for (Asteroid asteroid : asteroids) {
       asteroid.move(time);
@@ -133,7 +135,6 @@ public class SensorSimulation implements SensorInterface {
 
     // Remove all asteroids that will never show up again
     removeOffWindowAsteroids();
-    generateNoise(image);
 
     return new Picture(image);
   }
