@@ -40,7 +40,8 @@ public class DemoGUIController implements Initializable {
   public Label statusLabel; //Whether cam is on or off
 
   @FXML
-  public TextArea dataTxt; //displays image info
+  public Label imageStatus; //Whether image is available or not
+
   @FXML
   public Button takePicture;
   @FXML
@@ -74,9 +75,15 @@ public class DemoGUIController implements Initializable {
       updateCamStatusLabel();
   }
 
+  //Temporary update status for camera state
   private void updateCamStatusLabel(){
       if(sensor.status()) statusLabel.setText("Status: On");
       else statusLabel.setText("Status: Off");
+  }
+
+  private void updateImageStatus(){
+    if(sensor.captureStatus()) imageStatus.setText("Image: READY");
+    else imageStatus.setText("Image: NOT READY");
   }
 
   private void reset() {
