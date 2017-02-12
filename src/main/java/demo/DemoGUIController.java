@@ -1,17 +1,20 @@
 package demo;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
 
+import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -19,48 +22,75 @@ import java.util.ResourceBundle;
  * Created by jholland on 2/11/17.
  */
 public class DemoGUIController implements Initializable {
-    @FXML
-    public Slider zoomSlider;
-    @FXML
-    public ImageView imageView;
+  @FXML
+  public Slider zoomSlider;
+  @FXML
+  public ImageView imageView;
 
-    private WritableImage image;
+  private WritableImage image;
 
-    @FXML
-    public ToggleButton turnOnCam;
+  private BufferedImage buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
 
-    @FXML
-    public Button takePicture;
-    @FXML
-    public Button reset;
+  @FXML
+  public ToggleButton turnOnCam;
 
-    private SensorInterface sensor;
+  @FXML
+  public Button takePicture;
+  @FXML
+  public Button reset;
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
+  private SensorInterface sensor;
 
-        sensor = new SensorSimulation();
+  @Override
+  public void initialize(URL location, ResourceBundle resources) {
 
-        //Keep the slider as integer
-        zoomSlider.valueProperty().addListener((observable, oldValue, newValue) ->
-                zoomSlider.setValue(newValue.intValue()));
+    sensor = new SensorSimulation();
 
-        takePicture.setOnAction(event -> takePicture());
-        reset.setOnAction(event -> reset());
-        turnOnCam.setOnAction(event -> toggleOnOff());
+    //Keep the slider as integer
+    zoomSlider.valueProperty().addListener((observable, oldValue, newValue) ->
+        zoomSlider.setValue(newValue.intValue()));
 
+    takePicture.setOnAction(event -> takePicture());
+    reset.setOnAction(event -> reset());
+    turnOnCam.setOnAction(event -> toggleOnOff());
+
+  }
+
+  private void toggleOnOff() {
+    System.out.println("Toggled");
+    if (this.turnOnCam.isSelected()) {
+      sensor.on();
+    } else {
+      sensor.off();
     }
+  }
 
-    private void toggleOnOff(){
-        System.out.println("Toggled");
-    }
+  private void reset() {
+    System.out.println("Reset Camera ON/OFF");
+    sensor.reset();
+  }
 
-    private void reset(){
-        System.out.println("Reset Camera ON/OFF");
-    }
+  private void takePicture() {
+    //sensor.takePicture((int) zoomSlider.getMin());
+    //imageView.setImage(SwingFXUtils.toFXImage(sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100), image));
+    Task task = new Task<Void>() {
+      @Override
+      public Void call() throws Exception {
+        sensor.takePicture((int) zoomSlider.getMin());
+        Graphics2D g = buildable_image.createGraphics();
+        for (int j = 0; j < 40; j++) {
+          for (int i = 0; i < 40; i++) {
+            g.drawImage(sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100), i * 100, j * 100, 100, 100, null);
+            Platform.runLater(() -> imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image)));
+            Thread.sleep(100);
+          }
+        }
+        return null;
+      }
+    };
 
-    private void takePicture(){
-        sensor.takePicture((int)zoomSlider.getMin());
-        imageView.setImage(SwingFXUtils.toFXImage(sensor.getImageChunk(2000, 2000, 4000), image));
-    }
+    Thread th = new Thread(task);
+    th.setDaemon(true);
+    th.start();
+  }
 }
