@@ -65,7 +65,6 @@ public class DemoGUIController implements Initializable {
       public void handle(ActionEvent event) {
         updateCamStatusLabel();
         updateImageStatus();
-        System.out.println("Reached here in timeline");
       }
     }));
     updateClock.setCycleCount(Timeline.INDEFINITE);
