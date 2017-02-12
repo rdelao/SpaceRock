@@ -53,23 +53,29 @@ public class SensorSimulation implements SensorInterface {
     }
   }
 
-  /**
-   * Notifies us to take a picture with a zoom level (0-3) ??
-   * @param zoom the zoom setting 0-3
-   */
+@Override
   public void takePicture(int zoom) {
     if (!status) {
       return;
     }
-    ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
+    Task task = new Task<Void>() {
+        @Override
+        public Void call() throws Exception {
+            captureStatus = false;
+            ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
-    // Take a new picture
-    System.out.println("Taking new picture at zoom level: " + zoom_level);
-    image = generateImage(elapsed_seconds, zoom_level);
-  }
+            // Take a new picture
+            System.out.println("Taking new picture at zoom level: " + zoom_level);
+            image = generateImage(elapsed_seconds, zoom_level);
+            captureStatus = true;
 
-  public void takePicture() {
-    takePicture(0);
+            return null;
+        }
+    };
+    Thread th = new Thread(task);
+    th.setDaemon(true);
+    th.start();
+
   }
 
   @Override

@@ -16,7 +16,7 @@ public class TestMain {
         SensorSimulation camera = new SensorSimulation();
         for (int i = 0; i < 10; i++) {
             camera.setElapsedSeconds(i * 30);
-            camera.takePicture();
+            camera.takePicture(0);
             System.out.format("picture %d was taken\n", i);
             Picture picture = camera.getPicture();
             File output_file = new File("generated_image_" + i + ".png");

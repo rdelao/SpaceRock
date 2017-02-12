@@ -21,15 +21,10 @@ public interface SensorInterface {
   public boolean captureStatus();
 
   /**
-   * Notifies camera to take a picture with a given zoom level (1-3) ??
-   * @param zoom Level of zoom (1-3)
+   * Notifies camera to take a picture with a given zoom level (0-3).
+   * @param zoom Level of zoom (0-3)
    */
   public void takePicture(int zoom);
-
-  /**
-   * Notified camera to take a picture with no zooming.
-   */
-  public void takePicture();
 
   /**
    * Return square window from the imageView.
