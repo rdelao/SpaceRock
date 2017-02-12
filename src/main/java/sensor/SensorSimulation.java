@@ -50,8 +50,13 @@ public class SensorSimulation implements SensorInterface {
    * @param zoom the zoom setting 0-3
    */
   public void takePicture(int zoom) {
+    if (!status) {
+      return;
+    }
     ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
+
     // Take a new picture
+    System.out.println("Taking new picture at zoom level: " + zoom_level);
     image = generateImage(elapsed_seconds, zoom_level);
   }
 
@@ -66,16 +71,19 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public void on() {
-    this.status = true;
+    System.out.println("Turning sensor on...");
     try {
       TimeUnit.SECONDS.sleep(6);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+    this.status = true;
+    System.out.println("Sensor is now on");
   }
 
   @Override
   public void off() {
+    System.out.println("Turning sensor off...");
     // We will loose our 1 buffered image if we shut off the camera.
     this.image = null;
     this.status = false;
@@ -84,6 +92,7 @@ public class SensorSimulation implements SensorInterface {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
+    System.out.println("Sensor is now off");
   }
 
   @Override
@@ -94,17 +103,6 @@ public class SensorSimulation implements SensorInterface {
 
   public void setElapsedSeconds(int elapsed_seconds) {
     this.elapsed_seconds = elapsed_seconds;
-  }
-
-  /**
-   * Returns a chunk of an imageView with the given id
-   * @param x
-   * @param y
-   * @param size
-   * @return
-   */
-  public Image imageChunk(int x, int y, int size) {
-    return image.chunk(x, y, size);
   }
 
   /**
