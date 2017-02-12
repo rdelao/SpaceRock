@@ -1,5 +1,9 @@
 package sensor;
 
+import javafx.application.Platform;
+import javafx.concurrent.Task;
+import javafx.embed.swing.SwingFXUtils;
+
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -19,9 +23,9 @@ public class SensorSimulation implements SensorInterface {
   private int elapsed_seconds = 0;
   private ArrayList<Asteroid> asteroids = new ArrayList<>();
 
-  private boolean status = false;
+  private Boolean status = false;
 
-  private boolean captureStatus = false;
+  private Boolean captureStatus = false;
 
   private Random random = new Random();
 
@@ -36,13 +40,17 @@ public class SensorSimulation implements SensorInterface {
    * Returns the status of the SensorSimulation.
    * @return true if camera is operational
    */
-  public synchronized boolean status() {
-    return status;
+  public boolean status() {
+    synchronized (status) {
+      return status;
+    }
   }
 
   @Override
-  public synchronized boolean captureStatus() {
-    return captureStatus;
+  public boolean captureStatus() {
+    synchronized (captureStatus) {
+      return captureStatus;
+    }
   }
 
   /**
@@ -66,27 +74,50 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public BufferedImage getImageChunk(int x, int y, int size) {
-    return image.chunk(x, y, size);
+    if(captureStatus)
+      return image.chunk(x, y, size);
+    else return null;
   }
 
   @Override
   public void on() {
-    System.out.println("Turning sensor on...");
-      //TimeUnit.SECONDS.sleep(6);
-
-    this.status = true;
-    System.out.println("Sensor is now on");
+    Task task = new Task<Void>() {
+      @Override
+      public Void call() throws Exception {
+        System.out.println("Turning Sensor on...");
+        TimeUnit.SECONDS.sleep(1);
+        synchronized (status) {
+          status = true;
+          captureStatus = false;
+          System.out.println("Sensor on");
+        }
+        return null;
+      }
+    };
+    Thread th = new Thread(task);
+    th.setDaemon(true);
+    th.start();
   }
 
   @Override
   public void off() {
-    System.out.println("Turning sensor off...");
-    // We will loose our 1 buffered image if we shut off the camera.
-    this.image = null;
-    this.status = false;
-      //TimeUnit.SECONDS.sleep(4);
-
-    System.out.println("Sensor is now off");
+    Task task = new Task<Void>() {
+      @Override
+      public Void call() throws Exception {
+        System.out.println("Turning sensor off...");
+        TimeUnit.SECONDS.sleep(1);
+        synchronized (status) {
+          status = false;
+          image = null;
+          captureStatus = false;
+          System.out.println("Sensor off");
+        }
+        return null;
+      }
+    };
+    Thread th = new Thread(task);
+    th.setDaemon(true);
+    th.start();
   }
 
   @Override
