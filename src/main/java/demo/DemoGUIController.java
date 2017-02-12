@@ -53,18 +53,23 @@ public class DemoGUIController implements Initializable {
 
   private SensorInterface sensor;
 
+  private boolean previousCaptureStatus;
+  private boolean loadimage;
+  private int i, j;
 
-  @Override
+
+    @Override
   public void initialize(URL location, ResourceBundle resources) {
 
     sensor = new SensorSimulation();
 
-    Timeline updateClock = new Timeline(new KeyFrame(Duration.millis(50), new EventHandler<ActionEvent>() {
+    Timeline updateClock = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
 
       @Override
       public void handle(ActionEvent event) {
         updateCamStatusLabel();
         updateImageStatus();
+        updateImage();
       }
     }));
     updateClock.setCycleCount(Timeline.INDEFINITE);
@@ -103,33 +108,38 @@ public class DemoGUIController implements Initializable {
     else imageStatus.setText("Image: NOT READY");
   }
 
+  private void updateImage(){
+      boolean status = sensor.captureStatus();
+      if(status != previousCaptureStatus) {
+          loadimage = true;
+      }
+      previousCaptureStatus = status;
+
+      if(loadimage){
+          BufferedImage chunk = sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100);
+
+          if (chunk != null) {
+              Graphics2D g = buildable_image.createGraphics();
+              g.drawImage(chunk, i * 100, j * 100, 100, 100, null);
+              imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image));
+
+              i++;
+              if (i >= 40) {
+                  i = 0;
+                  j++;
+                  if (j >= 40) loadimage = false;
+              }
+          }
+      }
+  }
+
   private void reset() {
     System.out.println("Reset Camera ON/OFF");
     sensor.reset();
   }
 
   private void takePicture() {
-    //sensor.takePicture((int) zoomSlider.getMin());
-    //imageView.setImage(SwingFXUtils.toFXImage(sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100), image));
-    Task task = new Task<Void>() {
-      @Override
-      public Void call() throws Exception {
-        sensor.takePicture((int) zoomSlider.getMin());
-        Graphics2D g = buildable_image.createGraphics();
-        for (int j = 0; j < 40; j++) {
-          for (int i = 0; i < 40; i++) {
-            g.drawImage(sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100), i * 100, j * 100, 100, 100, null);
-            Platform.runLater(() -> imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image)));
-            Thread.sleep(100);
-          }
-        }
-        return null;
-      }
-    };
-
-    Thread th = new Thread(task);
-    th.setDaemon(true);
-    th.start();
+    sensor.takePicture((int) zoomSlider.getMin());
   }
 
 
