@@ -66,17 +66,23 @@ public class DemoGUIController implements Initializable {
   private void toggleOnOff() {
     System.out.println("Toggled");
     if (this.turnOnCam.isSelected()) {
-        statusLabel.setText("Status: On");
         sensor.on();
     } else {
-        statusLabel.setText("Status: Off");
         sensor.off();
     }
+
+      updateCamStatusLabel();
+  }
+
+  private void updateCamStatusLabel(){
+      if(sensor.status()) statusLabel.setText("Status: On");
+      else statusLabel.setText("Status: Off");
   }
 
   private void reset() {
     System.out.println("Reset Camera ON/OFF");
     sensor.reset();
+    updateCamStatusLabel();
   }
 
   private void takePicture() {
@@ -102,5 +108,6 @@ public class DemoGUIController implements Initializable {
     th.setDaemon(true);
     th.start();
   }
+
 
 }
