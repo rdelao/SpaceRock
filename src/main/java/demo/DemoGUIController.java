@@ -3,9 +3,10 @@ package demo;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
@@ -14,6 +15,9 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
+import javafx.animation.Timeline;
+import javafx.util.Duration;
+import javafx.animation.KeyFrame;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -49,10 +53,26 @@ public class DemoGUIController implements Initializable {
 
   private SensorInterface sensor;
 
+
   @Override
   public void initialize(URL location, ResourceBundle resources) {
 
     sensor = new SensorSimulation();
+
+    Timeline updateClock = new Timeline(new KeyFrame(Duration.millis(50), new EventHandler<ActionEvent>() {
+
+      @Override
+      public void handle(ActionEvent event) {
+        updateCamStatusLabel();
+        updateImageStatus();
+        System.out.println("Reached here in timeline");
+      }
+    }));
+    updateClock.setCycleCount(Timeline.INDEFINITE);
+    updateClock.play();
+
+
+
 
     //Keep the slider as integer
     zoomSlider.valueProperty().addListener((observable, oldValue, newValue) ->
@@ -71,8 +91,6 @@ public class DemoGUIController implements Initializable {
     } else {
         sensor.off();
     }
-
-      updateCamStatusLabel();
   }
 
   //Temporary update status for camera state
@@ -89,7 +107,6 @@ public class DemoGUIController implements Initializable {
   private void reset() {
     System.out.println("Reset Camera ON/OFF");
     sensor.reset();
-    updateCamStatusLabel();
   }
 
   private void takePicture() {
