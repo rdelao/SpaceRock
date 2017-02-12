@@ -112,6 +112,8 @@ public class DemoGUIController implements Initializable {
       boolean status = sensor.captureStatus();
       if(status != previousCaptureStatus) {
           loadimage = true;
+          i = 0;
+          j = 0;
       }
       previousCaptureStatus = status;
 
