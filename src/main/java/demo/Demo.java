@@ -26,7 +26,7 @@ public class Demo extends Application {
         }
 
 
-        Scene scene = new Scene(root, 900, 700);
+        Scene scene = new Scene(root, 1040, 700);
 
         primaryStage.setTitle("SpaceRock SensorInterface Simulation");
         primaryStage.setScene(scene);

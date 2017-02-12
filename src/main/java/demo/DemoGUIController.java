@@ -5,6 +5,8 @@ import javafx.concurrent.Task;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
@@ -35,6 +37,11 @@ public class DemoGUIController implements Initializable {
   public ToggleButton turnOnCam;
 
   @FXML
+  public Label statusLabel; //Whether cam is on or off
+
+  @FXML
+  public TextArea dataTxt; //displays image info
+  @FXML
   public Button takePicture;
   @FXML
   public Button reset;
@@ -59,9 +66,11 @@ public class DemoGUIController implements Initializable {
   private void toggleOnOff() {
     System.out.println("Toggled");
     if (this.turnOnCam.isSelected()) {
-      sensor.on();
+        statusLabel.setText("Status: On");
+        sensor.on();
     } else {
-      sensor.off();
+        statusLabel.setText("Status: Off");
+        sensor.off();
     }
   }
 
@@ -93,4 +102,5 @@ public class DemoGUIController implements Initializable {
     th.setDaemon(true);
     th.start();
   }
+
 }

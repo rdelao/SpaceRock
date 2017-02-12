@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
@@ -18,73 +19,62 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<SplitPane dividerPositions="0.7859531772575251" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.DemoGUIController">
+<SplitPane dividerPositions="0.7859531772575251" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1040.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.DemoGUIController">
     <items>
-        <AnchorPane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0">
+        <AnchorPane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0">
             <children>
-            <ScrollPane prefHeight="698.0" prefWidth="702.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-              <content>
-                <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="701.0" prefWidth="701.0">
-                     <children>
-                            <ImageView fx:id="imageView" pickOnBounds="true" preserveRatio="true" />
-                            <Label layoutX="161.0" layoutY="165.0" text="Image Goes Here" />
-                     </children>
-                  </AnchorPane>
-              </content>
-            </ScrollPane>
+                <ImageView fx:id="imageView" fitHeight="700.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+               <viewport>
+                  <Rectangle2D height="700.0" width="800.0" />
+               </viewport>
+            </ImageView>
             </children>
         </AnchorPane>
-        <AnchorPane fx:id="controlPane" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+        <AnchorPane fx:id="controlPane" minHeight="0.0" minWidth="0.0" prefHeight="758.0" prefWidth="225.0">
             <children>
-            <AnchorPane layoutX="1.0" layoutY="-5.0" prefHeight="698.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                <AnchorPane fx:id="zoomControls" layoutX="6.0" layoutY="229.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="96.0" prefWidth="173.0" AnchorPane.bottomAnchor="373.0" AnchorPane.leftAnchor="6.0" AnchorPane.rightAnchor="9.0" AnchorPane.topAnchor="229.0">
+                    <children>
+                        <Label layoutX="55.0" layoutY="4.0" text="Zoom Level">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                        </Label>
+                        <Slider fx:id="zoomSlider" blockIncrement="1.0" layoutY="38.0" majorTickUnit="1.0" max="3.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="1" prefHeight="48.0" prefWidth="210.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0" />
+                    </children>
+                </AnchorPane>
+            <AnchorPane layoutX="1.0" prefHeight="197.0" prefWidth="190.0" AnchorPane.bottomAnchor="501.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
                <children>
-                      <AnchorPane fx:id="zoomControls" layoutX="4.0" prefHeight="96.0" prefWidth="173.0" AnchorPane.bottomAnchor="373.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="11.0" AnchorPane.topAnchor="229.0">
-                          <children>
-                              <Label layoutX="43.0" layoutY="4.0" text="Zoom Level">
-                           <font>
-                              <Font size="14.0" />
-                           </font>
-                              </Label>
-                              <Slider fx:id="zoomSlider" blockIncrement="1.0" layoutX="17.0" layoutY="38.0" majorTickUnit="1.0" max="3.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="1" prefHeight="32.0" prefWidth="154.0" showTickLabels="true" showTickMarks="true" />
-                          </children>
-                      </AnchorPane>
-                      <AnchorPane layoutY="140.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="105.0" prefWidth="188.0" AnchorPane.bottomAnchor="224.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="369.0">
-                          <children>
-                              <GridPane layoutY="13.0" prefHeight="109.0" prefWidth="192.0" AnchorPane.bottomAnchor="-4.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="-4.0" AnchorPane.topAnchor="0.0">
-                                  <columnConstraints>
-                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.881103515625" minWidth="15.0" prefWidth="75.9085693359375" />
-                                      <ColumnConstraints hgrow="SOMETIMES" maxWidth="84.93490600585938" minWidth="10.0" prefWidth="55.0914306640625" />
-                                  </columnConstraints>
-                                  <rowConstraints>
-                                      <RowConstraints maxHeight="33.49542236328125" minHeight="10.0" prefHeight="33.49542236328125" vgrow="SOMETIMES" />
-                                      <RowConstraints maxHeight="33.0" minHeight="10.0" prefHeight="31.50457763671875" vgrow="SOMETIMES" />
-                                  </rowConstraints>
-                                  <children>
-                                      <Label alignment="CENTER" contentDisplay="CENTER" layoutX="16.0" layoutY="254.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="57.0" text=" Data:" GridPane.rowIndex="1">
-                                          <font>
-                                              <Font size="14.0" />
-                                          </font>
-                                      </Label>
-                                      <Label alignment="CENTER" layoutX="16.0" layoutY="221.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="63.0" text="Status:">
-                                          <font>
-                                              <Font size="14.0" />
-                                          </font>
-                                      </Label>
-                                      <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="145.0" GridPane.columnIndex="1" />
-                                      <TextArea editable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="34.0" prefWidth="145.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                                  </children>
-                              </GridPane>
-                          </children>
-                      </AnchorPane>
+                      <ToggleButton fx:id="turnOnCam" layoutY="2.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="62.0" prefWidth="190.0" text="On/Off" AnchorPane.bottomAnchor="141.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="2.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </ToggleButton>
+                          <Label fx:id="statusLabel" alignment="CENTER" layoutX="-4.0" layoutY="65.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="190.0" text="Status: Off" AnchorPane.bottomAnchor="89.0" AnchorPane.leftAnchor="-4.0" AnchorPane.rightAnchor="4.0" AnchorPane.topAnchor="65.0">
+                              <font>
+                                  <Font size="15.0" />
+                              </font>
+                          </Label>
+                      <Button fx:id="takePicture" layoutX="-1.0" layoutY="120.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="59.0" prefWidth="190.0" text="Take Picture" AnchorPane.bottomAnchor="26.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="120.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
                </children>
             </AnchorPane>
-            <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="698.0" prefWidth="190.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                      <ToggleButton fx:id="turnOnCam" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="54.0" prefWidth="190.0" text="On/Off" AnchorPane.bottomAnchor="644.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                      <Button fx:id="takePicture" layoutX="1.0" layoutY="78.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="64.0" prefWidth="190.0" text="Take Picture" AnchorPane.bottomAnchor="556.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="78.0" />
-               </children>
-            </AnchorPane>
-                <Button fx:id="reset" layoutY="628.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="70.0" prefWidth="190.0" text="Reset Sim" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="628.0" />
+                <AnchorPane layoutY="361.0" maxHeight="-Infinity" minHeight="-Infinity" prefHeight="221.0" prefWidth="190.0" AnchorPane.bottomAnchor="116.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="361.0">
+                    <children>
+                          <Label alignment="CENTER" contentDisplay="CENTER" layoutX="7.0" layoutY="7.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="18.0" prefWidth="57.0" text=" Data:">
+                              <font>
+                                  <Font size="15.0" />
+                              </font>
+                          </Label>
+                          <TextArea fx:id="dataTxt" editable="false" layoutX="17.0" layoutY="34.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="176.0" prefWidth="190.0" wrapText="true" />
+                    </children>
+                </AnchorPane>
+                <Button fx:id="reset" layoutX="-1.0" layoutY="637.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="59.0" prefWidth="190.0" text="Reset Sim" AnchorPane.bottomAnchor="2.0" AnchorPane.leftAnchor="-1.0" AnchorPane.rightAnchor="1.0" AnchorPane.topAnchor="637.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
             </children>
         </AnchorPane>
     </items>
