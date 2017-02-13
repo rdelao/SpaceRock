@@ -23,7 +23,7 @@
     <items>
         <AnchorPane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="800.0">
             <children>
-                <ImageView fx:id="imageView" fitHeight="700.0" fitWidth="800.0" pickOnBounds="true" preserveRatio="true">
+                <ImageView fx:id="imageView" layoutX="-1.0" layoutY="1.0" pickOnBounds="true" preserveRatio="true">
                <viewport>
                   <Rectangle2D height="700.0" width="800.0" />
                </viewport>
@@ -59,7 +59,7 @@
                         <Font size="15.0" />
                      </font>
                   </Button>
-                  <Label fx:id="imageStatus" alignment="CENTER" layoutX="-2.0" layoutY="250.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="59.0" prefWidth="230.0" text="Image: Not Ready">
+                  <Label fx:id="imageStatus" alignment="CENTER" layoutX="-2.0" layoutY="239.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="76.0" prefWidth="330.0" text="Image: Not Ready" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="239.0">
                      <font>
                         <Font size="15.0" />
                      </font>
