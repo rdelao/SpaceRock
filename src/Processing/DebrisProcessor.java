@@ -36,6 +36,7 @@ public class DebrisProcessor
   {
     curIdx = 0;
     currentId = 1;
+    configurations = new Asteroid [NUM_CONFIGURATIONS] [];
   }
   
   /**
