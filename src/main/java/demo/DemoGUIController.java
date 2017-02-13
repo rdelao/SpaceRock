@@ -55,6 +55,9 @@ public class DemoGUIController implements Initializable {
 
   private boolean previousCaptureStatus;
   private boolean loadimage;
+    /**
+     * Used for chunkifying the image.
+     */
   private int i, j;
 
 
@@ -63,7 +66,7 @@ public class DemoGUIController implements Initializable {
 
     sensor = new SensorSimulation();
 
-    Timeline updateClock = new Timeline(new KeyFrame(Duration.millis(100), new EventHandler<ActionEvent>() {
+    Timeline updateClock = new Timeline(new KeyFrame(Duration.millis(50), new EventHandler<ActionEvent>() {
 
       @Override
       public void handle(ActionEvent event) {
@@ -118,18 +121,18 @@ public class DemoGUIController implements Initializable {
       previousCaptureStatus = status;
 
       if(loadimage){
-          BufferedImage chunk = sensor.getImageChunk(i * 100 + 50, j * 100 + 50, 100);
+          BufferedImage chunk = sensor.getImageChunk(i * 200 + 100, j *200 + 100, 200);
 
           if (chunk != null) {
               Graphics2D g = buildable_image.createGraphics();
-              g.drawImage(chunk, i * 100, j * 100, 100, 100, null);
+              g.drawImage(chunk, i * 200, j * 200, 200, 200, null);
               imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image));
 
               i++;
-              if (i >= 40) {
+              if (i >= 20) {
                   i = 0;
                   j++;
-                  if (j >= 40) loadimage = false;
+                  if (j >= 20) loadimage = false;
               }
           }
       }
