@@ -1,8 +1,6 @@
 package sensor;
 
-import javafx.application.Platform;
 import javafx.concurrent.Task;
-import javafx.embed.swing.SwingFXUtils;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -58,9 +56,9 @@ public class SensorSimulation implements SensorInterface {
     if (!status) {
       return;
     }
-    Task task = new Task<Void>() {
+    Thread thread = new Thread() {
         @Override
-        public Void call() throws Exception {
+        public void run() {
             captureStatus = false;
             ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
@@ -68,13 +66,9 @@ public class SensorSimulation implements SensorInterface {
             System.out.println("Taking new picture at zoom level: " + zoom_level);
             image = generateImage(elapsed_seconds, zoom_level);
             captureStatus = true;
-
-            return null;
         }
     };
-    Thread th = new Thread(task);
-    th.setDaemon(true);
-    th.start();
+    thread.start();
 
   }
 
@@ -87,43 +81,46 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public void on() {
-    Task task = new Task<Void>() {
+    System.out.println("BLARRR");
+    Thread thread = new Thread() {
       @Override
-      public Void call() throws Exception {
+      public void run() {
         System.out.println("Turning Sensor on...");
-        TimeUnit.SECONDS.sleep(1);
+        try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
         synchronized (status) {
           status = true;
           captureStatus = false;
           System.out.println("Sensor on");
         }
-        return null;
       }
     };
-    Thread th = new Thread(task);
-    th.setDaemon(true);
-    th.start();
+    thread.start();
   }
 
   @Override
   public void off() {
-    Task task = new Task<Void>() {
+    Thread thread = new Thread() {
       @Override
-      public Void call() throws Exception {
+      public void run() {
         System.out.println("Turning sensor off...");
-        TimeUnit.SECONDS.sleep(1);
+        try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
         synchronized (status) {
           status = false;
           image = null;
           captureStatus = false;
           System.out.println("Sensor off");
         }
-        return null;
       }
     };
-    Thread th = new Thread(task);
-    th.setDaemon(true);
-    th.start();
+    thread.start();
   }
 
   @Override
