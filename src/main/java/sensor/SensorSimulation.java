@@ -177,6 +177,15 @@ public class SensorSimulation implements SensorInterface {
 
     generateNoise(image);
 
+    if (zoom != ZoomLevel.NONE) {
+      image = image.getSubimage(zoom.x, zoom.y, zoom.width, zoom.height);
+      Image tmp = image.getScaledInstance(image_size[0], image_size[1], Image.SCALE_SMOOTH);
+      image = new BufferedImage(image_size[0], image_size[1], Image.SCALE_SMOOTH);
+      Graphics2D g2d = image.createGraphics();
+      g2d.drawImage(tmp, 0, 0, null);
+      g2d.dispose();
+    }
+
     return new Picture(image);
   }
 
