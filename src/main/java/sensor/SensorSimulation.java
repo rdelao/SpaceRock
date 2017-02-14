@@ -1,7 +1,5 @@
 package sensor;
 
-import javafx.concurrent.Task;
-
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -39,16 +37,12 @@ public class SensorSimulation implements SensorInterface {
    * @return true if camera is operational
    */
   public boolean status() {
-    synchronized (status) {
-      return status;
-    }
+    return status;
   }
 
   @Override
   public boolean captureStatus() {
-    synchronized (captureStatus) {
-      return captureStatus;
-    }
+    return captureStatus;
   }
 
 @Override
@@ -59,6 +53,7 @@ public class SensorSimulation implements SensorInterface {
     Thread thread = new Thread() {
         @Override
         public void run() {
+          synchronized (captureStatus) {
             captureStatus = false;
             ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
@@ -66,6 +61,7 @@ public class SensorSimulation implements SensorInterface {
             System.out.println("Taking new picture at zoom level: " + zoom_level);
             image = generateImage(elapsed_seconds, zoom_level);
             captureStatus = true;
+          }
         }
     };
     thread.start();
@@ -84,13 +80,13 @@ public class SensorSimulation implements SensorInterface {
     Thread thread = new Thread() {
       @Override
       public void run() {
-        System.out.println("Turning Sensor on...");
+        synchronized (status) {
+          System.out.println("Turning Sensor on...");
         try {
           TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        synchronized (status) {
           status = true;
           captureStatus = false;
           System.out.println("Sensor on");
@@ -105,13 +101,15 @@ public class SensorSimulation implements SensorInterface {
     Thread thread = new Thread() {
       @Override
       public void run() {
-        System.out.println("Turning sensor off...");
-        try {
+        synchronized (status) {
+
+          System.out.println("Turning sensor off...");
+
+          try {
           TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
-        synchronized (status) {
           status = false;
           image = null;
           captureStatus = false;
@@ -124,8 +122,34 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public void reset() {
-    off();
-    on();
+    Thread thread = new Thread() {
+      @Override
+      public void run() {
+        synchronized (status) {
+          System.out.println("Resetting Sensor...");
+          try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+          status = false;
+          image = null;
+          captureStatus = false;
+          System.out.println("Sensor off");
+
+
+        try {
+          TimeUnit.SECONDS.sleep(1);
+        } catch (InterruptedException e) {
+          e.printStackTrace();
+        }
+          status = true;
+          captureStatus = false;
+          System.out.println("Sensor on");
+        }
+      }
+    };
+    thread.start();
   }
 
   public void setElapsedSeconds(int elapsed_seconds) {

@@ -1,23 +1,21 @@
 package demo;
 
-import javafx.application.Platform;
-import javafx.concurrent.Task;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.util.Duration;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
-import javafx.animation.Timeline;
-import javafx.util.Duration;
-import javafx.animation.KeyFrame;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
