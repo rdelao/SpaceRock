@@ -130,10 +130,10 @@ public class DummySat extends Thread {
                 .scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-                        DummySat.this.iterateAsteroids();
+                        iterateAsteroids();
                         System.out.println("DummySat.run: " + asteroids.toString());
                         try {
-                            out.writeObject(DummySat.this.makeIncomingMessage());
+                            out.writeObject(makeIncomingMessage());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
