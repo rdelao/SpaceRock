@@ -60,6 +60,8 @@ public class DemoGUIController implements Initializable {
      */
   private int i, j;
 
+  private int elapsed_time = -30;
+
 
     @Override
   public void initialize(URL location, ResourceBundle resources) {
@@ -144,6 +146,8 @@ public class DemoGUIController implements Initializable {
   }
 
   private void takePicture() {
+    this.elapsed_time += 30;
+    ((SensorSimulation)sensor).setElapsedSeconds(elapsed_time);
     sensor.takePicture((int) zoomSlider.getMin());
   }
 
