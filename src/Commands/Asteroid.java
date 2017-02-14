@@ -13,8 +13,8 @@ import java.awt.geom.Point2D;
 public class Asteroid implements AsteroidData {
 
     public final Point2D location;
-    public final long id;
     public final double size;
+    public long id;
 
 
     public Asteroid(Point2D location, long id, double size) {
