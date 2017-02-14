@@ -148,7 +148,7 @@ public class DemoGUIController implements Initializable {
   private void takePicture() {
     this.elapsed_time += 30;
     ((SensorSimulation)sensor).setElapsedSeconds(elapsed_time);
-    sensor.takePicture((int) zoomSlider.getMin());
+    sensor.takePicture((int) zoomSlider.getValue());
   }
 
 
