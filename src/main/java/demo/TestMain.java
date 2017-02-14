@@ -27,13 +27,13 @@ public class TestMain {
     for (int i = 0; i < 10; i++) {
       camera.setElapsedSeconds(i * 30);
       for (int zoom = 0; zoom < 4; zoom++) {
-        takePictureAndWriteToFile(camera, 0, i);
+        takePictureAndWriteToFile(camera, zoom, i);
       }
     }
   }
 
   public static void takePictureAndWriteToFile(SensorSimulation camera, int zoom_level, int id) {
-    camera.takePicture(0);
+    camera.takePicture(zoom_level);
     while(!camera.captureStatus()) {
       System.out.println("Picture not ready yet...");
       try {
