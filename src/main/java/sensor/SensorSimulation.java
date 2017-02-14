@@ -81,7 +81,6 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public void on() {
-    System.out.println("BLARRR");
     Thread thread = new Thread() {
       @Override
       public void run() {
