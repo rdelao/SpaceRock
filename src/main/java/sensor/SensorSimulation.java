@@ -67,7 +67,6 @@ public class SensorSimulation implements SensorInterface {
             if(autoAdvance){
               elapsed_seconds += TIME_STEP;
             }
-            captureStatus = false;
             ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
             // Take a new picture
@@ -77,6 +76,7 @@ public class SensorSimulation implements SensorInterface {
           }
         }
     };
+    captureStatus = false;
     thread.start();
 
   }
@@ -217,8 +217,8 @@ public class SensorSimulation implements SensorInterface {
 
 
     if (zoom != ZoomLevel.NONE) {
-      image = image.getSubimage(zoom.x, zoom.y, zoom.width, zoom.height);
-      Image tmp = image.getScaledInstance(image_size[0], image_size[1], Image.SCALE_SMOOTH);
+      BufferedImage sub_image = image.getSubimage(zoom.x, zoom.y, zoom.width, zoom.height);
+      Image tmp = sub_image.getScaledInstance(image_size[0], image_size[1], Image.SCALE_SMOOTH);
       image = new BufferedImage(image_size[0], image_size[1], Image.SCALE_SMOOTH);
       Graphics2D g2d = image.createGraphics();
       g2d.drawImage(tmp, 0, 0, null);
