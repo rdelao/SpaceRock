@@ -92,9 +92,8 @@ public class DemoGUIController implements Initializable {
   }
 
   private void toggleOnOff() {
-      imageView.setImage(null);
-      buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
-    System.out.println("Toggled");
+    blankImageView();
+    System.out.println("Toggled On/Off");
     if (this.turnOnCam.isSelected()) {
         sensor.on();
     } else {
@@ -124,12 +123,10 @@ public class DemoGUIController implements Initializable {
 
       if(loadimage){
           BufferedImage chunk = sensor.getImageChunk(i * 200 + 100, j *200 + 100, 200);
-
           if (chunk != null) {
               Graphics2D g = buildable_image.createGraphics();
               g.drawImage(chunk, i * 200, j * 200, 200, 200, null);
               imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image));
-
               i++;
               if (i >= 20) {
                   i = 0;
@@ -142,13 +139,18 @@ public class DemoGUIController implements Initializable {
 
   private void reset() {
     System.out.println("Reset Camera ON/OFF");
-      imageView.setImage(null);
-      buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
+    blankImageView();
     sensor.reset();
   }
 
   private void takePicture() {
-    sensor.takePicture((int) zoomSlider.getValue());
+      blankImageView();
+      sensor.takePicture((int) zoomSlider.getValue());
+  }
+
+  private void blankImageView(){
+      imageView.setImage(null);
+      buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
   }
 
 
