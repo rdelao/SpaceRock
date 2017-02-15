@@ -131,7 +131,6 @@ public class DummySat extends Thread {
                     @Override
                     public void run() {
                         iterateAsteroids();
-                        System.out.println("DummySat.run: " + asteroids.toString());
                         try {
                             out.writeObject(makeIncomingMessage());
                         } catch (IOException e) {
@@ -144,7 +143,6 @@ public class DummySat extends Thread {
 
     private IncomingData makeIncomingMessage() {
         AsteroidData[] data = makeAsteroidArray();
-        System.out.println("DummySat.makeIncomingMessage: " + Arrays.toString(data));
         long time = System.currentTimeMillis();
         return new IncomingData(data, time);
     }
@@ -167,7 +165,6 @@ public class DummySat extends Thread {
 
     private void iterateAsteroids() {
 
-        System.out.println("Stepping asteroids..");
         for (DummyAsteroid a : asteroids) {
             a.step();
         }
