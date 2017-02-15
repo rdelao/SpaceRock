@@ -11,8 +11,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
-import javafx.scene.image.ImageView;
-import javafx.scene.image.WritableImage;
+import javafx.scene.image.*;
+import javafx.scene.image.Image;
 import javafx.util.Duration;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
@@ -92,6 +92,8 @@ public class DemoGUIController implements Initializable {
   }
 
   private void toggleOnOff() {
+      imageView.setImage(null);
+      buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
     System.out.println("Toggled");
     if (this.turnOnCam.isSelected()) {
         sensor.on();
@@ -140,6 +142,8 @@ public class DemoGUIController implements Initializable {
 
   private void reset() {
     System.out.println("Reset Camera ON/OFF");
+      imageView.setImage(null);
+      buildable_image = new BufferedImage(4000, 4000, BufferedImage.TYPE_INT_ARGB);
     sensor.reset();
   }
 
