@@ -14,7 +14,7 @@ import java.io.IOException;
 public class TestMain {
 
   public static void main(String[] args) {
-    SensorSimulation camera = new SensorSimulation();
+    SensorSimulation camera = new SensorSimulation(false);
     camera.on();
     while(!camera.status()) {
       System.out.println("Waiting for camera to turn on..." + camera.status());

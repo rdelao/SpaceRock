@@ -25,11 +25,21 @@ public class SensorSimulation implements SensorInterface {
 
   private Random random = new Random();
 
+  private boolean autoAdvance = true;
+
   /**
    * Initialize a camera object
    */
   public SensorSimulation() {
 
+  }
+
+  /**
+   * For testing only
+   * @param autoAdvance true to increment with takePicture
+   */
+  public SensorSimulation(boolean autoAdvance){
+    this.autoAdvance = autoAdvance;
   }
 
   /**
@@ -54,6 +64,9 @@ public class SensorSimulation implements SensorInterface {
         @Override
         public void run() {
           synchronized (captureStatus) {
+            if(autoAdvance){
+              elapsed_seconds += TIME_STEP;
+            }
             captureStatus = false;
             ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
@@ -87,6 +100,8 @@ public class SensorSimulation implements SensorInterface {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
+        //Empty asteroids as image resets when turned off.
+          asteroids.clear();
           status = true;
           captureStatus = false;
           System.out.println("Sensor on");
@@ -143,6 +158,8 @@ public class SensorSimulation implements SensorInterface {
         } catch (InterruptedException e) {
           e.printStackTrace();
         }
+          //Empty asteroids as image resets when turned off.
+          asteroids.clear();
           status = true;
           captureStatus = false;
           System.out.println("Sensor on");
@@ -198,7 +215,6 @@ public class SensorSimulation implements SensorInterface {
     // Remove all asteroids that will never show up again
     removeOffWindowAsteroids();
 
-    generateNoise(image);
 
     if (zoom != ZoomLevel.NONE) {
       image = image.getSubimage(zoom.x, zoom.y, zoom.width, zoom.height);
@@ -208,6 +224,7 @@ public class SensorSimulation implements SensorInterface {
       g2d.drawImage(tmp, 0, 0, null);
       g2d.dispose();
     }
+    generateNoise(image);
 
     return new Picture(image);
   }
