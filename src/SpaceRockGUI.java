@@ -1,8 +1,18 @@
+import Commands.Asteroid;
+import Commands.AsteroidData;
+import Commands.IncomingListener;
+import Network.Connection;
+import Network.DummySat;
+import Processing.DebrisProcessor;
+import Util.Rock;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
@@ -10,134 +20,198 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
- * @author Sahba and Kathrina
- */
-public class SpaceRockGUI extends Application
-{
-  private PerspectiveCamera viewCamera;
+ @author Sahba and Kathrina */
+public class SpaceRockGUI extends Application implements IncomingListener {
+    private final DebrisProcessor processor = new DebrisProcessor();
+    private final Connection netLink = new Connection();
+    private final DummySat satellite = new DummySat();
+    TextArea terminalText;
+    private PerspectiveCamera viewCamera;
+    private Group rockGroup = new Group();
+    private Asteroid[] lastFrame = null;
+    private boolean newData = false;
+    private AnimationTimer timer = new AnimationTimer() {
+        @Override
+        public void handle(long now) {
+            if (newData) {
+                ObservableList<Node> children = rockGroup.getChildren();
+                children.clear();
+                children.add(viewCamera);
+                children.addAll(getAsteroidNodes());
+                newData = false;
+            }
+        }
+    };
 
-  @Override
-  public void start(Stage stage) throws Exception
-  {
-    //Parent root = FXMLLoader.load(getClass().getResource("SpaceRockGUI.fxml"));
 
-    BorderPane mainPane = new BorderPane(createView());
-    mainPane.setRight(createLeftPane());
-    mainPane.setBottom(createButtom());
-    Scene scene = new Scene(mainPane);
-    stage.setScene(scene);
-    stage.setTitle("Space Rock Control Center");
-    stage.show();
-  }
+    @Override
+    public void start(Stage stage) throws Exception {
+        SubScene view = createView();
+        view.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                viewCamera.setTranslateZ(viewCamera.getTranslateZ() + event.getDeltaY());
+            }
+        });
+        satellite.start();
+        netLink.addIncomingListener(this);
+        netLink.connectToDummySat();
+        timer.start();
+        BorderPane mainPane = new BorderPane(view);
+        mainPane.setRight(createLeftPane());
+        mainPane.setBottom(createButtom());
+        Scene scene = new Scene(mainPane);
+        stage.setScene(scene);
+        stage.setTitle("Space Rock Control Center");
+        //set textarea here
+        Rock.setTextArea(terminalText);
+        stage.show();
+    }
 
-  private Node createLeftPane()
-  {
-    VBox box = new VBox(5);
-    box.setPadding(new Insets(10, 10, 10, 10));
-    Label statusLabel = new Label("  Connection Status:  ");
-    statusLabel.setStyle("-fx-font-size:large");
-    Button statusButton = new Button("Active");
 
-    HBox statusBox = new HBox();
-    statusBox.setPadding(new Insets(5, 5, 5, 40));
-    statusBox.getChildren().addAll(statusButton);
+    private Node createLeftPane() {
+        VBox box = new VBox(5);
+        box.setPadding(new Insets(5, 5, 5, 5));
+        Label statusLabel = new Label("  Connection Status:  ");
+        statusLabel.setStyle("-fx-font-size:large");
+        Button statusButton = new Button("Active");
 
-    statusButton.setStyle("-fx-background-color: Green;-fx-font-size:large");
+        HBox statusBox = new HBox();
+        statusBox.setPadding(new Insets(5, 5, 5, 40));
+        statusBox.getChildren().addAll(statusButton);
 
-    Label modeLabel = new Label("Operation Mode:");
-    modeLabel.setStyle("-fx-font-size:large");
-    ToggleGroup modeGroup = new ToggleGroup();
-    RadioButton autoMode = new RadioButton("Automatic");
-    RadioButton manualMode = new RadioButton("Manual");
-    autoMode.setSelected(true);
-    modeGroup.getToggles().addAll(autoMode, manualMode);
+        statusButton.setStyle("-fx-background-color: Green;-fx-font-size:large");
 
-    HBox modeBox = new HBox();
-    modeBox.setPadding(new Insets(5, 5, 5, 40));
-    Button modeSubmitButton = new Button("submit");
-    modeBox.getChildren().addAll(modeSubmitButton);
-    box.getChildren().addAll(statusLabel, statusBox, modeLabel, autoMode, manualMode, modeBox);
-    return box;
-  }
+        Label modeLabel = new Label("Operation Mode:");
+        modeLabel.setStyle("-fx-font-size:large");
+        ToggleGroup modeGroup = new ToggleGroup();
+        RadioButton autoMode = new RadioButton("Automatic");
+        RadioButton manualMode = new RadioButton("Manual");
+        autoMode.setSelected(true);
+        modeGroup.getToggles().addAll(autoMode, manualMode);
 
-  /**
-   *
-   * @return
-   */
-  private Node createButtom()
-  {
-    GridPane gridPane = new GridPane();
-    gridPane.setHgap(10);
-    gridPane.setVgap(10);
-    gridPane.setGridLinesVisible(false);
-    //gridPane.setGridLinesVisible(true);
-    gridPane.setPadding(new Insets(5, 10, 5, 10));
-    Label gridLabel = new Label("Camera Parameters:");
-    gridLabel.setStyle("-fx-font-size:large");
-    Label zoomLabel = new Label("Zoom:");
-    Slider zoomSlider = new Slider(-2, 2, 0);
-    zoomSlider.setShowTickLabels(true);
-    zoomSlider.setShowTickMarks(true);
-    zoomSlider.setMajorTickUnit(1);
-    zoomSlider.setMinorTickCount(1);
-    gridPane.add(gridLabel, 0, 0, 3, 1);
-    gridPane.add(zoomLabel, 0, 1);
-    gridPane.add(zoomSlider, 1, 1, 3, 1);
-    Button zoomSubmit = new Button("Submit");
-    gridPane.add(zoomSubmit, 4, 1);
+        HBox modeBox = new HBox();
+        modeBox.setPadding(new Insets(5, 5, 5, 40));
+        Button modeSubmitButton = new Button("submit");
+        modeBox.getChildren().addAll(modeSubmitButton);
+        box.getChildren().addAll(statusLabel, statusBox, modeLabel, autoMode, manualMode, modeBox);
+        return box;
+    }
 
-    gridPane.add(new Label("Image Size:"), 0, 2);
-    TextField imageSizeField = new TextField();
-    gridPane.add(imageSizeField, 2, 2);
-    //Button requestImageButton = new Button("Request");
-    //gridPane.add(requestImageButton, 4, 2);
 
-    gridPane.add(new Label("Terminal:"),5,0);
-    TextArea terminalText=new TextArea("$>System Initialized\n$>");
-    terminalText.setPrefColumnCount(20);
-    terminalText.setPrefRowCount(10);
-    terminalText.setEditable(false);
-    gridPane.add(terminalText,5,1,20,10);
-    return gridPane;
-  }
+    private Node createButtom() {
+        GridPane gridPane = new GridPane();
+        gridPane.setHgap(10);
+        gridPane.setVgap(10);
+        gridPane.setGridLinesVisible(false);
+        //gridPane.setGridLinesVisible(true);
+        gridPane.setPadding(new Insets(5, 10, 5, 10));
+        Label gridLabel = new Label("Camera Parameters:");
+        gridLabel.setStyle("-fx-font-size:large");
+        Label zoomLabel = new Label("Zoom:");
+        Slider zoomSlider = new Slider(-2, 2, 0);
+        zoomSlider.setShowTickLabels(true);
+        zoomSlider.setShowTickMarks(true);
+        zoomSlider.setMajorTickUnit(1);
+        zoomSlider.setMinorTickCount(1);
+        gridPane.add(gridLabel, 0, 0, 3, 1);
+        gridPane.add(zoomLabel, 0, 1);
+        gridPane.add(zoomSlider, 1, 1, 3, 1);
+        Button zoomSubmit = new Button("Submit");
+        gridPane.add(zoomSubmit, 4, 1);
 
-  /**
-   * This section sets up the sub scene which renders the
-   * 3D image objects.
-   * @return void
-   */
-  private SubScene createView()
-  {
-    viewCamera = new PerspectiveCamera(true);
-    Group root = new Group();
-    Sphere sphere = new Sphere(30);
-    Sphere sphere2 = new Sphere(40);
+        gridPane.add(new Label("Image Size:"), 0, 2);
+        TextField imageSizeField = new TextField();
+        gridPane.add(imageSizeField, 2, 2);
+        Button requestImageButton = new Button("Request");
+        gridPane.add(requestImageButton, 4, 2);
 
-    sphere.getTransforms().addAll(new Translate(300, 400, 10));
-    PhongMaterial s1Material=new PhongMaterial();
-    s1Material.setDiffuseMap(new Image("file:resources/2.png"));
-    sphere.setMaterial(s1Material);
-    sphere2.getTransforms().addAll(new Translate(100, 40, 20));
-    PhongMaterial m = new PhongMaterial();
-    m.setDiffuseMap(new Image("file:resources/1.jpg"));
-    sphere2.setMaterial(m);
-    viewCamera.setTranslateZ(-10);
-    root.getChildren().addAll(viewCamera, sphere, sphere2);
-    SubScene scene = new SubScene(root, 600, 600);
-    scene.setFill(Color.BLACK);
-    return scene;
-  }
+        gridPane.add(new Label("Terminal:"), 5, 0);
 
-  /**
-   * @param args the command line arguments
-   */
-  public static void main(String[] args)
-  {
-    launch(args);
-  }
+        terminalText = new TextArea("$>System Initialized\n");
+        terminalText.setPrefColumnCount(20);
+        terminalText.setPrefRowCount(10);
+        terminalText.setEditable(false);
+        gridPane.add(terminalText, 5, 1, 20, 10);
+        Button clearButton = new Button("Clear Terminal");
+        clearButton.setOnAction(event -> terminalText.setText("$>"));
+        gridPane.add(clearButton, 8, 11);
+        return gridPane;
+    }
 
+
+    private SubScene createView() {
+        viewCamera = new PerspectiveCamera(true);
+        rockGroup.getChildren().add(viewCamera);
+        SubScene scene = new SubScene(rockGroup, 600, 600);
+        scene.setFill(Color.BLACK);
+        return scene;
+    }
+
+
+    /**
+     Convert all Asteroids to renderable Spheres and return them in a List
+
+     @return List of Asteroid Spheres
+     */
+    private List<Node> getAsteroidNodes() {
+        List<Node> nodeList = new ArrayList<>(lastFrame.length * 2);
+        for (Asteroid a : lastFrame) {
+            Sphere sphere = makeAsteroidSphere(a);
+            nodeList.add(sphere);
+        }
+        return nodeList;
+    }
+
+
+    /**
+     Make a Sphere representing some Asteroid
+
+     @param a Asteroid to use as a basis
+
+     @return a Sphere with the asteroid's ID drawn on it
+     */
+    private Sphere makeAsteroidSphere(Asteroid a) {
+        Sphere s = new Sphere(a.size);
+        PhongMaterial mat = new PhongMaterial(Color.BURLYWOOD);
+        s.setTranslateX(a.getLoc().getX());
+        s.setTranslateY(a.getLoc().getY());
+        s.setMaterial(mat);
+        s.setOnMouseEntered(event -> {
+            terminalText.appendText(String.format("$> %s%n", a.toString()));
+        });
+        return s;
+    }
+
+
+    @Override
+    public void newAsteroidData(AsteroidData[] asteroids, long timestamp) {
+        lastFrame = asteroidsFromData(asteroids);
+        processor.addAndAssign(lastFrame);
+        newData = true;
+    }
+
+
+    /* Convert an AsteroidData array to an array of Asteroids prepared for the DebrisProcessor */
+    private Asteroid[] asteroidsFromData(AsteroidData[] data) {
+        Asteroid[] asteroids = new Asteroid[data.length];
+        for (int i = 0; i < data.length; i++) {
+            AsteroidData d = data[i];
+            asteroids[i] = new Asteroid(d.getLoc(), 0, d.getSize());
+        }
+        return asteroids;
+    }
+
+
+    @Override
+    public void newImageData(java.awt.Image img, long id) {
+        /* TODO: Something meaningful here */
+        System.out.println("Got new image!");
+    }
 }

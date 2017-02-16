@@ -80,9 +80,7 @@ public class Connection {
                  exception handling, we could lift the loop out and break only when strictly
                  necessary. */
                 while (true) {
-                    System.out.println("Connection.listen: reading object");
                     Object data = in.readObject();
-                    System.out.println("Connection.listen: read object: " + data.toString());
                     if (data instanceof IncomingData) {
                         IncomingData incoming = (IncomingData) data;
                         synchronized (incomingListeners) {
@@ -112,7 +110,10 @@ public class Connection {
             }
         };
 
-        new Thread(listener).start();
+        Thread t = new Thread(listener);
+        t.setDaemon(true);
+        t.start();
+
     }
 
 
