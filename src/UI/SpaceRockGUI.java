@@ -1,3 +1,5 @@
+package UI;
+
 import Commands.Asteroid;
 import Commands.AsteroidData;
 import Commands.IncomingListener;
@@ -35,7 +37,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     private final DebrisProcessor processor = new DebrisProcessor();
     private final Connection netLink = new Connection();
     private final DummySat satellite = new DummySat();
-    TextArea terminalText;
+    private TextArea terminalText;
     private PerspectiveCamera viewCamera;
     private Group rockGroup = new Group();
     private Asteroid[] lastFrame = null;
