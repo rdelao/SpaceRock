@@ -4,9 +4,9 @@
 
 package Processing;
 
-import java.util.HashSet;
-
 import Commands.Asteroid;
+
+import java.util.HashSet;
 
 /**
  * This class saves the three most recent configurations of asteroid positions
@@ -93,7 +93,7 @@ public class DebrisProcessor
    */
   public void assignLabels()
   {
-    HashSet<Integer> usedIndices = new HashSet<Integer>();
+    HashSet<Long> usedIndices = new HashSet<>();
     
     // For every triplet of asteroids in the three configurations:
     
@@ -161,7 +161,7 @@ public class DebrisProcessor
               // We've already been tracking this asteroid - simply assign the
               // most recent version of this asteroid the id of its
               // predecessor.
-              
+
               a3.id = a2.id;
             }
             // Finally, track the id so we don't end up giving two asteroids
