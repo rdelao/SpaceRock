@@ -19,9 +19,9 @@ public class DummySat extends Thread {
     public static final int SAT_PORT = 32000;
     public static final long DEFAULT_SEED = 109;
 
-    private static final double ADD_ASTEROID_CHANCE = .15f;
-    private static final double VIEW_X = 600f;
-    private static final double VIEW_Y = 600f;
+    private static final double ADD_ASTEROID_CHANCE = .2f;
+    private static final double VIEW_X = 1000f;
+    private static final double VIEW_Y = 1000f;
     private static final double MEAN_ASTEROID_SIZE = 20f;
     private static final double ASTEROID_SIZE_STDDEV = 10f;
     private static final double MAX_ASTEROID_SPEED = 3f;
