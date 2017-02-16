@@ -17,13 +17,13 @@ import java.util.List;
 public class DummySat extends Thread {
 
     public static final int SAT_PORT = 32000;
-    public static final long DEFAULT_SEED = 9;
+    public static final long DEFAULT_SEED = 109;
 
-    private static final double ADD_ASTEROID_CHANCE = .05f;
-    private static final double VIEW_X = 4000f;
-    private static final double VIEW_Y = 4000f;
+    private static final double ADD_ASTEROID_CHANCE = .15f;
+    private static final double VIEW_X = 600f;
+    private static final double VIEW_Y = 600f;
     private static final double MEAN_ASTEROID_SIZE = 20f;
-    private static final double ASTEROID_SIZE_STDDEV = 5f;
+    private static final double ASTEROID_SIZE_STDDEV = 10f;
     private static final double MAX_ASTEROID_SPEED = 3f;
     private final List<DummyAsteroid> asteroids = new ArrayList<>();
     private long currentID = 0;
@@ -42,6 +42,7 @@ public class DummySat extends Thread {
 
     public DummySat() {
         this(DEFAULT_SEED);
+        this.setDaemon(true);
     }
 
 
@@ -131,7 +132,6 @@ public class DummySat extends Thread {
                     @Override
                     public void run() {
                         iterateAsteroids();
-                        System.out.println("DummySat.run: " + asteroids.toString());
                         try {
                             out.writeObject(makeIncomingMessage());
                         } catch (IOException e) {
@@ -144,7 +144,6 @@ public class DummySat extends Thread {
 
     private IncomingData makeIncomingMessage() {
         AsteroidData[] data = makeAsteroidArray();
-        System.out.println("DummySat.makeIncomingMessage: " + Arrays.toString(data));
         long time = System.currentTimeMillis();
         return new IncomingData(data, time);
     }
@@ -167,7 +166,6 @@ public class DummySat extends Thread {
 
     private void iterateAsteroids() {
 
-        System.out.println("Stepping asteroids..");
         for (DummyAsteroid a : asteroids) {
             a.step();
         }
@@ -185,11 +183,11 @@ public class DummySat extends Thread {
 
     /** @return a random DummyAsteroid velocity */
     private Point2D randVeloc() {
-        double x = rand.nextDouble();
-        double y = Math.sqrt(1 - Math.pow(x, 2));
-
-        x *= MAX_ASTEROID_SPEED;
-        y *= MAX_ASTEROID_SPEED;
+        double x = rand.nextDouble() * 2 - 1;
+        double y = Math.sqrt(1 - Math.pow(x, 2)) * (rand.nextBoolean() ? 1 : -1);
+        double speed = MAX_ASTEROID_SPEED * rand.nextDouble();
+        x *= speed;
+        y *= speed;
 
         return new Point2D.Double(x, y);
     }
