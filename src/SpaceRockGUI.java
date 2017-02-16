@@ -110,6 +110,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
   private Node createLeftPane()
   {
+    VBox camLabels = new VBox(5);
     VBox box = new VBox(5);
     box.setPadding(new Insets(5, 5, 5, 5));
     Label statusLabel = new Label("  Connection Status:  ");
@@ -126,37 +127,46 @@ public class SpaceRockGUI extends Application implements IncomingListener
          /* camera controls section*/
     Label camControlLabel = new Label("  Camera Controls  ");
     camControlLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
-    HBox camZoomBox = new HBox();
-    HBox secOverlapBox = new HBox();
-    HBox secSizeBox = new HBox();
-    VBox imgDetailBox = new VBox();
+    Label imgDetailLabel = new Label("  Image Details ");
+    camControlLabel.setStyle("-fx-font-size:medium");
+    HBox camZoomBox = new HBox(5);
+    HBox secOverlapBox = new HBox(5);
+    HBox secSizeBox = new HBox(5);
+    VBox imgDetailBox = new VBox(2);
 
     Label camZoomLabel = new Label("Zoom");
+    camZoomLabel.setStyle("-fx-font-size:small");
     Slider camZoomSlider = new Slider(-2, 2, 0);
     camZoomSlider.setShowTickLabels(true);
     camZoomSlider.setShowTickMarks(true);
     camZoomSlider.setMajorTickUnit(1);
     camZoomSlider.setMinorTickCount(1);
 
-    Label percentLabel = new Label("%");
+    //Label percentLabel = new Label("%");
     Label overlapLabel = new Label("Section Overlap");
-    TextField overlapTextField = new TextField();
+    overlapLabel.setStyle("-fx-font-size:small");
+    TextField overlapTextField = new TextField ();
+    overlapTextField.setPrefWidth(30);
+
     Label pxLabel = new Label("px");
     Label pxLabel2 = new Label("px");
-    Label secSizeLabel = new Label("Section Size");
-    TextField secTextField = new TextField();
+    Label secSizeLabel = new Label ("Section Size");
+    secSizeLabel.setStyle("-fx-font-size:small");
 
-    camZoomBox.getChildren().addAll(camZoomLabel, camZoomSlider, percentLabel);
-    secOverlapBox.getChildren().addAll(overlapLabel, overlapTextField, pxLabel);
-    secSizeBox.getChildren().addAll(secSizeLabel, secTextField, pxLabel2);
+    TextField secTextField = new TextField ();
+    secTextField.setPrefWidth(30);
+
+
+    camZoomBox.getChildren().addAll(camZoomLabel,camZoomSlider);
+    secOverlapBox.getChildren().addAll(overlapLabel,overlapTextField, pxLabel);
+    secSizeBox.getChildren().addAll(secSizeLabel,secTextField, pxLabel2);
     ///////////////end cam right pane////////////////////////////////////////
 
 
-    imgDetailBox.getChildren().addAll(camZoomBox, secOverlapBox, secSizeBox);
+    imgDetailBox.getChildren().addAll(camZoomBox,secOverlapBox,secSizeBox);
 
     ////////////////////////////////
-    Label modeLabel = new Label("Image Capture Mode:");
-    modeLabel.setStyle("-fx-font-size:large");
+
     ToggleGroup modeGroup = new ToggleGroup();
     RadioButton autoMode = new RadioButton("Automatic");
     RadioButton manualMode = new RadioButton("Manual");
@@ -184,8 +194,12 @@ public class SpaceRockGUI extends Application implements IncomingListener
     ////////////////////////
 
 
+    Label modeLabel = new Label("Image Capture Mode:");
+    modeLabel.setStyle("-fx-font-size:large");
+
     // add all components to right pane
-    box.getChildren().addAll(statusLabel, statusBox, outputPane, camControlLabel, modeLabel, imgDetailBox, autoMode, manualMode, modeBox);
+    camLabels.getChildren().addAll(camControlLabel,imgDetailLabel,imgDetailBox);
+    box.getChildren().addAll(statusLabel, statusBox, outputPane,camLabels,modeLabel, autoMode, manualMode, modeBox);
     return box;
   }
 
@@ -204,6 +218,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     gridLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox frameZoomBox = new HBox();
     Label zoomLabel = new Label("Frame Zoom:");
+    zoomLabel.setStyle("-fx-font-size: 9pt; ");
     Slider zoomSlider = new Slider(-5, 5, 0);
     zoomSlider.setShowTickLabels(true);
     zoomSlider.setShowTickMarks(true);
