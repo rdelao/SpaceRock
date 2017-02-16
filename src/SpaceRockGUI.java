@@ -115,7 +115,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     /*Terminal design section-- design status labels, console and button*/
     VBox connectionStatusVbox = new VBox(10);
     connectionStatusVbox.setPadding(new Insets(0, 5, 5, 15));
-    Label statusLabel = new Label("  Connection Status:  ");
+    Label statusLabel = new Label("  Connection Status  ");
     statusLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Button statusButton = new Button("Active");
 
@@ -194,7 +194,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     modeGroup.getToggles().addAll(autoMode, manualMode);
 
     HBox modeBox = new HBox();
-    modeBox.setPadding(new Insets(5, 5, 5, 40));
+    modeBox.setPadding(new Insets(5, 5, 5, 10));
     Button modeSubmitButton = new Button("submit");
     modeBox.getChildren().addAll(modeSubmitButton);
 
@@ -218,11 +218,11 @@ public class SpaceRockGUI extends Application implements IncomingListener
   private Node createButtom()
   {
     GridPane gridPane = new GridPane();
-    gridPane.setHgap(300);
-    gridPane.setVgap(10);
+    gridPane.setHgap(0);
+    gridPane.setVgap(0);
     gridPane.setGridLinesVisible(false);
     //gridPane.setGridLinesVisible(true);
-    gridPane.setPadding(new Insets(5, 10, 5, 10));
+    gridPane.setPadding(new Insets(0, 10, 5, 150));
 
     /////////////////////////////frame zoom links here/////////////
     VBox framePanelVBox = new VBox(5);
@@ -239,8 +239,28 @@ public class SpaceRockGUI extends Application implements IncomingListener
     zoomSlider.setMajorTickUnit(1);
     zoomSlider.setMinorTickCount(1);
 
+    //create buttons and add to grid pane
+    GridPane frameButtons = new GridPane();
+    Button upButton = new Button("Up");
+    Button downButton = new Button("Down");
+    Button leftButton = new Button("Left");
+    Button rightButton = new Button("Right");
+    rightButton.setPrefWidth(55);
+    upButton.setPrefWidth(55);
+    downButton.setPrefWidth(55);
+    leftButton.setPrefWidth(55);
+    leftButton.setStyle("-fx-font-size:8pt");
+    upButton.setStyle("-fx-font-size:8pt");
+    downButton.setStyle("-fx-font-size:8pt");
+    rightButton.setStyle("-fx-font-size:8pt");
+    frameButtons.add(upButton, 2, 1);
+    frameButtons.add(downButton, 2, 3);
+    frameButtons.add(leftButton, 1, 2);
+    frameButtons.add(rightButton, 3, 2);
+
+
      frameZoomElements.getChildren().addAll(zoomLabel,zoomSlider);
-    framePanelVBox.getChildren().addAll(gridLabel, frameZoomElements);
+    framePanelVBox.getChildren().addAll(gridLabel, frameZoomElements,frameButtons);
     frameZoomBox.getChildren().addAll(framePanelVBox);
     gridPane.add(frameZoomBox, 1, 1);
     zoomSlider.valueProperty().addListener(
