@@ -81,19 +81,19 @@ public class Connection {
                  necessary. */
                 while (true) {
                     Object data = in.readObject();
-                    if (data instanceof IncomingData) {
-                        IncomingData incoming = (IncomingData) data;
+                    if (data instanceof FrameData) {
+                        FrameData frame = (FrameData) data;
                         synchronized (incomingListeners) {
                             incomingListeners
-                                    .forEach(l -> l.newAsteroidData(incoming.asteroids,
-                                                                    incoming.timestamp));
+                                    .forEach(l -> l.newAsteroidData(frame.getAsteroids(),
+                                                                    frame.getTimestamp()));
                         }
-                    } else if (data instanceof IncomingImage) {
-                        IncomingImage incoming = (IncomingImage) data;
+                    } else if (data instanceof ImageResponse) {
+                        ImageResponse incoming = (ImageResponse) data;
                         synchronized (incomingListeners) {
                             incomingListeners
                                     .forEach(l -> l.newImageData(incoming.getImage(),
-                                                                 incoming.id));
+                                                                 incoming.getAsteroidID()));
                         }
                     } else {
                         /* This shouldn't happen.
@@ -152,7 +152,7 @@ public class Connection {
 
      @throws IOException for any reason that ObjectOutputStream.writeObject() does
      */
-    public void sendImageRequest(OutgoingImageRequest req) throws IOException {
+    public void sendImageRequest(ImageRequest req) throws IOException {
         outStream.writeObject(req);
     }
 
@@ -160,12 +160,12 @@ public class Connection {
     /**
      Send a request for an image chunk to the satellite given an asteroid ID
 
-     @param id (Satellite-side) id of the asteroid whose image chunk is desired
+     @param id (Satellite-side) asteroidID of the asteroid whose image chunk is desired
 
      @throws IOException for any reason that ObjectOutputStream.writeObject() does
      */
     public void sendImageRequest(long id) throws IOException {
-        sendImageRequest(new OutgoingImageRequest(id));
+        sendImageRequest(new ImageRequest(id));
     }
 
 

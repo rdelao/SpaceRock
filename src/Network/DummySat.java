@@ -69,8 +69,8 @@ public class DummySat extends Thread {
                 logReceived(o);
                 if (o instanceof OutgoingCameraSpec) {
                     /* Set cam spec */
-                } else if (o instanceof OutgoingImageRequest) {
-                    OutgoingImageRequest req = (OutgoingImageRequest) o;
+                } else if (o instanceof ImageRequest) {
+                    ImageRequest req = (ImageRequest) o;
                     out.writeObject(makeDummyIncomingImage(req.id));
                 }
             }
@@ -89,11 +89,13 @@ public class DummySat extends Thread {
 
 
     /*
-    Create an image given an asteroid id.  Currently just writes the id as a string to an image
+    Create an image given an asteroid asteroidID.  Currently just writes the asteroidID as a string to an image
      */
-    private IncomingImage makeDummyIncomingImage(long id) {
+    private ImageData makeDummyIncomingImage(long id) {
         String idStr = String.format("%d", id);
         int padding = 5;
+
+        AsteroidData rock = getAsteroidByID(id).orElse(DummyAsteroid.BAD_ASTEROID);
 
         BufferedImage img = new BufferedImage(chunkWidth, chunkHeight,
                                               BufferedImage.TYPE_BYTE_GRAY);
@@ -105,7 +107,15 @@ public class DummySat extends Thread {
         g.setColor(Color.black);
         g.drawString(idStr, padding, chunkHeight - padding);
 
-        return new IncomingImage(img, id);
+        int xOffset = (int) (rock.getLoc().getX() / (rock.getSize() / 2));
+        int yOffset = (int) (rock.getLoc().getY() / (rock.getSize() / 2));
+
+        return new ImageData(img, id, xOffset, yOffset);
+    }
+
+
+    private Optional<DummyAsteroid> getAsteroidByID(long id) {
+        return asteroids.stream().filter(a -> a.getID() == id).findAny();
     }
 
 
@@ -135,7 +145,7 @@ public class DummySat extends Thread {
                     public void run() {
                         iterateAsteroids();
                         try {
-                            out.writeObject(makeIncomingMessage());
+                            out.writeObject(makeFrameData());
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -144,10 +154,10 @@ public class DummySat extends Thread {
     }
 
 
-    private IncomingData makeIncomingMessage() {
+    private FrameData makeFrameData() {
         AsteroidData[] data = makeAsteroidArray();
         long time = System.currentTimeMillis();
-        return new IncomingData(data, time);
+        return new AsteroidFrame(data, time);
     }
 
 

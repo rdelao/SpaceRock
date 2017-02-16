@@ -7,18 +7,18 @@ import java.io.Serializable;
  <p>
  A data object describing a request for an image chunk from the satellite.
  */
-public class OutgoingImageRequest implements Serializable {
+public class ImageRequest implements Serializable {
 
-    /** Satellite-side id of the asteroid in question */
+    /** Satellite-side ID of the asteroid in question */
     public final long id;
 
 
     /**
      Create a request for the image chunk in which an Asteroid was found
 
-     @param id id of the Asteroid
+     @param id ID of the Asteroid
      */
-    public OutgoingImageRequest(long id) {
+    public ImageRequest(long id) {
         this.id = id;
     }
 }

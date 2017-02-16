@@ -11,13 +11,14 @@ import java.io.Serializable;
  This is class mocking the asteroids that the satellite might encounter.
  */
 public class DummyAsteroid implements AsteroidData, Serializable {
+    public static final DummyAsteroid BAD_ASTEROID =
+            new DummyAsteroid(new Point2D.Double(0, 0), new Point2D.Double(0, 0),
+                              1, -1);
     private final double size;
     private final long id;
     private double x;
     private double y;
     private Point2D veloc;
-
-
     /**
      @param loc Initial location (in pixels) of the DummyAsteroid
      @param veloc Velocity (in pixels per tick) of the DummyAsteroid
@@ -76,4 +77,6 @@ public class DummyAsteroid implements AsteroidData, Serializable {
     public long getID() {
         return id;
     }
+
+
 }

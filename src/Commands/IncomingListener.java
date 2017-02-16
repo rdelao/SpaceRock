@@ -34,7 +34,7 @@ public interface IncomingListener {
 
     /**
      @param img An image chunk requested by the operator
-     @param id The id of the object whose image chunk was requested
+     @param id The ID of the object whose image chunk was requested
      */
     void newImageData(Image img, long id);
 
