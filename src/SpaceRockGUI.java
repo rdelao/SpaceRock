@@ -78,6 +78,9 @@ public class SpaceRockGUI extends Application implements IncomingListener
     netLink.connectToDummySat();
     timer.start();
     BorderPane mainPane = new BorderPane(view);
+    mainPane.setMaxHeight(600);
+    mainPane.setMaxWidth(800);
+    mainPane.setPadding(new Insets(10,10,10,20));
     mainPane.setRight(createLeftPane());
     mainPane.setBottom(createButtom());
     Scene scene = new Scene(mainPane);
@@ -114,7 +117,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
   {
     /*Terminal design section-- design status labels, console and button*/
     VBox connectionStatusVbox = new VBox(10);
-    connectionStatusVbox.setPadding(new Insets(0, 5, 5, 15));
+    connectionStatusVbox.setPadding(new Insets(0, 5, 0, 0));
     Label statusLabel = new Label("  Connection Status  ");
     statusLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Button statusButton = new Button("Active");
@@ -122,19 +125,30 @@ public class SpaceRockGUI extends Application implements IncomingListener
     BorderPane statusBox = new BorderPane();
     statusBox.setCenter(statusButton);
     statusButton.setStyle("-fx-background-color: Green;-fx-font-size:large");
-    BorderPane outputPane = new BorderPane();
 
-    outputPane.setTop(new Label("Output Terminal:"));
+    HBox labelBox = new HBox();
+    HBox indicatorBox = new HBox();
+    indicatorBox.setPadding(new Insets(0,0,0,100));
+    HBox terminalBox = new HBox();
+    HBox buttonBox = new HBox();
+    buttonBox.setPadding(new Insets(0,0,0,85));
+
     terminalText = new TextArea("$>System Initialized\n");
     terminalText.setPrefColumnCount(20);
     terminalText.setPrefRowCount(10);
     terminalText.setEditable(false);
-    outputPane.setCenter(terminalText);
+
     Button clearButton = new Button("Clear Terminal");
     clearButton.setOnAction(event -> terminalText.setText("$>"));
-    outputPane.setBottom(clearButton);
 
-    connectionStatusVbox.getChildren().addAll(statusLabel, statusBox, outputPane);
+
+    labelBox.getChildren().addAll(statusLabel);
+    labelBox.setStyle("-fx-border-color: black");
+    indicatorBox.getChildren().add(statusButton);
+    terminalBox.getChildren().addAll(terminalText);
+    buttonBox.getChildren().addAll(clearButton);
+
+    connectionStatusVbox.getChildren().addAll(labelBox,indicatorBox,terminalBox,buttonBox);
 
 
 
@@ -144,8 +158,12 @@ public class SpaceRockGUI extends Application implements IncomingListener
     VBox box = new VBox(5);
     box.setPadding(new Insets(5, 5, 5, 5));
 
+
     Label camControlLabel = new Label("  Camera Controls  ");
+    HBox camLabelBox = new HBox();
+    camLabelBox.setStyle("-fx-border-color: black");
     camControlLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
+    camLabelBox.getChildren().add(camControlLabel);
     Label imgDetailLabel = new Label("  Image Details ");
     imgDetailLabel.setStyle("-fx-font-size: 11pt");
     HBox camZoomBox = new HBox(5);
@@ -156,6 +174,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     Label camZoomLabel = new Label("Zoom");
     camZoomLabel.setStyle("-fx-font-size:9pt");
+
     Slider camZoomSlider = new Slider(-2, 2, 0);
     camZoomSlider.setShowTickLabels(true);
     camZoomSlider.setShowTickMarks(true);
@@ -194,7 +213,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     modeGroup.getToggles().addAll(autoMode, manualMode);
 
     HBox modeBox = new HBox();
-    modeBox.setPadding(new Insets(5, 5, 5, 10));
+    modeBox.setPadding(new Insets(5, 5, 5, 90));
     Button modeSubmitButton = new Button("submit");
     modeBox.getChildren().addAll(modeSubmitButton);
 
@@ -209,8 +228,11 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
 
     // add all components to right pane
+    //box.setMaxWidth(275);
     camLabelsVbox.getChildren().addAll(imgDetailLabel,imgDetailBox);
-    box.getChildren().addAll(connectionStatusVbox,camControlLabel,camLabelsVbox,modeVbox);
+    box.getChildren().addAll(connectionStatusVbox,camLabelBox,camLabelsVbox,modeVbox);
+    box.setStyle("-fx-border-color: black");
+    box.setPrefHeight(600);
     return box;
   }
 
@@ -222,7 +244,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     gridPane.setVgap(0);
     gridPane.setGridLinesVisible(false);
     //gridPane.setGridLinesVisible(true);
-    gridPane.setPadding(new Insets(0, 10, 5, 150));
+    gridPane.setPadding(new Insets(0, 0, 0, 150));
 
     /////////////////////////////frame zoom links here/////////////
     VBox framePanelVBox = new VBox(5);
@@ -257,12 +279,14 @@ public class SpaceRockGUI extends Application implements IncomingListener
     frameButtons.add(downButton, 2, 3);
     frameButtons.add(leftButton, 1, 2);
     frameButtons.add(rightButton, 3, 2);
+    frameButtons.setPadding(new Insets(0,0,0,50));
 
 
      frameZoomElements.getChildren().addAll(zoomLabel,zoomSlider);
     framePanelVBox.getChildren().addAll(gridLabel, frameZoomElements,frameButtons);
     frameZoomBox.getChildren().addAll(framePanelVBox);
     gridPane.add(frameZoomBox, 1, 1);
+    gridPane.setStyle("-fx-border-color: black");
     zoomSlider.valueProperty().addListener(
 
       (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) ->
