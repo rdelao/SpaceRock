@@ -113,7 +113,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
     VBox box = new VBox(5);
     box.setPadding(new Insets(5, 5, 5, 5));
     Label statusLabel = new Label("  Connection Status:  ");
-    statusLabel.setStyle("-fx-font-size:large");
+    statusLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Button statusButton = new Button("Active");
 
     HBox statusBox = new HBox();
@@ -125,7 +125,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
          /* camera controls section*/
     Label camControlLabel = new Label("  Camera Controls  ");
-    camControlLabel.setStyle("-fx-font-size:large");
+    camControlLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox camZoomBox = new HBox();
     HBox secOverlapBox = new HBox();
     HBox secSizeBox = new HBox();
@@ -201,7 +201,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     /////////////////////////////frame zoom links here/////////////
     Label gridLabel = new Label("Frame Controls");
-    gridLabel.setStyle("-fx-font-size:large");
+    gridLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox frameZoomBox = new HBox();
     Label zoomLabel = new Label("Frame Zoom:");
     Slider zoomSlider = new Slider(-5, 5, 0);
