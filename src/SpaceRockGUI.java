@@ -1,6 +1,7 @@
 import Commands.Asteroid;
 import Commands.AsteroidData;
 import Commands.IncomingListener;
+import javafx.geometry.Insets;
 import Network.Connection;
 import Network.DummySat;
 import Processing.DebrisProcessor;
@@ -10,6 +11,7 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.*;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
@@ -110,48 +112,65 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
   private Node createLeftPane()
   {
-    VBox camLabels = new VBox(5);
-    VBox box = new VBox(5);
-    box.setPadding(new Insets(5, 5, 5, 5));
+    /*Terminal design section-- design status labels, console and button*/
+    VBox connectionStatusVbox = new VBox(10);
+    connectionStatusVbox.setPadding(new Insets(0, 5, 5, 15));
     Label statusLabel = new Label("  Connection Status:  ");
     statusLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Button statusButton = new Button("Active");
 
-    HBox statusBox = new HBox();
-    statusBox.setPadding(new Insets(5, 5, 5, 40));
-    statusBox.getChildren().addAll(statusButton);
-
-
+    BorderPane statusBox = new BorderPane();
+    statusBox.setCenter(statusButton);
     statusButton.setStyle("-fx-background-color: Green;-fx-font-size:large");
+    BorderPane outputPane = new BorderPane();
 
-         /* camera controls section*/
+    outputPane.setTop(new Label("Output Terminal:"));
+    terminalText = new TextArea("$>System Initialized\n");
+    terminalText.setPrefColumnCount(20);
+    terminalText.setPrefRowCount(10);
+    terminalText.setEditable(false);
+    outputPane.setCenter(terminalText);
+    Button clearButton = new Button("Clear Terminal");
+    clearButton.setOnAction(event -> terminalText.setText("$>"));
+    outputPane.setBottom(clearButton);
+
+    connectionStatusVbox.getChildren().addAll(statusLabel, statusBox, outputPane);
+
+
+
+
+    /* camera controls section*/
+    VBox camLabelsVbox = new VBox(10);
+    VBox box = new VBox(5);
+    box.setPadding(new Insets(5, 5, 5, 5));
+
     Label camControlLabel = new Label("  Camera Controls  ");
     camControlLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Label imgDetailLabel = new Label("  Image Details ");
-    camControlLabel.setStyle("-fx-font-size:medium");
+    imgDetailLabel.setStyle("-fx-font-size: 11pt");
     HBox camZoomBox = new HBox(5);
     HBox secOverlapBox = new HBox(5);
     HBox secSizeBox = new HBox(5);
     VBox imgDetailBox = new VBox(2);
+    imgDetailBox.setPadding(new Insets(0,5,5,15));
 
     Label camZoomLabel = new Label("Zoom");
-    camZoomLabel.setStyle("-fx-font-size:small");
+    camZoomLabel.setStyle("-fx-font-size:9pt");
     Slider camZoomSlider = new Slider(-2, 2, 0);
     camZoomSlider.setShowTickLabels(true);
     camZoomSlider.setShowTickMarks(true);
     camZoomSlider.setMajorTickUnit(1);
     camZoomSlider.setMinorTickCount(1);
 
-    //Label percentLabel = new Label("%");
     Label overlapLabel = new Label("Section Overlap");
-    overlapLabel.setStyle("-fx-font-size:small");
+    overlapLabel.setStyle("-fx-font-size:9pt");
     TextField overlapTextField = new TextField ();
     overlapTextField.setPrefWidth(30);
 
     Label pxLabel = new Label("px");
     Label pxLabel2 = new Label("px");
     Label secSizeLabel = new Label ("Section Size");
-    secSizeLabel.setStyle("-fx-font-size:small");
+    secSizeLabel.setStyle("-fx-font-size:9pt");
 
     TextField secTextField = new TextField ();
     secTextField.setPrefWidth(30);
@@ -160,16 +179,17 @@ public class SpaceRockGUI extends Application implements IncomingListener
     camZoomBox.getChildren().addAll(camZoomLabel,camZoomSlider);
     secOverlapBox.getChildren().addAll(overlapLabel,overlapTextField, pxLabel);
     secSizeBox.getChildren().addAll(secSizeLabel,secTextField, pxLabel2);
-    ///////////////end cam right pane////////////////////////////////////////
-
-
     imgDetailBox.getChildren().addAll(camZoomBox,secOverlapBox,secSizeBox);
 
     ////////////////////////////////
-
+    Label modeLabel = new Label("Image Capture Mode:");
+    modeLabel.setStyle("-fx-font-size:11pt");
+    /* style radio buttons*/
     ToggleGroup modeGroup = new ToggleGroup();
     RadioButton autoMode = new RadioButton("Automatic");
+    autoMode.setStyle("-fx-font-size:9pt");
     RadioButton manualMode = new RadioButton("Manual");
+    manualMode.setStyle("-fx-font-size:9pt");
     autoMode.setSelected(true);
     modeGroup.getToggles().addAll(autoMode, manualMode);
 
@@ -178,28 +198,19 @@ public class SpaceRockGUI extends Application implements IncomingListener
     Button modeSubmitButton = new Button("submit");
     modeBox.getChildren().addAll(modeSubmitButton);
 
-    GridPane outputPane = new GridPane();
 
-         /* Terminal design*/
-    outputPane.add(new Label("Terminal:"), 5, 0);
 
-    terminalText = new TextArea("$>System Initialized\n");
-    terminalText.setPrefColumnCount(20);
-    terminalText.setPrefRowCount(10);
-    terminalText.setEditable(false);
-    outputPane.add(terminalText, 5, 1, 20, 10);
-    Button clearButton = new Button("Clear Terminal");
-    clearButton.setOnAction(event -> terminalText.setText("$>"));
-    outputPane.add(clearButton, 8, 11);
+    VBox modeVbox = new VBox(5);
+    modeVbox.setPadding(new Insets(0,5,5,15));
+    modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode, modeBox);
     ////////////////////////
 
 
-    Label modeLabel = new Label("Image Capture Mode:");
-    modeLabel.setStyle("-fx-font-size:large");
+
 
     // add all components to right pane
-    camLabels.getChildren().addAll(camControlLabel,imgDetailLabel,imgDetailBox);
-    box.getChildren().addAll(statusLabel, statusBox, outputPane,camLabels,modeLabel, autoMode, manualMode, modeBox);
+    camLabelsVbox.getChildren().addAll(imgDetailLabel,imgDetailBox);
+    box.getChildren().addAll(connectionStatusVbox,camControlLabel,camLabelsVbox,modeVbox);
     return box;
   }
 
@@ -207,16 +218,19 @@ public class SpaceRockGUI extends Application implements IncomingListener
   private Node createButtom()
   {
     GridPane gridPane = new GridPane();
-    gridPane.setHgap(10);
+    gridPane.setHgap(300);
     gridPane.setVgap(10);
     gridPane.setGridLinesVisible(false);
     //gridPane.setGridLinesVisible(true);
     gridPane.setPadding(new Insets(5, 10, 5, 10));
 
     /////////////////////////////frame zoom links here/////////////
+    VBox framePanelVBox = new VBox(5);
     Label gridLabel = new Label("Frame Controls");
     gridLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox frameZoomBox = new HBox();
+    frameZoomBox.setAlignment(Pos.CENTER);
+    HBox frameZoomElements = new HBox();
     Label zoomLabel = new Label("Frame Zoom:");
     zoomLabel.setStyle("-fx-font-size: 9pt; ");
     Slider zoomSlider = new Slider(-5, 5, 0);
@@ -224,11 +238,11 @@ public class SpaceRockGUI extends Application implements IncomingListener
     zoomSlider.setShowTickMarks(true);
     zoomSlider.setMajorTickUnit(1);
     zoomSlider.setMinorTickCount(1);
-    gridPane.add(gridLabel, 0, 0, 3, 1);
-    // gridPane.add(zoomLabel, 0, 1);
-    //gridPane.add(zoomSlider, 1, 1, 3, 1);
-    frameZoomBox.getChildren().addAll(zoomLabel, zoomSlider);
-    gridPane.add(frameZoomBox, 0, 1);
+
+     frameZoomElements.getChildren().addAll(zoomLabel,zoomSlider);
+    framePanelVBox.getChildren().addAll(gridLabel, frameZoomElements);
+    frameZoomBox.getChildren().addAll(framePanelVBox);
+    gridPane.add(frameZoomBox, 1, 1);
     zoomSlider.valueProperty().addListener(
 
       (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) ->
@@ -237,25 +251,6 @@ public class SpaceRockGUI extends Application implements IncomingListener
         viewCamera.setTranslateZ(viewCamera.getTranslateZ() + (newValue.doubleValue() - oldValue.doubleValue()) * CAMERA_ZOOM_COEF);
 
       });
-    //Button zoomSubmit = new Button("Submit");
-    // gridPane.add(zoomSubmit, 4, 1);
-
-    //gridPane.add(new Label("Image Size:"), 0, 2);
-    // TextField imageSizeField = new TextField();
-    // gridPane.add(imageSizeField, 2, 2);
-    //Button requestImageButton = new Button("Request");
-    //gridPane.add(requestImageButton, 4, 2);
-        /* Terminal design*/
-    //  gridPane.add(new Label("Terminal:"), 5, 0);
-
-    /// terminalText = new TextArea("$>System Initialized\n");
-    // terminalText.setPrefColumnCount(20);
-    //  terminalText.setPrefRowCount(10);
-    //  terminalText.setEditable(false);
-    //  gridPane.add(terminalText, 5, 1, 20, 10);
-    //  Button clearBion(event -> terminalText.setText("$>"));
-    //  gridPane.add(clearButton, 8, 11);
-    ////////////////////////
     return gridPane;
   }
 
