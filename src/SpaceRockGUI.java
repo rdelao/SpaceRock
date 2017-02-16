@@ -37,7 +37,7 @@ public class SpaceRockGUI extends Application
   private Node createLeftPane()
   {
     VBox box = new VBox(5);
-    box.setPadding(new Insets(5, 5, 5, 5));
+    box.setPadding(new Insets(10, 10, 10, 10));
     Label statusLabel = new Label("  Connection Status:  ");
     statusLabel.setStyle("-fx-font-size:large");
     Button statusButton = new Button("Active");
@@ -64,6 +64,10 @@ public class SpaceRockGUI extends Application
     return box;
   }
 
+  /**
+   *
+   * @return
+   */
   private Node createButtom()
   {
     GridPane gridPane = new GridPane();
@@ -89,8 +93,8 @@ public class SpaceRockGUI extends Application
     gridPane.add(new Label("Image Size:"), 0, 2);
     TextField imageSizeField = new TextField();
     gridPane.add(imageSizeField, 2, 2);
-    Button requestImageButton = new Button("Request");
-    gridPane.add(requestImageButton, 4, 2);
+    //Button requestImageButton = new Button("Request");
+    //gridPane.add(requestImageButton, 4, 2);
 
     gridPane.add(new Label("Terminal:"),5,0);
     TextArea terminalText=new TextArea("$>System Initialized\n$>");
@@ -101,6 +105,11 @@ public class SpaceRockGUI extends Application
     return gridPane;
   }
 
+  /**
+   * This section sets up the sub scene which renders the
+   * 3D image objects.
+   * @return void
+   */
   private SubScene createView()
   {
     viewCamera = new PerspectiveCamera(true);
