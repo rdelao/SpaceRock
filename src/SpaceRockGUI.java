@@ -1,16 +1,16 @@
+import Util.Rock;
 import javafx.application.Application;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.*;
 import javafx.scene.control.*;
-import javafx.scene.image.Image;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-import javafx.scene.paint.PhongMaterial;
-import javafx.scene.shape.Sphere;
-import javafx.scene.transform.Translate;
 import javafx.stage.Stage;
 
 /**
@@ -19,18 +19,29 @@ import javafx.stage.Stage;
 public class SpaceRockGUI extends Application
 {
   private PerspectiveCamera viewCamera;
+  private Group rockGroup;
+  TextArea terminalText;
 
   @Override
   public void start(Stage stage) throws Exception
   {
-    //Parent root = FXMLLoader.load(getClass().getResource("SpaceRockGUI.fxml"));
-
-    BorderPane mainPane = new BorderPane(createView());
+    SubScene view = createView();
+    view.setOnScroll(new EventHandler<ScrollEvent>()
+    {
+      @Override
+      public void handle(ScrollEvent event)
+      {
+        viewCamera.setTranslateZ(viewCamera.getTranslateZ() + event.getDeltaY());
+      }
+    });
+    BorderPane mainPane = new BorderPane(view);
     mainPane.setRight(createLeftPane());
     mainPane.setBottom(createButtom());
     Scene scene = new Scene(mainPane);
     stage.setScene(scene);
     stage.setTitle("Space Rock Control Center");
+    //set textarea here
+    Rock.setTextArea(terminalText);
     stage.show();
   }
 
@@ -92,35 +103,50 @@ public class SpaceRockGUI extends Application
     Button requestImageButton = new Button("Request");
     gridPane.add(requestImageButton, 4, 2);
 
-    gridPane.add(new Label("Terminal:"),5,0);
-    TextArea terminalText=new TextArea("$>System Initialized\n$>");
+    gridPane.add(new Label("Terminal:"), 5, 0);
+
+    terminalText = new TextArea("$>System Initialized\n$>");
     terminalText.setPrefColumnCount(20);
     terminalText.setPrefRowCount(10);
     terminalText.setEditable(false);
-    gridPane.add(terminalText,5,1,20,10);
+    gridPane.add(terminalText, 5, 1, 20, 10);
+    Button clearButton = new Button("Clear Terminal");
+    clearButton.setOnAction(new EventHandler<ActionEvent>()
+    {
+      @Override
+      public void handle(ActionEvent event)
+      {
+        terminalText.setText("$>");
+      }
+    });
+    gridPane.add(clearButton,8,11);
     return gridPane;
   }
 
   private SubScene createView()
   {
-    viewCamera = new PerspectiveCamera(true);
+    viewCamera = new PerspectiveCamera(false);
+    rockGroup = new Group();
     Group root = new Group();
-    Sphere sphere = new Sphere(30);
-    Sphere sphere2 = new Sphere(40);
+    Rock sphere = new Rock(1, 5, 200, 50, 10, 50);
+    Rock sphere2 = new Rock(2, 15, 10, 0, 10, 25);
+    sphere.setImage("file:resources/1.jpg");
+    sphere2.setImage("file:resources/2.png");
 
-    sphere.getTransforms().addAll(new Translate(300, 400, 10));
-    PhongMaterial s1Material=new PhongMaterial();
-    s1Material.setDiffuseMap(new Image("file:resources/2.png"));
-    sphere.setMaterial(s1Material);
-    sphere2.getTransforms().addAll(new Translate(100, 40, 20));
-    PhongMaterial m = new PhongMaterial();
-    m.setDiffuseMap(new Image("file:resources/1.jpg"));
-    sphere2.setMaterial(m);
-    viewCamera.setTranslateZ(-10);
-    root.getChildren().addAll(viewCamera, sphere, sphere2);
+    viewCamera.setTranslateZ(-100);
+    addObject(sphere);
+    addObject(sphere2);
+    root.getChildren().addAll(viewCamera, rockGroup);
     SubScene scene = new SubScene(root, 600, 600);
     scene.setFill(Color.BLACK);
+    //viewCamera.setFarClip(1000);
+    scene.setCamera(viewCamera);
     return scene;
+  }
+
+  void addObject(Rock rock)
+  {
+    rockGroup.getChildren().addAll(rock);
   }
 
   /**
@@ -130,5 +156,4 @@ public class SpaceRockGUI extends Application
   {
     launch(args);
   }
-
 }
