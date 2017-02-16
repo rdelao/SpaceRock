@@ -26,11 +26,8 @@ public class Asteroid implements AsteroidData {
 
     @Override
     public String toString() {
-        return "Asteroid{" +
-               "location=" + location +
-               ", id=" + id +
-               ", size=" + size +
-               '}';
+        return String.format("Asteroid %3d at (%.3f, %.3f)",
+                             id, location.getX(), location.getY());
     }
 
 
