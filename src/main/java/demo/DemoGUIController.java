@@ -12,7 +12,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Slider;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.image.*;
-import javafx.scene.image.Image;
 import javafx.util.Duration;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
@@ -103,17 +102,17 @@ public class DemoGUIController implements Initializable {
 
   //Temporary update status for camera state
   private void updateCamStatusLabel(){
-      if(sensor.status()) statusLabel.setText("Status: On");
+      if(sensor.ready()) statusLabel.setText("Status: On");
       else statusLabel.setText("Status: Off");
   }
 
   private void updateImageStatus(){
-    if(sensor.captureStatus()) imageStatus.setText("Image: READY");
+    if(sensor.imageReady()) imageStatus.setText("Image: READY");
     else imageStatus.setText("Image: NOT READY");
   }
 
   private void updateImage(){
-      boolean status = sensor.captureStatus();
+      boolean status = sensor.imageReady();
       if(status != previousCaptureStatus) {
           loadimage = true;
           i = 0;
@@ -145,7 +144,8 @@ public class DemoGUIController implements Initializable {
 
   private void takePicture() {
       blankImageView();
-      sensor.takePicture((int) zoomSlider.getValue());
+      sensor.setZoom((int) zoomSlider.getValue());
+      sensor.takePicture();
   }
 
   private void blankImageView(){

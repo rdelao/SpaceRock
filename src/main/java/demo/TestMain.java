@@ -16,8 +16,8 @@ public class TestMain {
   public static void main(String[] args) {
     SensorSimulation camera = new SensorSimulation(false);
     camera.on();
-    while(!camera.status()) {
-      System.out.println("Waiting for camera to turn on..." + camera.status());
+    while(!camera.ready()) {
+      System.out.println("Waiting for camera to turn on..." + camera.ready());
       try {
         Thread.sleep(500);
       } catch (InterruptedException e) {
@@ -33,8 +33,9 @@ public class TestMain {
   }
 
   public static void takePictureAndWriteToFile(SensorSimulation camera, int zoom_level, int id) {
-    camera.takePicture(zoom_level);
-    while(!camera.captureStatus()) {
+    camera.setZoom(zoom_level);
+    camera.takePicture();
+    while(!camera.imageReady()) {
       System.out.println("Picture not ready yet...");
       try {
         Thread.sleep(500);

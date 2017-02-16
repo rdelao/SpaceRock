@@ -26,6 +26,7 @@ public class SensorSimulation implements SensorInterface {
   private Random random = new Random();
 
   private boolean autoAdvance = true;
+  private ZoomLevel zoom_level = ZoomLevel.NONE;
 
   /**
    * Initialize a camera object
@@ -43,20 +44,20 @@ public class SensorSimulation implements SensorInterface {
   }
 
   /**
-   * Returns the status of the SensorSimulation.
+   * Returns the ready of the SensorSimulation.
    * @return true if camera is operational
    */
-  public boolean status() {
+  public boolean ready() {
     return status;
   }
 
   @Override
-  public boolean captureStatus() {
+  public boolean imageReady() {
     return captureStatus;
   }
 
 @Override
-  public void takePicture(int zoom) {
+  public void takePicture() {
     if (!status) {
       return;
     }
@@ -67,7 +68,6 @@ public class SensorSimulation implements SensorInterface {
             if(autoAdvance){
               elapsed_seconds += TIME_STEP;
             }
-            ZoomLevel zoom_level = ZoomLevel.fromValue(zoom);
 
             // Take a new picture
             System.out.println("Taking new picture at zoom level: " + zoom_level);
@@ -79,6 +79,11 @@ public class SensorSimulation implements SensorInterface {
     captureStatus = false;
     thread.start();
 
+  }
+
+  @Override
+  public void setZoom(int zoom) {
+    this.zoom_level = ZoomLevel.fromValue(zoom);
   }
 
   @Override
@@ -187,6 +192,7 @@ public class SensorSimulation implements SensorInterface {
    * @param zoom scale 0-3
    * @return generated Picture object
    */
+  // TODO This might need to be moved into it's own class
   private Picture generateImage(int time, ZoomLevel zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();

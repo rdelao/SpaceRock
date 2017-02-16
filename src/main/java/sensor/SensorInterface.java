@@ -8,22 +8,27 @@ import java.awt.image.BufferedImage;
  */
 public interface SensorInterface {
   /**
-   * Assesses and returns the status of the SensorSimulation
+   * Assesses and returns the ready of the SensorSimulation
    * @return true if camera is operational
    */
-  public boolean status();
+  public boolean ready();
 
   /**
-   * Check imageView capture status
+   * Check imageView capture ready
    * @return true if capture of imageView is complete.
    */
-  public boolean captureStatus();
+  public boolean imageReady();
 
   /**
-   * Notifies camera to take a picture with a given zoom level (0-3).
+   * Notifies camera to take a picture.
+   */
+  public void takePicture();
+
+  /**
+   * Notifies the camera to set the zoom level
    * @param zoom Level of zoom (0-3)
    */
-  public void takePicture(int zoom);
+  public void setZoom(int zoom);
 
   /**
    * Return square window from the imageView.

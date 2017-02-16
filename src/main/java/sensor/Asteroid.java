@@ -38,6 +38,7 @@ public class Asteroid {
     setRandomImage();
   }
 
+  // TODO Generate asteroids closer to the edges of the image or very far away so that asteroids don't just appear right in front of us.
   public Asteroid(int[] loc_constraint, int elapsed_time) {
     Random rand = new Random();
     this.initial_location = new int[]{rand.nextInt(loc_constraint[0]), rand.nextInt(loc_constraint[1]), rand.nextInt(distance_range[1]) + distance_range[0]};
