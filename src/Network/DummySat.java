@@ -4,6 +4,7 @@ import Commands.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;
+import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.io.EOFException;
 import java.io.IOException;
@@ -28,6 +29,7 @@ public class DummySat extends Thread {
     private static final double MAX_ASTEROID_SPEED = 3f;
     private static final int MAX_ASTEROIDS = 10;
     private final List<DummyAsteroid> asteroids = new ArrayList<>();
+    private Rectangle2D viewRect = new Rectangle2D.Double(0, 0, VIEW_X, VIEW_Y);
     private long currentID = 0;
     private Random rand;
 
@@ -48,6 +50,11 @@ public class DummySat extends Thread {
     }
 
 
+    /**
+     Start the DummySat.  Don't directly use this method (as in Thread.run()).  Prefer
+     DummySat.start().  This has the effect of created an additional daemon thread that manages
+     the collection of DummyAsteroids as soon as a socket connection is accepted.
+     */
     @Override
     public void run() {
 
@@ -154,6 +161,9 @@ public class DummySat extends Thread {
     }
 
 
+    /**
+     @return a new FrameData object for transmission to the operator station.
+     */
     private FrameData makeFrameData() {
         AsteroidData[] data = makeAsteroidArray();
         long time = System.currentTimeMillis();
@@ -176,14 +186,26 @@ public class DummySat extends Thread {
     }
 
 
+    /**
+     Step all the DummyAsteroids currently being managed by this DummySat.
+     */
     private void iterateAsteroids() {
 
-        for (DummyAsteroid a : asteroids) {
-            a.step();
-        }
+        asteroids.forEach(DummyAsteroid::step);
+        asteroids.removeIf(a -> isInView(a));
+
         if (rand.nextDouble() < ADD_ASTEROID_CHANCE && asteroids.size() < MAX_ASTEROIDS) {
             asteroids.add(randAsteroid());
         }
+    }
+
+
+    /**
+     @param  asteroid  AsteroidData to test
+     @return true if the given asteroid is in the camera's view.
+     */
+    private boolean isInView(AsteroidData asteroid) {
+        return viewRect.contains(asteroid.getLoc());
     }
 
 
