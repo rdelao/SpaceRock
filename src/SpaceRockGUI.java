@@ -80,12 +80,16 @@ public class SpaceRockGUI extends Application implements IncomingListener
     BorderPane mainPane = new BorderPane(view);
     mainPane.setMaxHeight(600);
     mainPane.setMaxWidth(800);
-    mainPane.setPadding(new Insets(10,10,10,20));
+    mainPane.setPadding(new Insets(0,10,10,10));
+
+
+
     mainPane.setRight(createLeftPane());
     mainPane.setBottom(createButtom());
     Scene scene = new Scene(mainPane);
     stage.setScene(scene);
     stage.setTitle("Space Rock Control Center");
+    stage.isResizable();
     //set textarea here
     view.setOnScroll((ScrollEvent event) ->
                        viewCamera.setTranslateZ(viewCamera.getTranslateZ() + event.getDeltaY()));
@@ -117,21 +121,23 @@ public class SpaceRockGUI extends Application implements IncomingListener
   {
     /*Terminal design section-- design status labels, console and button*/
     VBox connectionStatusVbox = new VBox(10);
+
     connectionStatusVbox.setPadding(new Insets(0, 5, 0, 0));
-    Label statusLabel = new Label("  Connection Status  ");
+    Label statusLabel = new Label("               Connection Status    ");
     statusLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     Button statusButton = new Button("Active");
 
+
     BorderPane statusBox = new BorderPane();
     statusBox.setCenter(statusButton);
-    statusButton.setStyle("-fx-background-color: Green;-fx-font-size:large");
+    statusButton.setStyle("-fx-background-color: #1ccc31;-fx-font-size:large");
 
     HBox labelBox = new HBox();
     HBox indicatorBox = new HBox();
     indicatorBox.setPadding(new Insets(0,0,0,100));
     HBox terminalBox = new HBox();
     HBox buttonBox = new HBox();
-    buttonBox.setPadding(new Insets(0,0,0,85));
+    buttonBox.setPadding(new Insets(0,100,0,85));
 
     terminalText = new TextArea("$>System Initialized\n");
     terminalText.setPrefColumnCount(20);
@@ -144,6 +150,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     labelBox.getChildren().addAll(statusLabel);
     labelBox.setStyle("-fx-border-color: black");
+
     indicatorBox.getChildren().add(statusButton);
     terminalBox.getChildren().addAll(terminalText);
     buttonBox.getChildren().addAll(clearButton);
@@ -155,22 +162,26 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     /* camera controls section*/
     VBox camLabelsVbox = new VBox(10);
-    VBox box = new VBox(5);
+    VBox box = new VBox(10);
     box.setPadding(new Insets(5, 5, 5, 5));
 
 
     Label camControlLabel = new Label("  Camera Controls  ");
+
     HBox camLabelBox = new HBox();
     camLabelBox.setStyle("-fx-border-color: black");
+    camLabelBox.setPadding(new Insets(0,0,5,55));
+
     camControlLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     camLabelBox.getChildren().add(camControlLabel);
-    Label imgDetailLabel = new Label("  Image Details ");
-    imgDetailLabel.setStyle("-fx-font-size: 11pt");
+    Label imgDetailLabel = new Label("Image Details ");
+    imgDetailLabel.setUnderline(true);
+    imgDetailLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox camZoomBox = new HBox(5);
     HBox secOverlapBox = new HBox(5);
     HBox secSizeBox = new HBox(5);
-    VBox imgDetailBox = new VBox(2);
-    imgDetailBox.setPadding(new Insets(0,5,5,15));
+    VBox imgDetailBox = new VBox(5);
+    imgDetailBox.setPadding(new Insets(10,5,5,15));
 
     Label camZoomLabel = new Label("Zoom");
     camZoomLabel.setStyle("-fx-font-size:9pt");
@@ -193,6 +204,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     TextField secTextField = new TextField ();
     secTextField.setPrefWidth(30);
+    secSizeLabel.setPadding(new Insets(0,0,20,0));
 
 
     camZoomBox.getChildren().addAll(camZoomLabel,camZoomSlider);
@@ -202,7 +214,8 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     ////////////////////////////////
     Label modeLabel = new Label("Image Capture Mode:");
-    modeLabel.setStyle("-fx-font-size:11pt");
+    modeLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
+    modeLabel.setUnderline(true);
     /* style radio buttons*/
     ToggleGroup modeGroup = new ToggleGroup();
     RadioButton autoMode = new RadioButton("Automatic");
@@ -221,7 +234,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
     VBox modeVbox = new VBox(5);
     modeVbox.setPadding(new Insets(0,5,5,15));
-    modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode, modeBox);
+    modeVbox.getChildren().addAll( autoMode, manualMode, modeBox);
     ////////////////////////
 
 
@@ -230,8 +243,10 @@ public class SpaceRockGUI extends Application implements IncomingListener
     // add all components to right pane
     //box.setMaxWidth(275);
     camLabelsVbox.getChildren().addAll(imgDetailLabel,imgDetailBox);
-    box.getChildren().addAll(connectionStatusVbox,camLabelBox,camLabelsVbox,modeVbox);
+    box.getChildren().addAll(connectionStatusVbox,camLabelBox,camLabelsVbox,modeLabel,modeVbox);
     box.setStyle("-fx-border-color: black");
+
+
     box.setPrefHeight(600);
     return box;
   }
@@ -246,8 +261,10 @@ public class SpaceRockGUI extends Application implements IncomingListener
     //gridPane.setGridLinesVisible(true);
     gridPane.setPadding(new Insets(0, 0, 0, 150));
 
+
     /////////////////////////////frame zoom links here/////////////
     VBox framePanelVBox = new VBox(5);
+    HBox framePanelHBox = new HBox(25);
     Label gridLabel = new Label("Frame Controls");
     gridLabel.setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
     HBox frameZoomBox = new HBox();
@@ -275,15 +292,20 @@ public class SpaceRockGUI extends Application implements IncomingListener
     upButton.setStyle("-fx-font-size:8pt");
     downButton.setStyle("-fx-font-size:8pt");
     rightButton.setStyle("-fx-font-size:8pt");
-    frameButtons.add(upButton, 2, 1);
-    frameButtons.add(downButton, 2, 3);
-    frameButtons.add(leftButton, 1, 2);
-    frameButtons.add(rightButton, 3, 2);
-    frameButtons.setPadding(new Insets(0,0,0,50));
+
+    frameButtons.add(upButton,2, 1);
+    frameButtons.add(downButton,2,3);
+    frameButtons.add(rightButton,3,2);
+    frameButtons.add(leftButton,1,2);
+    frameButtons.setPadding(new Insets(1,1,1,1));
 
 
-     frameZoomElements.getChildren().addAll(zoomLabel,zoomSlider);
-    framePanelVBox.getChildren().addAll(gridLabel, frameZoomElements,frameButtons);
+
+
+    frameZoomElements.getChildren().addAll(zoomLabel,zoomSlider);
+    framePanelHBox.getChildren().addAll( frameZoomElements,frameButtons);
+    framePanelHBox.setPadding(new Insets(0,0,40,0)); //padding from screen bottom
+    framePanelVBox.getChildren().addAll(gridLabel,framePanelHBox);
     frameZoomBox.getChildren().addAll(framePanelVBox);
     gridPane.add(frameZoomBox, 1, 1);
     gridPane.setStyle("-fx-border-color: black");
