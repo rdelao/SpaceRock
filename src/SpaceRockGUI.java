@@ -4,11 +4,10 @@ import Commands.IncomingListener;
 import Network.Connection;
 import Network.DummySat;
 import Processing.DebrisProcessor;
-import javafx.animation.AnimationTimer;
 import Util.Rock;
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.collections.ObservableList;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.*;
@@ -27,17 +26,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author Sahba and Kathrina
- */
-public class SpaceRockGUI extends Application implements IncomingListener
-{
-  private PerspectiveCamera viewCamera;
-  private Group rockGroup = new Group();
-  TextArea terminalText;
-
+ @author Sahba and Kathrina */
+public class SpaceRockGUI extends Application implements IncomingListener {
     private final DebrisProcessor processor = new DebrisProcessor();
     private final Connection netLink = new Connection();
     private final DummySat satellite = new DummySat();
+    TextArea terminalText;
+    private PerspectiveCamera viewCamera;
+    private Group rockGroup = new Group();
     private Asteroid[] lastFrame = null;
     private boolean newData = false;
     private AnimationTimer timer = new AnimationTimer() {
@@ -54,33 +50,29 @@ public class SpaceRockGUI extends Application implements IncomingListener
     };
 
 
-  @Override
-  public void start(Stage stage) throws Exception
-  {
-    SubScene view = createView();
-    view.setOnScroll(new EventHandler<ScrollEvent>()
-    {
-      @Override
-      public void handle(ScrollEvent event)
-      {
-        viewCamera.setTranslateZ(viewCamera.getTranslateZ() + event.getDeltaY());
-      }
-    });
-      satellite.start();
-      netLink.addIncomingListener(this);
-      netLink.connectToDummySat();
-      timer.start();
-      BorderPane mainPane = new BorderPane(view);
-    mainPane.setRight(createLeftPane());
-    mainPane.setBottom(createButtom());
-    Scene scene = new Scene(mainPane);
-    stage.setScene(scene);
-    stage.setTitle("Space Rock Control Center");
-    //set textarea here
-    Rock.setTextArea(terminalText);
-    stage.show();
-  }
-
+    @Override
+    public void start(Stage stage) throws Exception {
+        SubScene view = createView();
+        view.setOnScroll(new EventHandler<ScrollEvent>() {
+            @Override
+            public void handle(ScrollEvent event) {
+                viewCamera.setTranslateZ(viewCamera.getTranslateZ() + event.getDeltaY());
+            }
+        });
+        satellite.start();
+        netLink.addIncomingListener(this);
+        netLink.connectToDummySat();
+        timer.start();
+        BorderPane mainPane = new BorderPane(view);
+        mainPane.setRight(createLeftPane());
+        mainPane.setBottom(createButtom());
+        Scene scene = new Scene(mainPane);
+        stage.setScene(scene);
+        stage.setTitle("Space Rock Control Center");
+        //set textarea here
+        Rock.setTextArea(terminalText);
+        stage.show();
+    }
 
 
     private Node createLeftPane() {
@@ -140,25 +132,18 @@ public class SpaceRockGUI extends Application implements IncomingListener
         Button requestImageButton = new Button("Request");
         gridPane.add(requestImageButton, 4, 2);
 
-    gridPane.add(new Label("Terminal:"), 5, 0);
+        gridPane.add(new Label("Terminal:"), 5, 0);
 
-    terminalText = new TextArea("$>System Initialized\n$>");
-    terminalText.setPrefColumnCount(20);
-    terminalText.setPrefRowCount(10);
-    terminalText.setEditable(false);
-    gridPane.add(terminalText, 5, 1, 20, 10);
-    Button clearButton = new Button("Clear Terminal");
-    clearButton.setOnAction(new EventHandler<ActionEvent>()
-    {
-      @Override
-      public void handle(ActionEvent event)
-      {
-        terminalText.setText("$>");
-      }
-    });
-    gridPane.add(clearButton,8,11);
-    return gridPane;
-  }
+        terminalText = new TextArea("$>System Initialized\n");
+        terminalText.setPrefColumnCount(20);
+        terminalText.setPrefRowCount(10);
+        terminalText.setEditable(false);
+        gridPane.add(terminalText, 5, 1, 20, 10);
+        Button clearButton = new Button("Clear Terminal");
+        clearButton.setOnAction(event -> terminalText.setText("$>"));
+        gridPane.add(clearButton, 8, 11);
+        return gridPane;
+    }
 
 
     private SubScene createView() {
@@ -198,8 +183,8 @@ public class SpaceRockGUI extends Application implements IncomingListener
         s.setTranslateX(a.getLoc().getX());
         s.setTranslateY(a.getLoc().getY());
         s.setMaterial(mat);
-        s.setOnMouseClicked(event -> {
-            terminalText.appendText(String.format("> %s%n", a.toString()));
+        s.setOnMouseEntered(event -> {
+            terminalText.appendText(String.format("$> %s%n", a.toString()));
         });
         return s;
     }
