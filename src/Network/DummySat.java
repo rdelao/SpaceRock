@@ -11,6 +11,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.*;
 import java.util.List;
+import java.util.stream.IntStream;
 
 /**
  */
@@ -25,6 +26,7 @@ public class DummySat extends Thread {
     private static final double MEAN_ASTEROID_SIZE = 20f;
     private static final double ASTEROID_SIZE_STDDEV = 10f;
     private static final double MAX_ASTEROID_SPEED = 3f;
+    private static final int MAX_ASTEROIDS = 10;
     private final List<DummyAsteroid> asteroids = new ArrayList<>();
     private long currentID = 0;
     private Random rand;
@@ -124,8 +126,8 @@ public class DummySat extends Thread {
      */
     private void startDummyAsteroids(SecureOutputStream out, long period) {
 
-        asteroids.add(randAsteroid());
-        asteroids.add(randAsteroid());
+        /* Initialize the sat with a bunch of asteroids */
+        IntStream.range(0, MAX_ASTEROIDS).forEach(i -> asteroids.add(randAsteroid()));
 
         new Timer("Asteroid Iteration", true)
                 .scheduleAtFixedRate(new TimerTask() {
@@ -169,7 +171,7 @@ public class DummySat extends Thread {
         for (DummyAsteroid a : asteroids) {
             a.step();
         }
-        if (rand.nextDouble() < ADD_ASTEROID_CHANCE) {
+        if (rand.nextDouble() < ADD_ASTEROID_CHANCE && asteroids.size() < MAX_ASTEROIDS) {
             asteroids.add(randAsteroid());
         }
     }
