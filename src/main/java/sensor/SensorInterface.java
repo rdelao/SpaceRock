@@ -25,8 +25,8 @@ public interface SensorInterface {
   public void takePicture();
 
   /**
-   * Notifies the camera to set the zoom level
-   * @param zoom Level of zoom (0-3)
+   * Notifies the camera to set the zoom level as a multiplier
+   * @param zoom Level of zoom (0-16)
    */
   public void setZoom(int zoom);
 
