@@ -10,7 +10,7 @@ public enum ZoomLevel {
   X8(3, 500, 500);
 
   private final int[] IMAGE_SIZE = {4000,4000};
-  int value;
+  public int value;
   // x and y values of the top left corner
   int x;
   int y;

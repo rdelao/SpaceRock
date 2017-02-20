@@ -2,6 +2,7 @@ package demo;
 
 import sensor.Picture;
 import sensor.SensorSimulation;
+import sensor.ZoomLevel;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
@@ -33,7 +34,7 @@ public class TestMain {
   }
 
   public static void takePictureAndWriteToFile(SensorSimulation camera, int zoom_level, int id) {
-    camera.setZoom(zoom_level);
+    camera.setZoom(ZoomLevel.fromValue(zoom_level));
     camera.takePicture();
     while(!camera.imageReady()) {
       System.out.println("Picture not ready yet...");

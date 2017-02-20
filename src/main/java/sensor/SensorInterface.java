@@ -28,7 +28,7 @@ public interface SensorInterface {
    * Notifies the camera to set the zoom level as a multiplier
    * @param zoom Level of zoom (0-16)
    */
-  public void setZoom(int zoom);
+  public void setZoom(ZoomLevel zoom);
 
   /**
    * Return square window from the imageView.

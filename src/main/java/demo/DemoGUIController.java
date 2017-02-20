@@ -2,20 +2,24 @@ package demo;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
+import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.chart.NumberAxis;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Slider;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.image.*;
 import javafx.util.Duration;
+import javafx.util.StringConverter;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
+import sensor.ZoomLevel;
 
+import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -83,7 +87,17 @@ public class DemoGUIController implements Initializable {
     //Keep the slider as integer
     zoomSlider.valueProperty().addListener((observable, oldValue, newValue) ->
         zoomSlider.setValue(newValue.intValue()));
+      zoomSlider.setLabelFormatter(new StringConverter<Double>() {
+        @Override
+        public String toString(Double n) {
+          return ZoomLevel.fromValue(n.intValue()).name();
+        }
 
+        @Override
+        public Double fromString(String string) {
+          return Double.valueOf((double) ZoomLevel.valueOf(string).value);
+        }
+      });
     takePicture.setOnAction(event -> takePicture());
     reset.setOnAction(event -> reset());
     turnOnCam.setOnAction(event -> toggleOnOff());
@@ -143,8 +157,8 @@ public class DemoGUIController implements Initializable {
   }
 
   private void takePicture() {
-      blankImageView();
-      sensor.setZoom((int) zoomSlider.getValue());
+    blankImageView();
+    sensor.setZoom(ZoomLevel.fromValue((int) zoomSlider.getValue()));
       sensor.takePicture();
   }
 

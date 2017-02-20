@@ -78,8 +78,8 @@ public class SensorSimulation implements SensorInterface {
   }
 
   @Override
-  public void setZoom(int zoom) {
-    this.zoom_level = ZoomLevel.fromValue(zoom);
+  public void setZoom(ZoomLevel zoom) {
+    this.zoom_level = zoom;
   }
 
   @Override
