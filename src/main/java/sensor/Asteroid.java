@@ -13,7 +13,8 @@ public class Asteroid {
   private static final int[] size_range = {500, 4000};
   private static final int[] distance_range = {100, 1000};
   private static final int[] speed_range = {-5, 5};
-  private static final String[] asteroid_images = {"asteroid_1.png", "asteroid_2.png", "asteroid_3.png"};
+  private static final String[] asteroid_images = {"asteroid_1.png", "asteroid_2.png", "asteroid_3.png",
+          "asteroid_4.png", "asteroid_5.png"};
 
   private static int nextid = 0;
 
@@ -41,7 +42,7 @@ public class Asteroid {
   // TODO Generate asteroids closer to the edges of the image or very far away so that asteroids don't just appear right in front of us.
   public Asteroid(int[] loc_constraint, int elapsed_time) {
     Random rand = new Random();
-    this.initial_location = new int[]{rand.nextInt(loc_constraint[0]), rand.nextInt(loc_constraint[1]), rand.nextInt(distance_range[1]) + distance_range[0]};
+    this.initial_location = new int[]{loc_constraint[0], loc_constraint[1], rand.nextInt(distance_range[1]) + distance_range[0]};
     this.size = rand.nextInt(size_range[1]) + size_range[0];
     this.trajectory = new int[]{rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0], rand.nextInt(speed_range[1]) + speed_range[0]};
     this.current_location = initial_location;

@@ -115,8 +115,32 @@ public class ImageGenerator {
   }
 
   private void generateRandomAsteroids() {
+    int[] bounds = {750, 3250};
+    int[] initial_location = new int[2];
+    int location;
+
     while (asteroids.size() <= MAX_ASTEROIDS) {
-      asteroids.add(new Asteroid(image_size, elapsed_seconds));
+      location = bounds[random.nextInt(2)];
+
+      if (location == bounds[0])
+      {
+        initial_location[0] = random.nextInt(bounds[0]);
+      }
+      else
+      {
+        initial_location[0] = random.nextInt(bounds[0]) + bounds[1];
+      }
+
+      location = bounds[random.nextInt(2)];
+      if (location == bounds[0])
+      {
+        initial_location[1] = random.nextInt(bounds[0]);
+      }
+      else
+      {
+        initial_location[1] = random.nextInt(bounds[0]) + bounds[1];
+      }
+      asteroids.add(new Asteroid(initial_location, elapsed_seconds));
     }
   }
 
