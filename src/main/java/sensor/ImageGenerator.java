@@ -9,11 +9,11 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Random;
 
-import static sensor.SensorSimulation.MAX_ASTEROIDS;
-import static sensor.SensorSimulation.image_size;
-
 
 public class ImageGenerator {
+
+  private static final int[] image_size = {4000,4000};
+  private static final int MAX_ASTEROIDS = 5;
 
   private int elapsed_seconds;
   private ArrayList<Asteroid> asteroids;
