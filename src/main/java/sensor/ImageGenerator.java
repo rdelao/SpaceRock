@@ -15,44 +15,40 @@ public class ImageGenerator {
   private static final int[] image_size = {4000,4000};
   private static final int MAX_ASTEROIDS = 5;
 
-  private int elapsed_seconds;
-  private ArrayList<Asteroid> asteroids;
+  private ArrayList<Asteroid> asteroids = new ArrayList<>();
   private Random random = new Random();
 
 
-  public ImageGenerator(int elapsed_seconds, ArrayList<Asteroid> asteroids) {
-    this.elapsed_seconds = elapsed_seconds;
-    this.asteroids = asteroids;
+  public ImageGenerator() {
   }
 
   /**
    * Generate a imageView at the given time with the given zoom
    *
-   * @param time seconds since last picture
-   * @param zoom scale 0-3
+   * @param zoom ZoomLevel Enum
    * @return generated Picture object
    */
-  Picture generateImage(int time, ZoomLevel zoom) {
+  public Picture generateImage(int elapsed_seconds, ZoomLevel zoom) {
     BufferedImage image = new BufferedImage(image_size[0], image_size[1], BufferedImage.TYPE_INT_ARGB);
     Graphics2D g = image.createGraphics();
     g.setColor(java.awt.Color.black);
     g.fillRect(0, 0, image.getWidth(), image.getHeight());
-    System.out.format("Generating picture at time: %d seconds:\n", time);
+    System.out.format("Generating picture at time: %d seconds:\n", elapsed_seconds);
 
     // Generate a starting set of asteroids at time = 0
     if (elapsed_seconds == 0) {
       asteroids.add(new Asteroid(new int[]{200, 200, 1000}, 2500, new int[]{5, 5, -5}, 0));
-      generateRandomAsteroids();
+      generateRandomAsteroids(elapsed_seconds);
     }
 
     // If we no longer have our max number of asteroids then generate some more
     if (asteroids.size() < MAX_ASTEROIDS) {
-      generateRandomAsteroids();
+      generateRandomAsteroids(elapsed_seconds);
     }
 
     // Move all asteroids and draw them on the imageView
     for (Asteroid asteroid : asteroids) {
-      asteroid.move(time);
+      asteroid.move(elapsed_seconds);
       System.out.println(asteroid.toString());
       drawAsteroidToImage(image, asteroid);
     }
@@ -77,7 +73,7 @@ public class ImageGenerator {
   private void generateNoise(BufferedImage image) {
     for (int i = 0; i < image_size[0]; i++) {
       for (int j = 0; j < image_size[1]; j++) {
-        if (random.nextInt(100) <= 10) {
+        if (random.nextInt(100) <= 2) {
           int colorValue = random.nextInt(255);
           int color = new Color(colorValue, colorValue, colorValue).getRGB();
           image.setRGB(i, j, color);
@@ -114,7 +110,7 @@ public class ImageGenerator {
     }
   }
 
-  private void generateRandomAsteroids() {
+  private void generateRandomAsteroids(int elapsed_seconds) {
     int[] bounds = {750, 3250};
     int[] initial_location = new int[2];
     int location;

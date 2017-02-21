@@ -12,8 +12,8 @@ public class SensorSimulation implements SensorInterface {
   private static final int TIME_STEP = 30;
 
   private Picture image;
-  private int elapsed_seconds = 0;
-  ArrayList<Asteroid> asteroids = new ArrayList<>();
+  private ImageGenerator image_generator;
+  private int elapsed_seconds = -30;
 
   private Boolean camera_ready = false;
 
@@ -26,7 +26,7 @@ public class SensorSimulation implements SensorInterface {
    * Initialize a camera object
    */
   public SensorSimulation() {
-
+    this(true);
   }
 
   /**
@@ -35,6 +35,8 @@ public class SensorSimulation implements SensorInterface {
    */
   public SensorSimulation(boolean autoAdvance){
     this.auto_advance = autoAdvance;
+    this.image_generator = new ImageGenerator();
+    this.elapsed_seconds = -30;
   }
 
   /**
@@ -65,7 +67,7 @@ public class SensorSimulation implements SensorInterface {
 
           // Take a new picture
           System.out.println("Taking new picture at zoom level: " + zoom_level);
-          image = (new ImageGenerator(elapsed_seconds, asteroids)).generateImage(elapsed_seconds, zoom_level);
+          image = image_generator.generateImage(elapsed_seconds, zoom_level);
           image_ready = true;
         }
       }
@@ -100,7 +102,8 @@ public class SensorSimulation implements SensorInterface {
             e.printStackTrace();
           }
           //Empty asteroids as image resets when turned off.
-          asteroids.clear();
+          image_generator = new ImageGenerator();
+          elapsed_seconds = -30;
           camera_ready = true;
           image_ready = false;
           System.out.println("Sensor on");
@@ -158,7 +161,8 @@ public class SensorSimulation implements SensorInterface {
             e.printStackTrace();
           }
           //Empty asteroids as image resets when turned off.
-          asteroids.clear();
+          image_generator = new ImageGenerator();
+          elapsed_seconds = -30;
           camera_ready = true;
           image_ready = false;
           System.out.println("Sensor on");
