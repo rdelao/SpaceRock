@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,7 +80,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
 
         mainPane.setRight(createLeftPane());
-        mainPane.setBottom(createButtom());
+        mainPane.setBottom(createButton());
         Scene scene = new Scene(mainPane);
         stage.setScene(scene);
         stage.setTitle("Space Rock Control Center");
@@ -185,11 +186,39 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         Label camZoomLabel = new Label("Zoom");
         camZoomLabel.setStyle("-fx-font-size:9pt");
 
-        Slider camZoomSlider = new Slider(-2, 2, 0);
+        Slider camZoomSlider = new Slider(0, 3, 0);
         camZoomSlider.setShowTickLabels(true);
         camZoomSlider.setShowTickMarks(true);
         camZoomSlider.setMajorTickUnit(1);
-        camZoomSlider.setMinorTickCount(1);
+        camZoomSlider.setMinorTickCount(0);
+        camZoomSlider.setSnapToTicks(true);
+        camZoomSlider.setLabelFormatter(new StringConverter<Double>() {
+            @Override
+            public String toString(Double n) {
+                if (n < 1) return "x0";
+                if (n < 2) return "x2";
+                if (n < 3) return "x4";
+
+                return "x8";
+            }
+
+            @Override
+            public Double fromString(String s) {
+                switch (s) {
+                    case "x0":
+                        return 0d;
+                    case "x2":
+                        return 1d;
+                    case "x4":
+                        return 2d;
+                    case "x8":
+                        return 3d;
+
+                    default:
+                        return 3d;
+                }
+            }
+        });
 
         Label overlapLabel = new Label("Section Overlap");
         overlapLabel.setStyle("-fx-font-size:9pt");
@@ -249,7 +278,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     }
 
 
-    private Node createButtom() {
+    private Node createButton() {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(0);
         gridPane.setVgap(0);
