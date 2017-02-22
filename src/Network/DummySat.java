@@ -192,7 +192,7 @@ public class DummySat extends Thread {
     private void iterateAsteroids() {
 
         asteroids.forEach(DummyAsteroid::step);
-        asteroids.removeIf(a -> isInView(a));
+        asteroids.removeIf(this::isInView);
 
         if (rand.nextDouble() < ADD_ASTEROID_CHANCE && asteroids.size() < MAX_ASTEROIDS) {
             asteroids.add(randAsteroid());
