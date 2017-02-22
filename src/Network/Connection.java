@@ -139,9 +139,9 @@ public class Connection {
 
      @throws IOException for any reason that ObjectOutputStream.writeObject() does
      */
-    public void sendCameraSpec(double zoom, int height, int width, boolean onOff)
+    public void sendCameraSpec(double zoom, int height, int width, boolean onOff, boolean manualAuto)
             throws IOException {
-        sendCameraSpec(new OutgoingCameraSpec(zoom, height, width, onOff));
+        sendCameraSpec(new OutgoingCameraSpec(zoom, height, width, onOff, manualAuto));
     }
 
 

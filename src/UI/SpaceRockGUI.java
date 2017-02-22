@@ -74,7 +74,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         satellite.start();
         netLink.addIncomingListener(this);
         netLink.connectToDummySat();
-        netLink.sendCameraSpec(0,100,100,false);
+        netLink.sendCameraSpec(0,100,100,false, false);//starting the camera off and in automatic mode
         timer.start();
         BorderPane mainPane = new BorderPane(view);
         mainPane.setMaxHeight(600);
@@ -82,7 +82,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         mainPane.setPadding(new Insets(0, 10, 10, 10));
 
 
-        mainPane.setRight(createLeftPane());
+        mainPane.setRight(createRightPane());
         mainPane.setBottom(createButton());
         Scene scene = new Scene(mainPane);
         stage.setScene(scene);
@@ -117,7 +117,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     }
 
 
-    private Node createLeftPane() {
+    private Node createRightPane() {
     /*Terminal design section-- design status labels, console and button*/
         VBox connectionStatusVbox = new VBox(10);
 
