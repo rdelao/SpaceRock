@@ -467,23 +467,6 @@ public class SpaceRockGUI extends Application implements IncomingListener
         s.setTranslateX(a.getLoc().getX());
         s.setTranslateY(a.getLoc().getY());
         s.setMaterial(mat);
-        s.setOnMouseEntered(event ->
-                            {
-                                terminalText.appendText(String.format("$> %s%n", a.toString()));
-                                fxmlController.setData(a.size);
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("SpaceRockPopup.fxml"));
-                                Scene newScene;
-                                try {
-                                    newScene = new Scene(loader.load());
-                                } catch (IOException ex) {
-                                    // TODO: handle error
-                                    return;
-                                }
-
-                                Stage inputStage = new Stage();
-                                inputStage.setScene(newScene);
-                                inputStage.showAndWait();
-                            });
         s.setOnMouseClicked(mouseEvent ->
         {
             fxmlController.setData(a.size);
@@ -498,7 +481,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
 
             Stage inputStage = new Stage();
             inputStage.setScene(newScene);
-            inputStage.showAndWait();
+            inputStage.show();
 
         });
         return s;
