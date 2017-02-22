@@ -35,8 +35,10 @@ import java.util.Date;
 import java.util.List;
 
 /**
- @author Sahba and Kathrina */
-public class SpaceRockGUI extends Application implements IncomingListener {
+ * @author Sahba and Kathrina
+ */
+public class SpaceRockGUI extends Application implements IncomingListener
+{
     private static final int CAMERA_ZOOM_COEF = 150;
     private static final int MAIN_PANE_H = 400;
     private static final double MAIN_PANE_W = 600;
@@ -53,10 +55,17 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     private double x0 = 0;
     private double y0 = 0;
     private Slider zoomSlider = new Slider(-5, 5, 0);
-    private AnimationTimer timer = new AnimationTimer() {
+    boolean onOff = false;
+    boolean manualAuto = false;
+    int zoom = 0;
+
+    private AnimationTimer timer = new AnimationTimer()
+    {
         @Override
-        public void handle(long now) {
-            if (newData) {
+        public void handle(long now)
+        {
+            if (newData)
+            {
                 ObservableList<Node> children = rockGroup.getChildren();
                 children.clear();
                 children.add(viewCamera);
@@ -67,19 +76,21 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     };
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args)
+    {
         launch(args);
 
     }
 
 
     @Override
-    public void start(Stage stage) throws Exception {
+    public void start(Stage stage) throws Exception
+    {
         SubScene view = createView();
         satellite.start();
         netLink.addIncomingListener(this);
         netLink.connectToDummySat();
-        netLink.sendCameraSpec(0,DEFAULT_SECTOR_HEIGHT,DEFAULT_SECTOR_WIDTH,false, false);//starting the camera off and in automatic mode
+        netLink.sendCameraSpec(0, DEFAULT_SECTOR_HEIGHT, DEFAULT_SECTOR_WIDTH, false, false);//starting the camera off and in automatic mode
         timer.start();
         BorderPane mainPane = new BorderPane(view);
         mainPane.setMaxHeight(600);
@@ -95,21 +106,22 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         stage.isResizable();
         //set textarea here
         view.setOnScroll((ScrollEvent event) ->
-                                 zoomSlider.adjustValue(zoomSlider.getValue() + event
-                                                                                        .getDeltaY() /
-                                                                                100));
+            zoomSlider.adjustValue(zoomSlider.getValue() + event
+                .getDeltaY() /
+                100));
         view.setOnMousePressed((MouseEvent ev) ->
-                               {
-                                   x0 = ev.getX();
-                                   y0 = ev.getY();
-                               });
+        {
+            x0 = ev.getX();
+            y0 = ev.getY();
+        });
 
-        view.setOnMouseDragged(e -> {
+        view.setOnMouseDragged(e ->
+        {
             final double baseDist = (MAIN_PANE_H / 2) /
-                                    Math.tan(Math.toRadians(viewCamera.getFieldOfView() / 2));
+                Math.tan(Math.toRadians(viewCamera.getFieldOfView() / 2));
             final double curDist = baseDist - viewCamera.getTranslateZ();
             final double viewLen = curDist *
-                                   Math.tan(Math.toRadians(viewCamera.getFieldOfView() / 2));
+                Math.tan(Math.toRadians(viewCamera.getFieldOfView() / 2));
             final double factorH = viewLen / (MAIN_PANE_H / 2);
             final double factorW = viewLen / (MAIN_PANE_W / 2);
 
@@ -122,14 +134,15 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     }
 
 
-    private Node createRightPane() {
+    private Node createRightPane()
+    {
     /*Terminal design section-- design status labels, console and button*/
         VBox connectionStatusVbox = new VBox(10);
 
         connectionStatusVbox.setPadding(new Insets(0, 5, 0, 0));
         Label statusLabel = new Label("               Connection Status    ");
         statusLabel
-                .setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
+            .setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
         Button statusButton = new Button("Active");
 
 
@@ -178,12 +191,12 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         camLabelBox.setPadding(new Insets(0, 0, 5, 55));
 
         camControlLabel
-                .setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
+            .setStyle("-fx-font-size: 14pt; -fx-font-family: calibri; -fx-font-weight: bold");
         camLabelBox.getChildren().add(camControlLabel);
         Label imgDetailLabel = new Label("Image Details ");
         imgDetailLabel.setUnderline(true);
         imgDetailLabel
-                .setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
+            .setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
         HBox camZoomBox = new HBox(5);
         HBox secOverlapBox = new HBox(5);
         HBox secSizeBox = new HBox(5);
@@ -199,9 +212,11 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         camZoomSlider.setMajorTickUnit(1);
         camZoomSlider.setMinorTickCount(0);
         camZoomSlider.setSnapToTicks(true);
-        camZoomSlider.setLabelFormatter(new StringConverter<Double>() {
+        camZoomSlider.setLabelFormatter(new StringConverter<Double>()
+        {
             @Override
-            public String toString(Double n) {
+            public String toString(Double n)
+            {
                 if (n < 1) return "x0";
                 if (n < 2) return "x2";
                 if (n < 3) return "x4";
@@ -210,8 +225,10 @@ public class SpaceRockGUI extends Application implements IncomingListener {
             }
 
             @Override
-            public Double fromString(String s) {
-                switch (s) {
+            public Double fromString(String s)
+            {
+                switch (s)
+                {
                     case "x0":
                         return 0d;
                     case "x2":
@@ -260,14 +277,6 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         autoMode.setSelected(true);
         modeGroup.getToggles().addAll(autoMode, manualMode);
 
-        Button takePicture = new Button("Take Picture");
-        takePicture.setDisable(true);
-        takePicture.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-              System.out.println("CHEEEESSSEEE!!!!!");
-            }
-        });
-
         Label onOffLabel = new Label("Camera On/Off:");
         onOffLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
         onOffLabel.setUnderline(true);
@@ -279,32 +288,54 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         cameraOff.setSelected(true);
         onOffGroup.getToggles().addAll(cameraOn, cameraOff);
 
-        HBox modeBox = new HBox();
-        modeBox.setPadding(new Insets(5, 5, 5, 90));
-        Button modeSubmitButton = new Button("submit");
-        modeSubmitButton.setOnAction(new EventHandler<ActionEvent>() {
-            @Override public void handle(ActionEvent e) {
-                boolean onOff = ((RadioButton)onOffGroup.getSelectedToggle()).getText().equals("On")?true : false;
-                boolean mode = ((RadioButton)modeGroup.getSelectedToggle()).getText().equals("Manual")?true : false;
-                int zoom = (int)zoomSlider.getMajorTickUnit();
+        Button takePicture = new Button("Take Picture");
+        takePicture.setDisable(true);
+        takePicture.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent e)
+            {
                 try
                 {
-                  netLink.sendCameraSpec(zoom, DEFAULT_SECTOR_HEIGHT, DEFAULT_SECTOR_WIDTH, onOff, mode);
+                    netLink.sendCameraSpec(zoom, DEFAULT_SECTOR_HEIGHT, DEFAULT_SECTOR_WIDTH, onOff, manualAuto);
                 }
                 catch (IOException e1)
                 {
-                  e1.printStackTrace();
+                    e1.printStackTrace();
                 }
-                takePicture.setDisable(!mode);
-                System.out.println("On/Off: "+onOff+" Mode: "+mode+" Zoom: "+zoom);
             }
         });
+
+        HBox modeBox = new HBox();
+        modeBox.setPadding(new Insets(5, 5, 5, 90));
+        Button modeSubmitButton = new Button("submit");
+        modeSubmitButton.setOnAction(new EventHandler<ActionEvent>()
+        {
+            @Override
+            public void handle(ActionEvent e)
+            {
+                onOff = ((RadioButton) onOffGroup.getSelectedToggle()).getText().equals("On") ? true : false;
+                manualAuto = ((RadioButton) modeGroup.getSelectedToggle()).getText().equals("Manual") ? true : false;
+                zoom = (int) zoomSlider.getMajorTickUnit();
+                try
+                {
+                    netLink.sendCameraSpec(zoom, DEFAULT_SECTOR_HEIGHT, DEFAULT_SECTOR_WIDTH, onOff, manualAuto);
+                }
+                catch (IOException e1)
+                {
+                    e1.printStackTrace();
+                }
+                takePicture.setDisable(!manualAuto);
+                System.out.println("On/Off: " + onOff + " Mode: " + manualMode + " Zoom: " + zoom);
+            }
+        });
+
         modeBox.getChildren().addAll(modeSubmitButton);
 
 
         VBox modeVbox = new VBox(5);
         modeVbox.setPadding(new Insets(0, 5, 5, 15));
-        modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode,takePicture, onOffLabel, cameraOn, cameraOff, modeBox);
+        modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode, takePicture, onOffLabel, cameraOn, cameraOff, modeBox);
         ////////////////////////
 
 
@@ -312,7 +343,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         //box.setMaxWidth(275);
         camLabelsVbox.getChildren().addAll(imgDetailLabel, imgDetailBox);
         box.getChildren()
-                .addAll(connectionStatusVbox, camLabelBox, camLabelsVbox, modeVbox);
+            .addAll(connectionStatusVbox, camLabelBox, camLabelsVbox, modeVbox);
         box.setStyle("-fx-border-color: black");
 
 
@@ -321,7 +352,8 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     }
 
 
-    private Node createButton() {
+    private Node createButton()
+    {
         GridPane gridPane = new GridPane();
         gridPane.setHgap(0);
         gridPane.setVgap(0);
@@ -377,19 +409,20 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         gridPane.setStyle("-fx-border-color: black");
         zoomSlider.valueProperty().addListener(
 
-                (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) ->
-                {
+            (ObservableValue<? extends Number> observable, Number oldValue, Number newValue) ->
+            {
 
-                    viewCamera.setTranslateZ(viewCamera.getTranslateZ() +
-                                             (newValue.doubleValue() - oldValue.doubleValue()) *
-                                             CAMERA_ZOOM_COEF);
+                viewCamera.setTranslateZ(viewCamera.getTranslateZ() +
+                    (newValue.doubleValue() - oldValue.doubleValue()) *
+                        CAMERA_ZOOM_COEF);
 
-                });
+            });
         return gridPane;
     }
 
 
-    private SubScene createView() {
+    private SubScene createView()
+    {
         viewCamera = new PerspectiveCamera(false);
         rockGroup.getChildren().add(viewCamera);
 
@@ -402,13 +435,15 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
 
     /**
-     Convert all Asteroids to renderable Spheres and return them in a List
-
-     @return List of Asteroid Spheres
+     * Convert all Asteroids to renderable Spheres and return them in a List
+     *
+     * @return List of Asteroid Spheres
      */
-    private List<Node> getAsteroidNodes() {
+    private List<Node> getAsteroidNodes()
+    {
         List<Node> nodeList = new ArrayList<>(lastFrame.length * 2);
-        for (Asteroid a : lastFrame) {
+        for (Asteroid a : lastFrame)
+        {
             Sphere sphere = makeAsteroidSphere(a);
             nodeList.add(sphere);
         }
@@ -417,28 +452,29 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
 
     /**
-     Make a Sphere representing some Asteroid
-
-     @param a Asteroid to use as a basis
-
-     @return a Sphere with the asteroid's ID drawn on it
+     * Make a Sphere representing some Asteroid
+     *
+     * @param a Asteroid to use as a basis
+     * @return a Sphere with the asteroid's ID drawn on it
      */
-    private Sphere makeAsteroidSphere(Asteroid a) {
+    private Sphere makeAsteroidSphere(Asteroid a)
+    {
         Sphere s = new Sphere(a.size);
         PhongMaterial mat = new PhongMaterial(Color.BURLYWOOD);
         s.setTranslateX(a.getLoc().getX());
         s.setTranslateY(a.getLoc().getY());
         s.setMaterial(mat);
         s.setOnMouseEntered(event ->
-                            {
-                                terminalText.appendText(String.format("$> %s%n", a.toString()));
-                            });
+        {
+            terminalText.appendText(String.format("$> %s%n", a.toString()));
+        });
         return s;
     }
 
 
     @Override
-    public void newAsteroidData(AsteroidData[] asteroids, long timestamp) {
+    public void newAsteroidData(AsteroidData[] asteroids, long timestamp)
+    {
         lastFrame = asteroidsFromData(asteroids);
         processor.addAndAssign(lastFrame);
         newData = true;
@@ -446,9 +482,11 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
 
     /* Convert an AsteroidData array to an array of Asteroids prepared for the DebrisProcessor */
-    private Asteroid[] asteroidsFromData(AsteroidData[] data) {
+    private Asteroid[] asteroidsFromData(AsteroidData[] data)
+    {
         Asteroid[] asteroids = new Asteroid[data.length];
-        for (int i = 0; i < data.length; i++) {
+        for (int i = 0; i < data.length; i++)
+        {
             AsteroidData d = data[i];
             asteroids[i] = new Asteroid(d.getLoc(), d.getID(), d.getSize(), Calendar.getInstance());
         }
@@ -457,7 +495,8 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
 
     @Override
-    public void newImageData(java.awt.Image img, long id) {
+    public void newImageData(java.awt.Image img, long id)
+    {
         /* TODO: Something meaningful here */
         System.out.println("Got new image!");
     }
