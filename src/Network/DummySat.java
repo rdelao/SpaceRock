@@ -83,7 +83,11 @@ public class DummySat extends Thread {
                     this.chunkHeight = spec.sectorHeight;
                     this.chunkWidth = spec.sectorWidth;
                     this.cameraIsOn = spec.onOff;
-                    if (manualAuto != spec.manualAuto)
+                    if (!cameraIsOn)
+                    {
+                        timer.cancel();
+                    }
+                    else if (manualAuto != spec.manualAuto)
                     {
                         if (spec.manualAuto) //manual mode
                         {
