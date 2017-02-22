@@ -28,6 +28,7 @@ import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,6 +38,8 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     private static final int CAMERA_ZOOM_COEF = 150;
     private static final int MAIN_PANE_H = 400;
     private static final double MAIN_PANE_W = 600;
+    private static final int DEFAULT_SECTOR_WIDTH = 200;
+    private static final int DEFAULT_SECTOR_HEIGHT = 200;
     private final DebrisProcessor processor = new DebrisProcessor();
     private final Connection netLink = new Connection();
     private final DummySat satellite = new DummySat();
@@ -74,7 +77,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         satellite.start();
         netLink.addIncomingListener(this);
         netLink.connectToDummySat();
-        netLink.sendCameraSpec(0,100,100,false, false);//starting the camera off and in automatic mode
+        netLink.sendCameraSpec(0,DEFAULT_SECTOR_HEIGHT,DEFAULT_SECTOR_WIDTH,false, false);//starting the camera off and in automatic mode
         timer.start();
         BorderPane mainPane = new BorderPane(view);
         mainPane.setMaxHeight(600);
@@ -246,7 +249,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         Label modeLabel = new Label("Image Capture Mode:");
         modeLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
         modeLabel.setUnderline(true);
-    /* style radio buttons*/
+        /* style radio buttons*/
         ToggleGroup modeGroup = new ToggleGroup();
         RadioButton autoMode = new RadioButton("Automatic");
         autoMode.setStyle("-fx-font-size:9pt");
@@ -273,9 +276,17 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         modeSubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
                 //TODO: Send these values over to the camera
-                boolean onOff = (((RadioButton)onOffGroup.getSelectedToggle()).getText().equals("On"))?true : false;
-                String mode = ((RadioButton)modeGroup.getSelectedToggle()).getText();
+                boolean onOff = ((RadioButton)onOffGroup.getSelectedToggle()).getText().equals("On")?true : false;
+                boolean mode = ((RadioButton)modeGroup.getSelectedToggle()).getText().equals("Manual")?true : false;
                 int zoom = (int)zoomSlider.getMajorTickUnit();
+                try
+                {
+                  netLink.sendCameraSpec(zoom, DEFAULT_SECTOR_HEIGHT, DEFAULT_SECTOR_WIDTH, onOff, mode);
+                }
+                catch (IOException e1)
+                {
+                  e1.printStackTrace();
+                }
                 System.out.println("On/Off: "+onOff+" Mode: "+mode+" Zoom: "+zoom);
             }
         });
