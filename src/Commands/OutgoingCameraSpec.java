@@ -17,6 +17,7 @@ public class OutgoingCameraSpec implements Serializable {
     public final int sectorHeight;
     public final int sectorWidth;
     public final boolean onOff;
+    public final boolean manualAuto;
 
 
     /**
@@ -26,12 +27,14 @@ public class OutgoingCameraSpec implements Serializable {
      @param sectorHeight height of a chunk in the camera's images
      @param sectorWidth width of a chunk in the camera's images
      @param onOff true if camera should be on, false otherwise
+     @param manualAuto true if camera is in manual mode, false otherwise
      */
-    public OutgoingCameraSpec(double zoom, int sectorHeight, int sectorWidth, boolean onOff) {
+    public OutgoingCameraSpec(double zoom, int sectorHeight, int sectorWidth, boolean onOff, boolean manualAuto) {
         this.zoom=zoom;
         this.sectorHeight=sectorHeight;
         this.sectorWidth=sectorWidth;
         this.onOff = onOff;
+        this.manualAuto = manualAuto;
     }
 
 
@@ -43,6 +46,6 @@ public class OutgoingCameraSpec implements Serializable {
      @param sectorWidth width of a chunk in the camera's images
      */
     public OutgoingCameraSpec(double zoom, int sectorHeight, int sectorWidth) {
-        this(zoom, sectorHeight, sectorWidth, true);
+        this(zoom, sectorHeight, sectorWidth, true, true);
     }
 }

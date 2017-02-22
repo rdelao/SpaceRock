@@ -10,6 +10,8 @@ import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.*;
@@ -72,6 +74,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         satellite.start();
         netLink.addIncomingListener(this);
         netLink.connectToDummySat();
+        netLink.sendCameraSpec(0,100,100,false);
         timer.start();
         BorderPane mainPane = new BorderPane(view);
         mainPane.setMaxHeight(600);
@@ -110,7 +113,6 @@ public class SpaceRockGUI extends Application implements IncomingListener {
             x0 = e.getX();
             y0 = e.getY();
         });
-
         stage.show();
     }
 
@@ -253,15 +255,36 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         autoMode.setSelected(true);
         modeGroup.getToggles().addAll(autoMode, manualMode);
 
+        Label onOffLabel = new Label("Camera On/Off:");
+        onOffLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
+        onOffLabel.setUnderline(true);
+        ToggleGroup onOffGroup = new ToggleGroup();
+        RadioButton cameraOn = new RadioButton("On");
+        cameraOn.setStyle("-fx-font-size:9pt");
+        RadioButton cameraOff = new RadioButton("Off");
+        cameraOff.setStyle("-fx-font-size:9pt");
+        cameraOff.setSelected(true);
+        onOffGroup.getToggles().addAll(cameraOn, cameraOff);
+
+
         HBox modeBox = new HBox();
         modeBox.setPadding(new Insets(5, 5, 5, 90));
         Button modeSubmitButton = new Button("submit");
+        modeSubmitButton.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+                //TODO: Send these values over to the camera
+                boolean onOff = (((RadioButton)onOffGroup.getSelectedToggle()).getText().equals("On"))?true : false;
+                String mode = ((RadioButton)modeGroup.getSelectedToggle()).getText();
+                int zoom = (int)zoomSlider.getMajorTickUnit();
+                System.out.println("On/Off: "+onOff+" Mode: "+mode+" Zoom: "+zoom);
+            }
+        });
         modeBox.getChildren().addAll(modeSubmitButton);
 
 
         VBox modeVbox = new VBox(5);
         modeVbox.setPadding(new Insets(0, 5, 5, 15));
-        modeVbox.getChildren().addAll(autoMode, manualMode, modeBox);
+        modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode, onOffLabel, cameraOn, cameraOff, modeBox);
         ////////////////////////
 
 
@@ -269,7 +292,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         //box.setMaxWidth(275);
         camLabelsVbox.getChildren().addAll(imgDetailLabel, imgDetailBox);
         box.getChildren()
-                .addAll(connectionStatusVbox, camLabelBox, camLabelsVbox, modeLabel, modeVbox);
+                .addAll(connectionStatusVbox, camLabelBox, camLabelsVbox, modeVbox);
         box.setStyle("-fx-border-color: black");
 
 
