@@ -28,6 +28,7 @@ public class DummySat extends Thread {
     private static final double ASTEROID_SIZE_STDDEV = 10f;
     private static final double MAX_ASTEROID_SPEED = 3f;
     private static final int MAX_ASTEROIDS = 10;
+    public static final int PERIOD = 1000;
     private final List<DummyAsteroid> asteroids = new ArrayList<>();
     private Rectangle2D viewRect = new Rectangle2D.Double(0, 0, VIEW_X, VIEW_Y);
     private long currentID = 0;
@@ -38,6 +39,7 @@ public class DummySat extends Thread {
     private boolean cameraIsOn = true;
     private double cameraZoom = 1f;
     private boolean manualAuto;
+    private Timer timer = new Timer("Asteroid Iteration", true);
 
 
     public DummySat(long seed) {
@@ -58,8 +60,8 @@ public class DummySat extends Thread {
      */
     @Override
     public void run() {
-
-
+        /* Initialize the sat with a bunch of asteroids */
+        IntStream.range(0, MAX_ASTEROIDS).forEach(i -> asteroids.add(randAsteroid()));
         try {
             /* only accepting one connection at a time for now */
             Socket sock = new ServerSocket(SAT_PORT).accept();
@@ -70,7 +72,7 @@ public class DummySat extends Thread {
             SecureInputStream in = new SecureInputStream(sock.getInputStream());
 
             /* Tick asteroids once every 1000ms */
-            startDummyAsteroids(out, 1000);
+            startDummyAsteroids(out, PERIOD);
 
             while (true) {
                 Object o = in.readObject();
@@ -81,6 +83,25 @@ public class DummySat extends Thread {
                     this.chunkHeight = spec.sectorHeight;
                     this.chunkWidth = spec.sectorWidth;
                     this.cameraIsOn = spec.onOff;
+                    if (!cameraIsOn)
+                    {
+                        timer.cancel();
+                    }
+                    else if (manualAuto != spec.manualAuto)
+                    {
+                        if (spec.manualAuto) //manual mode
+                        {
+                            timer.cancel();
+                        }
+                        else
+                        {
+                            startDummyAsteroids(out, PERIOD);
+                        }
+                    }
+                    else if (manualAuto)
+                    {
+                        sendNextFrame(out);
+                    }
                     this.manualAuto = spec.manualAuto;
                 } else if (o instanceof ImageRequest) {
                     ImageRequest req = (ImageRequest) o;
@@ -146,24 +167,23 @@ public class DummySat extends Thread {
      @param period Milliseconds between each Timer tick
      */
     private void startDummyAsteroids(SecureOutputStream out, long period) {
-
-        /* Initialize the sat with a bunch of asteroids */
-        IntStream.range(0, MAX_ASTEROIDS).forEach(i -> asteroids.add(randAsteroid()));
-
-        new Timer("Asteroid Iteration", true)
-                .scheduleAtFixedRate(new TimerTask() {
-                    @Override
-                    public void run() {
-                        iterateAsteroids();
-                        try {
-                            out.writeObject(makeFrameData());
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }, 0, period);
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                sendNextFrame(out);
+            }
+        }, 0, period);
     }
 
+    private void sendNextFrame(SecureOutputStream out)
+    {
+        iterateAsteroids();
+        try {
+            out.writeObject(makeFrameData());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      @return a new FrameData object for transmission to the operator station.
