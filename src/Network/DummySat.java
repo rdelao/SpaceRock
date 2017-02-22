@@ -36,7 +36,7 @@ public class DummySat extends Thread {
 
     private int chunkWidth = 50;
     private int chunkHeight = 50;
-    private boolean cameraIsOn = true;
+    private boolean cameraIsOn = false;
     private double cameraZoom = 1f;
     private boolean manualAuto;
     private Timer timer;
@@ -72,7 +72,7 @@ public class DummySat extends Thread {
             SecureInputStream in = new SecureInputStream(sock.getInputStream());
 
             /* Tick asteroids once every 1000ms */
-            startDummyAsteroids(out, PERIOD);
+            //startDummyAsteroids(out, PERIOD);
 
             while (true) {
                 Object o = in.readObject();
