@@ -250,7 +250,8 @@ public class SpaceRockGUI extends Application implements IncomingListener
         Label overlapLabel = new Label("Section Overlap");
         overlapLabel.setStyle("-fx-font-size:9pt");
         TextField overlapTextField = new TextField();
-        overlapTextField.setPrefWidth(30);
+        overlapTextField.setPrefWidth(50);
+        overlapTextField.setText("20");
 
         Label pxLabel = new Label("px");
         Label pxLabel2 = new Label("px");
@@ -258,7 +259,8 @@ public class SpaceRockGUI extends Application implements IncomingListener
         secSizeLabel.setStyle("-fx-font-size:9pt");
 
         TextField secTextField = new TextField();
-        secTextField.setPrefWidth(30);
+        secTextField.setPrefWidth(50);
+        secTextField.setText("100");
         secSizeLabel.setPadding(new Insets(0, 0, 20, 0));
 
 
