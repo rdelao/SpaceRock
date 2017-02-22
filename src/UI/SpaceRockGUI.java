@@ -1,5 +1,6 @@
 package UI;
 
+
 import Commands.Asteroid;
 import Commands.AsteroidData;
 import Commands.IncomingListener;
@@ -27,7 +28,7 @@ import javafx.scene.paint.PhongMaterial;
 import javafx.scene.shape.Sphere;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
-
+import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -53,6 +54,8 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     private double x0 = 0;
     private double y0 = 0;
     private Slider zoomSlider = new Slider(-5, 5, 0);
+    private SpaceRockFXMLController fxmlController = new SpaceRockFXMLController();
+    private boolean popup = false;
     private AnimationTimer timer = new AnimationTimer() {
         @Override
         public void handle(long now) {
@@ -86,6 +89,8 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         mainPane.setMaxWidth(800);
         mainPane.setPadding(new Insets(0, 10, 10, 10));
 
+        if (popup) {
+        }
 
         mainPane.setRight(createRightPane());
         mainPane.setBottom(createButton());
@@ -425,7 +430,37 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         s.setOnMouseEntered(event ->
                             {
                                 terminalText.appendText(String.format("$> %s%n", a.toString()));
+                                fxmlController.setData(a.size);
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("SpaceRockPopup.fxml"));
+                                Scene newScene;
+                                try {
+                                    newScene = new Scene(loader.load());
+                                } catch (IOException ex) {
+                                    // TODO: handle error
+                                    return;
+                                }
+
+                                Stage inputStage = new Stage();
+                                inputStage.setScene(newScene);
+                                inputStage.showAndWait();
                             });
+        s.setOnMouseClicked(mouseEvent ->
+        {
+            fxmlController.setData(a.size);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("SpaceRockPopup.fxml"));
+            Scene newScene;
+            try {
+                newScene = new Scene(loader.load());
+            } catch (IOException ex) {
+                // TODO: handle error
+                return;
+            }
+
+            Stage inputStage = new Stage();
+            inputStage.setScene(newScene);
+            inputStage.showAndWait();
+
+        });
         return s;
     }
 
@@ -434,6 +469,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
     public void newAsteroidData(AsteroidData[] asteroids, long timestamp) {
         lastFrame = asteroidsFromData(asteroids);
         processor.addAndAssign(lastFrame);
+
         newData = true;
     }
 
