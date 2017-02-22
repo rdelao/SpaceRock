@@ -27,7 +27,7 @@ public class DummySat extends Thread {
     private static final double MEAN_ASTEROID_SIZE = 20f;
     private static final double ASTEROID_SIZE_STDDEV = 10f;
     private static final double MAX_ASTEROID_SPEED = 3f;
-    private static final int MAX_ASTEROIDS = 10;
+    private static final int MAX_ASTEROIDS = 3000;
     public static final int PERIOD = 1000;
     private final List<DummyAsteroid> asteroids = new ArrayList<>();
     private Rectangle2D viewRect = new Rectangle2D.Double(0, 0, VIEW_X, VIEW_Y);
@@ -39,7 +39,7 @@ public class DummySat extends Thread {
     private boolean cameraIsOn = true;
     private double cameraZoom = 1f;
     private boolean manualAuto;
-    private Timer timer = new Timer("Asteroid Iteration", true);
+    private Timer timer;
 
 
     public DummySat(long seed) {
@@ -82,12 +82,16 @@ public class DummySat extends Thread {
                     this.cameraZoom = spec.zoom;
                     this.chunkHeight = spec.sectorHeight;
                     this.chunkWidth = spec.sectorWidth;
-                    this.cameraIsOn = spec.onOff;
-                    if (!cameraIsOn)
+                    if (spec.onOff && !this.cameraIsOn)
+                    {
+                        startDummyAsteroids(out, PERIOD);
+                    }
+                    else if (!spec.onOff && this.cameraIsOn)
                     {
                         timer.cancel();
                     }
-                    else if (manualAuto != spec.manualAuto)
+                    this.cameraIsOn = spec.onOff;
+                    if (cameraIsOn && manualAuto != spec.manualAuto)
                     {
                         if (spec.manualAuto) //manual mode
                         {
@@ -167,6 +171,7 @@ public class DummySat extends Thread {
      @param period Milliseconds between each Timer tick
      */
     private void startDummyAsteroids(SecureOutputStream out, long period) {
+        timer = new Timer("Asteroid Iteration", true);
         timer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
