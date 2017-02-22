@@ -1,6 +1,7 @@
 package Commands;
 
 import java.awt.geom.Point2D;
+import java.time.Instant;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -17,10 +18,10 @@ public class Asteroid implements AsteroidData {
     public final Point2D location;
     public final double size;
     public long id;
-    public Calendar timestamp;
+    public Instant timestamp;
 
 
-    public Asteroid(Point2D location, long id, double size, Calendar timestamp) {
+    public Asteroid(Point2D location, long id, double size, Instant timestamp) {
         this.location = location;
         this.id = id;
         this.size = size;

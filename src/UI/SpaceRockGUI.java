@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import javafx.fxml.FXMLLoader;
 import java.io.IOException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -471,16 +472,19 @@ public class SpaceRockGUI extends Application implements IncomingListener
         s.setMaterial(mat);
         s.setOnMouseClicked(mouseEvent ->
         {
-            fxmlController.setData(a.size);
             FXMLLoader loader = new FXMLLoader(getClass().getResource("SpaceRockPopup.fxml"));
             Scene newScene;
+            Parent root;
             try {
-                newScene = new Scene(loader.load());
+                root = loader.load();
+                newScene = new Scene(root);
             } catch (IOException ex) {
                 // TODO: handle error
                 return;
             }
+            SpaceRockFXMLController controller = loader.getController();
 
+            controller.setData(a);
             Stage inputStage = new Stage();
             inputStage.setScene(newScene);
             inputStage.show();
@@ -507,7 +511,7 @@ public class SpaceRockGUI extends Application implements IncomingListener
         for (int i = 0; i < data.length; i++)
         {
             AsteroidData d = data[i];
-            asteroids[i] = new Asteroid(d.getLoc(), d.getID(), d.getSize(), Calendar.getInstance());
+            asteroids[i] = new Asteroid(d.getLoc(), d.getID(), d.getSize(), Instant.now());
         }
         return asteroids;
     }

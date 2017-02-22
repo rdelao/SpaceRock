@@ -3,9 +3,14 @@ package UI;/*
  */
 
 
+import Commands.Asteroid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
+
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.util.Calendar;
 import java.util.Date;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -30,15 +35,21 @@ public class SpaceRockFXMLController implements Initializable {
 
     @FXML
     private Label diameter;
+    private long ID;
+    private Instant timestamp;
+    private DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public void setData(double size) {
-        this.size = size;
+    public void setData(Asteroid asteroid) {
+        this.size = asteroid.size;
+        this.ID = asteroid.id;
+        this.timestamp = asteroid.timestamp;
+        diameter.setText("" + Math.round(size));
+        objectID.setText("" + ID);
+        timeCaptured.setText("Timestamp: " + timestamp.toString());
     }
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        timeCaptured.setText("Time Captured: "+(new Date()).toString());
-        diameter.setText(Double.toString(this.size));
 //        zoom_txt.setText(Double.toString(0.000));
 //        section_size_txt.setText(Double.toString(100.0));
 //        overlap_amount_txt.setText(Double.toString(0.000));
