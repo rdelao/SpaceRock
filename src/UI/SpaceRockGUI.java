@@ -260,6 +260,14 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         autoMode.setSelected(true);
         modeGroup.getToggles().addAll(autoMode, manualMode);
 
+        Button takePicture = new Button("Take Picture");
+        takePicture.setDisable(true);
+        takePicture.setOnAction(new EventHandler<ActionEvent>() {
+            @Override public void handle(ActionEvent e) {
+              System.out.println("CHEEEESSSEEE!!!!!");
+            }
+        });
+
         Label onOffLabel = new Label("Camera On/Off:");
         onOffLabel.setStyle("-fx-font-size: 11pt; -fx-font-family: calibri; -fx-font-weight: bold");
         onOffLabel.setUnderline(true);
@@ -271,13 +279,11 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         cameraOff.setSelected(true);
         onOffGroup.getToggles().addAll(cameraOn, cameraOff);
 
-
         HBox modeBox = new HBox();
         modeBox.setPadding(new Insets(5, 5, 5, 90));
         Button modeSubmitButton = new Button("submit");
         modeSubmitButton.setOnAction(new EventHandler<ActionEvent>() {
             @Override public void handle(ActionEvent e) {
-                //TODO: Send these values over to the camera
                 boolean onOff = ((RadioButton)onOffGroup.getSelectedToggle()).getText().equals("On")?true : false;
                 boolean mode = ((RadioButton)modeGroup.getSelectedToggle()).getText().equals("Manual")?true : false;
                 int zoom = (int)zoomSlider.getMajorTickUnit();
@@ -289,6 +295,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
                 {
                   e1.printStackTrace();
                 }
+                takePicture.setDisable(!mode);
                 System.out.println("On/Off: "+onOff+" Mode: "+mode+" Zoom: "+zoom);
             }
         });
@@ -297,7 +304,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
 
         VBox modeVbox = new VBox(5);
         modeVbox.setPadding(new Insets(0, 5, 5, 15));
-        modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode, onOffLabel, cameraOn, cameraOff, modeBox);
+        modeVbox.getChildren().addAll(modeLabel, autoMode, manualMode,takePicture, onOffLabel, cameraOn, cameraOff, modeBox);
         ////////////////////////
 
 
