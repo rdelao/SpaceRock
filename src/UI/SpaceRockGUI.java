@@ -30,6 +30,8 @@ import javafx.util.StringConverter;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -441,7 +443,7 @@ public class SpaceRockGUI extends Application implements IncomingListener {
         Asteroid[] asteroids = new Asteroid[data.length];
         for (int i = 0; i < data.length; i++) {
             AsteroidData d = data[i];
-            asteroids[i] = new Asteroid(d.getLoc(), d.getID(), d.getSize());
+            asteroids[i] = new Asteroid(d.getLoc(), d.getID(), d.getSize(), Calendar.getInstance());
         }
         return asteroids;
     }

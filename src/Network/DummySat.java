@@ -37,6 +37,7 @@ public class DummySat extends Thread {
     private int chunkHeight = 50;
     private boolean cameraIsOn = true;
     private double cameraZoom = 1f;
+    private boolean manualAuto;
 
 
     public DummySat(long seed) {
@@ -75,7 +76,12 @@ public class DummySat extends Thread {
                 Object o = in.readObject();
                 logReceived(o);
                 if (o instanceof OutgoingCameraSpec) {
-                    /* Set cam spec */
+                    OutgoingCameraSpec spec = (OutgoingCameraSpec) o;
+                    this.cameraZoom = spec.zoom;
+                    this.chunkHeight = spec.sectorHeight;
+                    this.chunkWidth = spec.sectorWidth;
+                    this.cameraIsOn = spec.onOff;
+                    this.manualAuto = spec.manualAuto;
                 } else if (o instanceof ImageRequest) {
                     ImageRequest req = (ImageRequest) o;
                     out.writeObject(makeDummyIncomingImage(req.id));
@@ -85,9 +91,7 @@ public class DummySat extends Thread {
         } catch (EOFException e) {
             /* Socket closed,  */
 
-        } catch (IOException e) { /* Legitimate problems */
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+        } catch (IOException | ClassNotFoundException e) { /* Legitimate problems */
             e.printStackTrace();
         }
 
