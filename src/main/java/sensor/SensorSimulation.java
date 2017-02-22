@@ -21,6 +21,7 @@ public class SensorSimulation implements SensorInterface {
 
   private boolean auto_advance = true;
   private ZoomLevel zoom_level = ZoomLevel.NONE;
+  private Boolean taking_picture = false;
 
   /**
    * Initialize a camera object
@@ -54,12 +55,17 @@ public class SensorSimulation implements SensorInterface {
 
   @Override
   public void takePicture() {
-    if (!camera_ready) {
-      return;
+    synchronized (taking_picture) {
+      if (!camera_ready || taking_picture) {
+        System.out.println("Already taking a picture");
+        return;
+      }
+      taking_picture = true;
     }
     Thread thread = new Thread() {
       @Override
       public void run() {
+        taking_picture = true;
         synchronized (image_ready) {
           if(auto_advance){
             elapsed_seconds += TIME_STEP;
@@ -69,6 +75,7 @@ public class SensorSimulation implements SensorInterface {
           System.out.println("Taking new picture at zoom level: " + zoom_level);
           image = image_generator.generateImage(elapsed_seconds, zoom_level);
           image_ready = true;
+          taking_picture = false;
         }
       }
     };
