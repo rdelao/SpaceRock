@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<SplitPane dividerPositions="0.7859531772575251" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="900.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="demo.DemoGUIController">
+    <items>
+        <AnchorPane fx:id="imagePane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="700.0">
+         <children>
+            <ImageView fx:id="imageView" fitHeight="700.0" fitWidth="700.0" pickOnBounds="true" preserveRatio="true" />
+         </children>
+        </AnchorPane>
+        <AnchorPane fx:id="controlPane" minHeight="0.0" minWidth="0.0" prefHeight="700.0" prefWidth="200.0">
+            <children>
+                <AnchorPane fx:id="zoomControls" layoutX="7.0" layoutY="362.0" nodeOrientation="LEFT_TO_RIGHT" prefHeight="94.0" prefWidth="175.0" AnchorPane.bottomAnchor="242.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="8.0" AnchorPane.topAnchor="362.0">
+                    <children>
+                        <Label layoutX="43.0" layoutY="4.0" text="Zoom Level">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                        </Label>
+                        <Slider fx:id="zoomSlider" blockIncrement="1.0" layoutY="38.0" majorTickUnit="1.0" max="3.0" maxHeight="-Infinity" minHeight="-Infinity" minWidth="-Infinity" minorTickCount="1" prefHeight="48.0" prefWidth="210.0" showTickLabels="true" showTickMarks="true" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="38.0" />
+                    </children>
+                </AnchorPane>
+            <AnchorPane layoutX="1.0" minWidth="-Infinity" prefHeight="315.0" prefWidth="230.0" AnchorPane.bottomAnchor="383.0" AnchorPane.leftAnchor="1.0" AnchorPane.rightAnchor="-1.0" AnchorPane.topAnchor="0.0">
+               <children>
+                      <ToggleButton fx:id="turnOnCam" layoutX="31.0" layoutY="30.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="53.0" prefWidth="124.0" text="On/Off" AnchorPane.bottomAnchor="232.0" AnchorPane.leftAnchor="31.0" AnchorPane.rightAnchor="35.0" AnchorPane.topAnchor="30.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </ToggleButton>
+                          <Label fx:id="statusLabel" alignment="CENTER" layoutY="88.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="27.0" prefWidth="190.0" text="Status: Off" AnchorPane.bottomAnchor="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="88.0">
+                              <font>
+                                  <Font size="15.0" />
+                              </font>
+                          </Label>
+                      <Button fx:id="takePicture" layoutX="26.0" layoutY="138.0" maxHeight="-Infinity" minHeight="-Infinity" mnemonicParsing="false" prefHeight="53.0" prefWidth="136.0" text="Take Picture" AnchorPane.bottomAnchor="124.0" AnchorPane.leftAnchor="26.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="138.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Button>
+                  <Label fx:id="imageStatus" alignment="CENTER" layoutX="-2.0" layoutY="211.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="43.0" prefWidth="190.0" text="Image: Not Ready" AnchorPane.bottomAnchor="61.0" AnchorPane.leftAnchor="-2.0" AnchorPane.rightAnchor="2.0" AnchorPane.topAnchor="211.0">
+                     <font>
+                        <Font size="15.0" />
+                     </font>
+                  </Label>
+               </children>
+            </AnchorPane>
+                <Button fx:id="reset" layoutX="35.0" layoutY="573.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" prefHeight="53.0" prefWidth="122.0" text="Reset Sensor" AnchorPane.bottomAnchor="72.0" AnchorPane.leftAnchor="35.0" AnchorPane.rightAnchor="33.0" AnchorPane.topAnchor="573.0">
+               <font>
+                  <Font size="15.0" />
+               </font></Button>
+            </children>
+        </AnchorPane>
+    </items>
+</SplitPane>
