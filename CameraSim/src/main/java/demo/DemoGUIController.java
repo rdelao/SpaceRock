@@ -1,25 +1,25 @@
 package demo;
 
+import fpga.GaussianFilter;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.beans.value.ObservableValue;
 import javafx.embed.swing.SwingFXUtils;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.chart.NumberAxis;
-import javafx.scene.control.*;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.image.*;
+import javafx.scene.control.Slider;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.WritableImage;
 import javafx.util.Duration;
 import javafx.util.StringConverter;
 import sensor.SensorInterface;
 import sensor.SensorSimulation;
 import sensor.ZoomLevel;
 
-import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.net.URL;
@@ -56,6 +56,7 @@ public class DemoGUIController implements Initializable {
 
   private boolean previousCaptureStatus;
   private boolean loadimage;
+
     /**
      * Used for chunkifying the image.
      */
@@ -137,6 +138,7 @@ public class DemoGUIController implements Initializable {
       if(loadimage){
           BufferedImage chunk = sensor.getImageChunk(i * 200 + 100, j *200 + 100, 200);
           if (chunk != null) {
+              chunk = GaussianFilter.blur(chunk);
               Graphics2D g = buildable_image.createGraphics();
               g.drawImage(chunk, i * 200, j * 200, 200, 200, null);
               imageView.setImage(SwingFXUtils.toFXImage(buildable_image, image));

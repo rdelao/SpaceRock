@@ -1,4 +1,4 @@
-package sensor;
+package fpga;
 
 import java.awt.image.Kernel;
 import java.awt.image.*;
@@ -10,7 +10,7 @@ import java.awt.image.*;
 public class GaussianFilter
 {
 
-  public BufferedImage blur( BufferedImage image) {
+  public static BufferedImage blur( BufferedImage image) {
     int blurScale = 30;
     BufferedImage destination = null;
     if ( image.getType() == BufferedImage.TYPE_INT_RGB ) {
