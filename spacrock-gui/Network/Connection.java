@@ -4,12 +4,11 @@ import Commands.*;
 
 import java.io.EOFException;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.InetSocketAddress;
-import java.net.Socket;
-import java.net.SocketAddress;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
+
+import static java.lang.Thread.sleep;
 
 
 /**
@@ -23,6 +22,7 @@ public class Connection {
 
     /** Default timeout for connecting to satellite, in milliseconds */
     public static final int CONN_TIMEOUT = 2000;
+    private static final int MAX_CONNECT_TRIES = 20;
     private final List<IncomingListener> incomingListeners = new ArrayList<>();
     private Socket sock = new Socket();
     private SecureOutputStream outStream;
@@ -179,8 +179,36 @@ public class Connection {
      */
     public void connectToSat(SocketAddress sockAddr, int timeout)
             throws IOException {
-        sock.connect(sockAddr, timeout);
+        int tries = 0;
+        while (true) {
+            try {
+                sock.connect(sockAddr, timeout);
+                break;
+            }
+            catch (ConnectException e)
+            {
+                if(tries < MAX_CONNECT_TRIES) {
+                    tries++;
+                    /* If connection fails, need to reinit the socket */
+                    sock = new Socket();
+                    waitNoMoreThan(1000);
+                }
+                else throw e;
+            }
+        }
         outStream = new SecureOutputStream(sock.getOutputStream());
+    }
+
+
+    /**
+     Wrapper for Thread.sleep that simply returns if interrupted, hence "no more than".
+
+     @param millis milliseconds to sleep.
+     */
+    private void waitNoMoreThan(int millis) {
+        try{
+            sleep(millis);
+        } catch (InterruptedException e) { /* ignore and continue */ }
     }
 
 
