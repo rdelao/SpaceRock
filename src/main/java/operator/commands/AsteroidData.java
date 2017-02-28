@@ -1,4 +1,4 @@
-package Commands;
+package operator.commands;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;

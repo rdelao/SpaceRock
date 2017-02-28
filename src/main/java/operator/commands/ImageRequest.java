@@ -1,4 +1,4 @@
-package Commands;
+package operator.commands;
 
 import java.io.Serializable;
 

@@ -1,6 +1,6 @@
-package Commands;
+package operator.commands;
 
-import Util.ImageUtil;
+import operator.util.ImageUtil;
 
 import java.awt.*;
 

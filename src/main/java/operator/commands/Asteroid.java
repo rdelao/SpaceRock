@@ -1,9 +1,7 @@
-package Commands;
+package operator.commands;
 
 import java.awt.geom.Point2D;
 import java.time.Instant;
-import java.util.Calendar;
-import java.util.Date;
 
 /**
  * Created by magik on 2/5/2017. Modified by David R., 2/12/2017

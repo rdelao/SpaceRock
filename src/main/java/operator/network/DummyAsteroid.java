@@ -1,6 +1,6 @@
-package Network;
+package operator.network;
 
-import Commands.AsteroidData;
+import operator.commands.AsteroidData;
 
 import java.awt.geom.Point2D;
 import java.io.Serializable;

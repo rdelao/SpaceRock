@@ -1,4 +1,4 @@
-package Commands;
+package operator.commands;
 
 /**
  * Created by magik on 2/5/2017.

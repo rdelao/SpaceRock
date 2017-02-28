@@ -1,6 +1,6 @@
-package Network;
+package operator.network;
 
-import Commands.*;
+import operator.commands.*;
 
 import java.io.EOFException;
 import java.io.IOException;

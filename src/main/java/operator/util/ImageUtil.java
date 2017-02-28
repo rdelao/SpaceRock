@@ -1,7 +1,7 @@
-package Util; /**
+package operator.util; /**
  Created by David R.
  <p>
- The Util.ImageUtil class holds several static methods for converting images between Image objects
+ The util.ImageUtil class holds several static methods for converting images between Image objects
  and integer array representations (in greyscale).  This is useful for (de)serialization since non of
  the standard Image classes are serializable.
  */

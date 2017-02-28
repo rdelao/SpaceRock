@@ -1,6 +1,6 @@
-package Network;
+package operator.network;
 
-import Commands.*;
+import operator.commands.*;
 
 import java.awt.*;
 import java.awt.geom.Point2D;

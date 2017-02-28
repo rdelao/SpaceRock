@@ -1,13 +1,13 @@
-package Network;
+package operator.network;
 
-import Commands.IncomingListener;
+import operator.commands.IncomingListener;
 
 import java.io.IOException;
 
 /**
  created: 2017.02.14 by David R.
  <p>
- Simple test of the Network interfaces: "Does it run",  more or less.
+ Simple test of the network interfaces: "Does it run",  more or less.
  */
 public class TestNetwork {
 

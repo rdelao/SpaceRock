@@ -1,12 +1,12 @@
-package UI;
+package operator.ui;
 
 
-import Commands.Asteroid;
-import Commands.AsteroidData;
-import Commands.IncomingListener;
-import Network.Connection;
-import Network.DummySat;
-import Processing.DebrisProcessor;
+import operator.commands.Asteroid;
+import operator.commands.AsteroidData;
+import operator.commands.IncomingListener;
+import operator.network.Connection;
+import operator.network.DummySat;
+import operator.processing.DebrisProcessor;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.beans.value.ObservableValue;
@@ -32,8 +32,6 @@ import javafx.fxml.FXMLLoader;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 /**

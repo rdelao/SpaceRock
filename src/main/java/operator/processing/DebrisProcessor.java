@@ -2,9 +2,9 @@
  WARNING: NOT YET TESTED - MAY STILL NEED SOME SUBSTANTIAL WORK.
  */
 
-package Processing;
+package operator.processing;
 
-import Commands.Asteroid;
+import operator.commands.Asteroid;
 
 import java.util.HashSet;
 

@@ -1,17 +1,15 @@
-package UI;/*
+package operator.ui;/*
  * 
  */
 
 
-import Commands.Asteroid;
+import operator.commands.Asteroid;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Label;
 
 import java.time.Instant;
 import java.time.format.DateTimeFormatter;
-import java.util.Calendar;
-import java.util.Date;
 import java.net.URL;
 import java.util.ResourceBundle;
 
