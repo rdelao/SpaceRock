@@ -1,3 +1,5 @@
+
+import java.awt.Point;
 import memory.Asteroid;
 
 /**
@@ -13,7 +15,8 @@ public interface MemoryManager {
     boolean getTakePicture();
     SensorStatus getStatus();
     int getZoom();
-    void setZoom(int z);
+    int getFrameSize();
+    Point getFrameLocation();
     void addAsteroid(Asteroid a);
 
     //Methods to be called by the PC
@@ -21,6 +24,7 @@ public interface MemoryManager {
     void setSensorStatus(SensorStatus status);
     void setTakePicture();
     void setFrameSize();
+
     Asteroid getAsteroid();
 
 }
