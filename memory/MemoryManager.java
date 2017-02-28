@@ -1,3 +1,5 @@
+import memory.Asteroid;
+
 /**
  * Created by ststromberg erparks on 2/28/2017.
  * Interface to be implemented by SharedMemory.java. Defines
@@ -6,12 +8,19 @@
 public interface MemoryManager {
 
     //Methods to be called by the FPGA
-    boolean getRawImageRequested();
+    boolean getCameraOn();
+    boolean getReset();
+    boolean getTakePicture();
+    SensorStatus getStatus();
+    int getZoom();
+    void setZoom(int z);
+    void addAsteroid(Asteroid a);
 
     //Methods to be called by the PC
     void setRawImageRequested();
-
     void setSensorStatus(SensorStatus status);
+    void setTakePicture();
+    void setFrameSize();
+    Asteroid getAsteroid();
 
-    SensorStatus getSensorStatus();
 }
