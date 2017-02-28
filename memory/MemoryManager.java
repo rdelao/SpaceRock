@@ -1,13 +1,9 @@
 package memory;
 
 /**
- * Created by ststromberg on 2/26/17.
+ * Created by Ethan on 2/28/2017.
  */
+public interface MemoryManager {
 
-public static class MemoryManager
-{
-    public static void main(String[] args)
-    {
-        System.out.println("EThan");
-    }
+    
 }
