@@ -1,8 +1,19 @@
 package memory;
+
 /**
- * Created by ststromberg and erparks on 2/26/17.
+ * Created by ststromberg, erparks, and christiaan on 2/26/17.
  * Represents the zoom level of the camera.
  */
 public enum ZoomLevel {
-    Two,Four,Eight
+    TWO(2), FOUR(4), EIGHT(8);
+
+    private final int zoomLevel;
+
+    ZoomLevel(int zoomLevel) {
+        this.zoomLevel = zoomLevel;
+    }
+
+    public int getZoomLevel() {
+        return zoomLevel;
+    }
 }
