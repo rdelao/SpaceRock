@@ -1,7 +1,9 @@
 import memory.Asteroid;
 
 /**
- * Created by Ethan on 2/28/2017.
+ * Created by ststromberg erparks on 2/28/2017.
+ * Interface to be implemented by SharedMemory.java. Defines
+ * methods for reading and writing memory.
  */
 public interface MemoryManager {
 
@@ -17,6 +19,7 @@ public interface MemoryManager {
 
     //Methods to be called by the PC
     void setRawImageRequested();
+
     void setTakePicture();
     void setZoom(int z);
     void setFrameSize();
