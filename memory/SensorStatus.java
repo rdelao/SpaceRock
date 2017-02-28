@@ -5,5 +5,5 @@
  * only on requests.
  */
 public enum SensorStatus {
-    Discrete,Continuous,Off
+    Discrete,Continuous
 }

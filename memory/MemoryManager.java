@@ -10,11 +10,11 @@ import memory.Asteroid;
 public interface MemoryManager {
 
     //Methods to be called by the FPGA
-    boolean getCameraOn();
+    boolean getCameraPowered();
     boolean getReset();
     boolean getTakePicture();
     SensorStatus getStatus();
-    int getZoom();
+    ZoomLevel getZoom();
     int getFrameSize();
     Point getFrameLocation();
     void addAsteroid(Asteroid a);
@@ -24,7 +24,9 @@ public interface MemoryManager {
     void setSensorStatus(SensorStatus status);
     void setTakePicture();
     void setFrameSize();
-
+    void setFrameLocation(Point point);
+    void setCameraPowered();
+    void setZoom(ZoomLevel level);
     Asteroid getAsteroid();
 
 }
