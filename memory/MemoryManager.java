@@ -19,14 +19,16 @@ public interface MemoryManager {
     Point getFrameLocation();
     void addAsteroid(Asteroid a);
 
+    //Called by both
+    void setTakePicture(boolean take);
+
     //Methods to be called by the PC
-    void setRawImageRequested();
     void setSensorStatus(SensorStatus status);
-    void setTakePicture();
-    void setFrameSize();
+    void setFrameSize(int size);
     void setFrameLocation(Point point);
-    void setCameraPowered();
+    void setCameraPowered(boolean powerState);
     void setZoom(ZoomLevel level);
+    void setReset(boolean reset);
     Asteroid getAsteroid();
 
 }
