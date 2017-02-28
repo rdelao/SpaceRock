@@ -9,26 +9,30 @@ import memory.Asteroid;
  */
 public interface MemoryManager {
 
-    //Methods to be called by the FPGA
+
     boolean getCameraPowered();
-    boolean getReset();
-    boolean getTakePicture();
-    SensorStatus getStatus();
-    ZoomLevel getZoom();
-    int getFrameSize();
-    Point getFrameLocation();
-    void addAsteroid(Asteroid a);
-
-    //Called by both
-    void setTakePicture(boolean take);
-
-    //Methods to be called by the PC
-    void setSensorStatus(SensorStatus status);
-    void setFrameSize(int size);
-    void setFrameLocation(Point point);
     void setCameraPowered(boolean powerState);
-    void setZoom(ZoomLevel level);
-    void setReset(boolean reset);
-    Asteroid getAsteroid();
+
+    boolean getCameraReset();
+    void setCameraReset(boolean reset);
+
+    boolean getTakePicture(); //used by fpga when Camera Status is discrete
+    void setTakePicture(boolean take); //set by cpu when Camera Status is discrete
+
+    CameraStatus getCameraStatus();
+    void setCameraStatus(CameraStatus status);
+
+    ZoomLevel getCameraZoom();
+    void setCameraZoom(ZoomLevel level);
+
+    int getRequestedFrameSize();
+    void setRequestedFrameSize(int size);
+
+    Point getRequestedFrameLocation();
+    void setRequestedFrameLocation(Point point);
+
+
+    Asteroid getAsteroids();
+    void addAsteroids(Asteroid a);
 
 }

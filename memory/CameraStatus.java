@@ -4,6 +4,6 @@
  * asap after processing on previous image. Discrete takes picture
  * only on requests.
  */
-public enum SensorStatus {
+public enum CameraStatus {
     Discrete,Continuous
 }
