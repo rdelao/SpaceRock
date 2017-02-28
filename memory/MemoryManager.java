@@ -5,5 +5,9 @@ package memory;
  */
 public interface MemoryManager {
 
-    
+    //Methods to be called by the FPGA
+    boolean getRawImageRequested();
+
+    //Methods to be called by the PC
+    void setRawImageRequested();
 }
