@@ -1,4 +1,4 @@
-package fpga.ObjDetect.src;
+package fpga.objectdetection;
 /**
  * Created by Rob on 2/25/2017.
  */

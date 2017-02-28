@@ -1,4 +1,4 @@
-package fpga.ObjDetect.src;
+package fpga.objectdetection;
 import java.io.IOException;
 
 /**
@@ -25,7 +25,7 @@ public class Main {
 
     private void test1() throws IOException
     {
-        ImgToByteArray test = new ImgToByteArray(".\\res\\12xSample02.png", imgSize);
+        ImgToByteArray test = new ImgToByteArray("12xSample02.png", imgSize);
         debrisMap = test.parseMap();
         printArray();
     }

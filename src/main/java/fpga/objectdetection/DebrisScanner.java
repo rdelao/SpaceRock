@@ -1,6 +1,5 @@
-package fpga.ObjDetect.src;
+package fpga.objectdetection;
 import java.util.ArrayList;
-import fpga.ObjDetect.src.Debris;
 
 /**
  * Created by Rob on 2/25/2017.

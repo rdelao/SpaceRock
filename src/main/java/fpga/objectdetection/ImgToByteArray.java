@@ -1,4 +1,4 @@
-package fpga.ObjDetect.src;
+package fpga.objectdetection;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -23,8 +23,7 @@ class ImgToByteArray {
 
     ImgToByteArray(String s, int imgSize) throws IOException {
         this.imgSize = imgSize;
-        file = new File(s);
-        image = ImageIO.read(file);
+        image = ImageIO.read(ImgToByteArray.class.getResource(s));
         pixelMap =  new byte[imgSize][imgSize];
     }
 
