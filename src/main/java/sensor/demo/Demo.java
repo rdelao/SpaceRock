@@ -1,4 +1,4 @@
-package demo; /**
+package sensor.demo; /**
  * Created by jholland on 2/10/17.
  */
 

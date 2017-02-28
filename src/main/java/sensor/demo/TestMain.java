@@ -1,4 +1,4 @@
-package demo;
+package sensor.demo;
 
 import sensor.Picture;
 import sensor.SensorSimulation;

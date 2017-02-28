@@ -1,4 +1,4 @@
-package demo;
+package sensor.demo;
 
 import fpga.GaussianFilter;
 import javafx.animation.KeyFrame;

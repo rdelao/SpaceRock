@@ -2,7 +2,7 @@ apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'application'
 
-mainClassName = 'demo.Demo'
+mainClassName = 'sensor.demo.Demo'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8

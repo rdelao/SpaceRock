@@ -5,7 +5,7 @@ import java.io.IOException;
  * Created by Rob on 2/25/2017.
  */
 
-// controler for demo
+// controler for sensor.demo
 // reads in imgs from res (real application will receive imgs from gausian filter module)
 // converts image to byte array -- boolean there is debris @ (x,y) or there isn'
 // code scans the array to determine objects (key features: size & location)
