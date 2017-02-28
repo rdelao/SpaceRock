@@ -136,7 +136,7 @@ public class DemoGUIController implements Initializable {
       previousCaptureStatus = status;
 
       if(loadimage){
-          BufferedImage chunk = sensor.getImageChunk(i * 200 + 100, j *200 + 100, 200);
+          BufferedImage chunk = sensor.getFrame(i * 200 + 100, j *200 + 100, 200);
           if (chunk != null) {
               chunk = GaussianFilter.blur(chunk);
               Graphics2D g = buildable_image.createGraphics();

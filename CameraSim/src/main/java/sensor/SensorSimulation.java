@@ -90,7 +90,7 @@ public class SensorSimulation implements SensorInterface {
   }
 
   @Override
-  public BufferedImage getImageChunk(int x, int y, int size) {
+  public BufferedImage getFrame(int x, int y, int size) {
     if(image_ready)
       return image.chunk(x, y, size);
     else return null;

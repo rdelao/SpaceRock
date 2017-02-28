@@ -1,3 +1,4 @@
+package fpga.ObjDetect.src;
 /**
  * Created by Rob on 2/25/2017.
  */
@@ -8,7 +9,7 @@ public class Debris {
     int size;
     // the image or frame that this debris was found in
 
-    Debris(int x, int y, int size)
+    public Debris(int x, int y, int size)
     {
         frameX = x;
         frameY = y;

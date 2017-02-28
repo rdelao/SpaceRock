@@ -37,9 +37,9 @@ public interface SensorInterface {
    * @param x horizontal center of window
    * @param y vertical center of window
    * @param size width/height of window
-   * @return image chunk using the defined (x,y) and size
+   * @return image frame using the defined (x,y) and size
    */
-  public BufferedImage getImageChunk(int x, int y, int size);
+  public BufferedImage getFrame(int x, int y, int size);
 
   /**
    * Attempt to turn camera on.
