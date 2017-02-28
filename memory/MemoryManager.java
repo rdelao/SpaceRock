@@ -5,5 +5,5 @@ package memory;
  */
 public interface MemoryManager {
 
-    
+
 }
