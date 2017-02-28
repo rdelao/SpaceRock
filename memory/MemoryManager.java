@@ -11,7 +11,7 @@ public interface MemoryManager {
     //Methods to be called by the PC
     void setRawImageRequested();
 
-    void setSensorStatus();
+    void setSensorStatus(SensorStatus status);
 
     SensorStatus getSensorStatus();
 }
