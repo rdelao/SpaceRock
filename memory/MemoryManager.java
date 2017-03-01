@@ -1,3 +1,4 @@
+package memory;
 
 import java.awt.Point;
 import memory.Asteroid;
@@ -8,8 +9,6 @@ import memory.Asteroid;
  * methods for reading and writing memory.
  */
 public interface MemoryManager {
-
-
     boolean getCameraPowered();
     void setCameraPowered(boolean powerState);
 

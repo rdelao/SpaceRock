@@ -1,3 +1,4 @@
+package memory;
 /**
  * Created by ststromberg and erparks on 2/26/17.
  * Represents the camera state. Continuous takes picture
