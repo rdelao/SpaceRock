@@ -163,11 +163,8 @@ ENV/
 .ropeproject
 
 #idea files
-.idea/
 *.iml
-*.iws
 *.ipr
-out/
 
 #gradle files
 .gradle
