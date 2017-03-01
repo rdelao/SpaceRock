@@ -8,11 +8,14 @@ public class Debris {
     int frameX, frameY;
     int size;
     // the image or frame that this debris was found in
+    int centerX, centerY;
+    int diameter;
 
-    public Debris(int x, int y, int size)
+    Debris(int x, int y, int dia, int size)
     {
-        frameX = x;
-        frameY = y;
+        centerX = x;
+        centerY = y;
+        diameter = dia;
         this.size = size;
     }
 }

@@ -17,6 +17,8 @@ class DebrisScanner {
 
     private boolean validDebris; // if on boarder, then dont know total scope --> invalid
     private int debrisSize;
+    private int maxX, maxY;
+    private int minX, minY;
 
     DebrisScanner(byte[][] debrisMap, int imgSize)
     {
@@ -66,13 +68,20 @@ class DebrisScanner {
     {
         validDebris = !(onBoarder(i, j));
         debrisSize = 1;
+        maxX = i;
+        minX = i;
+        maxY = j;
+        minY = j;
         for( Dir d : Dir.values() )
         {
             search(i + d.deltaX(), j + d.deltaY() );
         }
         if( validDebris )
         {
-            foundObjects.add( new Debris(i, j, debrisSize) );
+            int centerX = ((maxX - minX) / 2) + minX;
+            int centerY = ((maxY - minY) / 2) + minY;
+            int diameter = Math.max((maxX - minX), (maxY - minY));
+            foundObjects.add( new Debris(centerX, centerY, diameter, debrisSize) );
             return true;
         }
         return false;
@@ -88,6 +97,7 @@ class DebrisScanner {
         {
             validDebris = false;
         }
+        trackBounds(i, j);
         for( Dir d : Dir.values() )
         {
             search(i + d.deltaX(), j + d.deltaY() );
@@ -110,13 +120,21 @@ class DebrisScanner {
         return false;
     }
 
+    private void trackBounds(int x, int y)
+    {
+        if( x > maxX ) { maxX = x; }
+        if( x < minX ) { minX = x; }
+        if( y > maxY ) { maxY = y; }
+        if( y < minY ) { minY = y; }
+    }
+
     void printList()
     {
         System.out.println("Found " + foundObjects.size() + " 'valid' debris");
         int counter = 1;
         for( Debris d : foundObjects)
         {
-            System.out.println("Object " + counter + " found @ (" + d.frameX + ", " + d.frameY + ") with size " + d.size);
+            System.out.println("Object " + counter + " center @ (" + d.centerX + ", " + d.centerY + ") with diameter " + d.diameter);
             counter++;
         }
     }
