@@ -8,7 +8,7 @@ import memory.Asteroid;
  * Interface to be implemented by SharedMemory.java. Defines
  * methods for reading and writing memory.
  */
-public interface MemoryManager {
+public interface MemoryManager { //needs to be split into two interfaces for fpga and cpu
     boolean getCameraPowered();
     void setCameraPowered(boolean powerState);
 
