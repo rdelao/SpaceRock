@@ -7,10 +7,7 @@ import java.awt.image.BufferedImage;
  * Created by Sean on 2/4/17.
  */
 public class Picture {
-  private static int nextid = 0;
   private BufferedImage image;
-
-  private int id;
 
   /**
    * Creates a new picture object with a given imageView
@@ -18,23 +15,17 @@ public class Picture {
    */
   public Picture(BufferedImage image) {
     this.image = image;
-    this.id = nextid;
-    nextid += 1;
-  }
-
-  public int getId() {
-    return id;
   }
 
   /**
-   * Returns an chunk of the imageView where x and y are the center and size is the width of a square
+   * Returns an frame of the imageView where x and y are the center and size is the width of a square
    *
    * @param x center horizontal
    * @param y center vertical
    * @param size width/height
-   * @return bufferedImage of area
+   * @return bufferedImage of window
    */
-  public BufferedImage chunk(int x, int y, int size) {
+  public BufferedImage frame(int x, int y, int size) {
     int radius = size /2;
     return image.getSubimage(x-radius, y-radius, size, size);
   }
