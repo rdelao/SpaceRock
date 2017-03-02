@@ -1,7 +1,6 @@
 package sensor;
 
 import java.awt.image.BufferedImage;
-import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -13,7 +12,7 @@ public class SensorSimulation implements SensorInterface {
 
   private Picture image;
   private ImageGenerator image_generator;
-  private int elapsed_seconds = -30;
+  private int elapsed_seconds = 0 - TIME_STEP;
 
   private Boolean camera_ready = false;
 
@@ -36,14 +35,10 @@ public class SensorSimulation implements SensorInterface {
    */
   public SensorSimulation(boolean autoAdvance){
     this.auto_advance = autoAdvance;
-    this.image_generator = new ImageGenerator();
-    this.elapsed_seconds = -30;
+    resetDefaults();
   }
 
-  /**
-   * Returns the ready of the SensorSimulation.
-   * @return true if camera is on and operational
-   */
+  @Override
   public boolean ready() {
     return camera_ready;
   }
@@ -92,7 +87,7 @@ public class SensorSimulation implements SensorInterface {
   @Override
   public BufferedImage getFrame(int x, int y, int size) {
     if(image_ready)
-      return image.chunk(x, y, size);
+      return image.frame(x, y, size);
     else return null;
   }
 
@@ -108,11 +103,8 @@ public class SensorSimulation implements SensorInterface {
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          //Empty asteroids as image resets when turned off.
-          image_generator = new ImageGenerator();
-          elapsed_seconds = -30;
+          resetDefaults();
           camera_ready = true;
-          image_ready = false;
           System.out.println("Sensor on");
         }
       }
@@ -157,21 +149,17 @@ public class SensorSimulation implements SensorInterface {
             e.printStackTrace();
           }
           camera_ready = false;
-          image = null;
           image_ready = false;
           System.out.println("Sensor off");
 
+          resetDefaults();
 
           try {
             TimeUnit.SECONDS.sleep(1);
           } catch (InterruptedException e) {
             e.printStackTrace();
           }
-          //Empty asteroids as image resets when turned off.
-          image_generator = new ImageGenerator();
-          elapsed_seconds = -30;
           camera_ready = true;
-          image_ready = false;
           System.out.println("Sensor on");
         }
       }
@@ -185,6 +173,19 @@ public class SensorSimulation implements SensorInterface {
 
   public Picture getPicture() {
     return image;
+  }
+
+  private void resetDefaults() {
+    this.image_generator = new ImageGenerator();
+    this.zoom_level = ZoomLevel.NONE;
+    this.image = null;
+    if (auto_advance) {
+      this.elapsed_seconds = 0 - TIME_STEP;
+    } else {
+      this.elapsed_seconds = 0;
+    }
+    this.camera_ready = false;
+    this.image_ready = false;
   }
 
 }
