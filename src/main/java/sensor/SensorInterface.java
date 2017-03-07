@@ -39,7 +39,13 @@ public interface SensorInterface {
    * @param size width/height of window
    * @return image frame using the defined (x,y) and size
    */
-  public BufferedImage getFrame(int x, int y, int size);
+  public void setFrame(int x, int y, int size);
+
+  /**
+   * Return square window of the image.
+   * @return image frame using the defined (x,y) and size
+   */
+  public BufferedImage getFrame();
 
   /**
    * Attempt to turn camera on.

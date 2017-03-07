@@ -21,6 +21,8 @@ public class SensorSimulation implements SensorInterface {
   private boolean auto_advance = true;
   private ZoomLevel zoom_level = ZoomLevel.NONE;
   private Boolean taking_picture = false;
+  private Boolean frame_ready = false;
+  private BufferedImage frame = null;
 
   /**
    * Initialize a camera object
@@ -85,10 +87,21 @@ public class SensorSimulation implements SensorInterface {
   }
 
   @Override
-  public BufferedImage getFrame(int x, int y, int size) {
-    if(image_ready)
-      return image.frame(x, y, size);
-    else return null;
+  public synchronized void setFrame(int x, int y, int size) {
+    if(!image_ready) {
+      throw new ImageNotReadyException("There is no image to get a frame from");
+    }
+    this.frame = image.frame(x, y, size);
+    this.frame_ready = true;
+  }
+
+  @Override
+  public synchronized BufferedImage getFrame() {
+    if (!frame_ready) {
+      throw new FrameNotReadyException("Frame is currently not ready");
+    }
+    this.frame_ready = false;
+    return frame;
   }
 
   @Override
