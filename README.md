@@ -43,3 +43,43 @@ gradle build
 
 The jar is found in build/libs/
 
+# MemoryMap
+In order to use the MemoryMap you must first initialize it from a global scope using the
+`initMemoryMap` function.
+
+The following control registers exist under the following names and types, respectively:
+
+* take_picture - Boolean
+* zoom_level - ZoomLevel
+* reset - Boolean
+* on - Boolean
+* get_frame - Boolean
+* frame_x - Integer
+* frame_y - Integer
+* frame_size - Integer
+* take_picture - Boolean
+* last_frame - BufferedImage
+* last_picture - BufferedImage
+* debris_list - List<Debris>
+
+The memory map has two functions, `read` and `write`.
+
+Exceptions will be thrown in in unsuccessful read or write attempt.
+
+## Reading a Control register
+
+In order to read a control register you must know the name of the register as well as it's class.
+
+Once read, the register will be consumed, and the empty and ready flags will be set to true.
+
+You can not read a register being read from, written to, or that is empty.
+
+
+## Writing to a Control register
+
+When writing to a control register, you simply provide the name of the register and the object.
+If unsuccessful, the register remains unchanged.
+
+You can not write to a register being read from, written to, or that is full.
+
+
